@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sakura Goals</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+:root{--bg1:#fff;--bg2:#f5f5f5;--txt1:#1a1a1a;--txt2:#6b7280;--txt3:#9ca3af;--brd1:rgba(0,0,0,.12);--brd2:rgba(0,0,0,.22);--rmd:8px;--rlg:12px}
+@media(prefers-color-scheme:dark){:root{--bg1:#1e1e1e;--bg2:#2a2a2a;--txt1:#f0f0f0;--txt2:#9ca3af;--txt3:#6b7280;--brd1:rgba(255,255,255,.1);--brd2:rgba(255,255,255,.2)}
+.tag-tr{background:#4a1528!important;color:#f4c0d1!important}.tag-en{background:#042c53!important;color:#b5d4f4!important}
+.tag-dev{background:#173404!important;color:#c0dd97!important}.tag-li{background:#412402!important;color:#fac775!important}
+.modal-box{background:#1e1e1e!important}select,input{background:#2a2a2a!important;color:#f0f0f0!important}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg2);min-height:100vh}
+#petalCv{position:fixed;top:0;left:0;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;padding:1.5rem 1rem 4rem;max-width:680px;margin:0 auto}
+h1{font-size:22px;font-weight:500;color:var(--txt1);text-align:center;margin-bottom:4px}
+.subtitle{font-size:13px;color:var(--txt2);text-align:center;margin-bottom:1.5rem}
+
+/* ── planner ── */
+.planner-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.planner-title{font-size:16px;font-weight:500;color:var(--txt1)}
+.week-label{font-size:12px;color:var(--txt2)}
+.day-cols{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-bottom:1.5rem}
+.day-col{display:flex;flex-direction:column;gap:4px}
+.day-name{font-size:10px;font-weight:500;color:var(--txt2);text-align:center;padding-bottom:3px;letter-spacing:.05em;text-transform:uppercase}
+.day-task{background:var(--bg1);border:.5px solid var(--brd1);border-radius:6px;padding:5px 7px;font-size:11px;color:var(--txt1);cursor:pointer;line-height:1.3;transition:opacity .25s,transform .25s}
+.day-task:hover{border-color:var(--brd2);background:var(--bg2)}
+.day-task.done-task{opacity:.45;text-decoration:line-through}
+.day-task.vanish{opacity:0;transform:scale(.85)}
+.task-tag{display:inline-block;font-size:9px;padding:1px 5px;border-radius:999px;margin-bottom:2px;font-weight:500}
+.tag-tr{background:#fde8ed;color:#993556}.tag-en{background:#E6F1FB;color:#185FA5}
+.tag-dev{background:#EAF3DE;color:#3B6D11}.tag-li{background:#FAEEDA;color:#854F0B}.tag-custom{background:#F0E6FF;color:#6B21A8}
+.tag-locked{background:var(--bg2);color:var(--txt3)}
+.day-empty{font-size:10px;color:var(--txt3);text-align:center;padding:8px 2px;font-style:italic}
+
+/* ── tree ── */
+.tree-zone{display:flex;flex-direction:column;align-items:center;margin-bottom:.5rem;cursor:pointer}
+.bloom-bar-outer{max-width:360px;width:100%;margin:.4rem auto .15rem}
+.bloom-bar-track{background:var(--bg2);border-radius:999px;height:6px;overflow:hidden;border:.5px solid var(--brd1)}
+.bloom-bar-fill{height:100%;border-radius:999px;background:#e88fa0;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.bloom-label{font-size:11px;color:var(--txt2);text-align:center;margin-top:3px}
+
+/* ── cards ── */
+.sec-title{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--txt2);padding:0 0 6px 10px;border-left:2px solid #e88fa0;margin:1.5rem 0 .6rem}
+.card{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);padding:.7rem 1rem;margin-bottom:.45rem;display:flex;align-items:flex-start;gap:10px;cursor:pointer;transition:border-color .15s,background .15s}
+.card:hover{border-color:var(--brd2);background:var(--bg2)}
+.card.done{opacity:.5}.card.done .ctitle{text-decoration:line-through;color:var(--txt2)}
+.cb{width:18px;height:18px;border-radius:50%;border:1.5px solid #e88fa0;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s}
+.card.done .cb{background:#e88fa0;border-color:#e88fa0;transform:scale(1.15)}
+.ck{display:none}.card.done .ck{display:block}
+.cinfo{flex:1;min-width:0}
+.ctitle{font-size:14px;color:var(--txt1);line-height:1.4}
+.csub{font-size:12px;color:var(--txt2);margin-top:2px}
+.pbwrap{background:var(--bg2);border-radius:999px;height:5px;overflow:hidden;margin-top:6px}
+.pb{height:100%;border-radius:999px;background:#e88fa0;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.plabel{display:flex;justify-content:space-between;font-size:11px;color:var(--txt2);margin-top:3px}
+.week-ctrl{display:flex;align-items:center;gap:6px;margin-top:6px}
+.wbtn{width:22px;height:22px;border-radius:50%;border:.5px solid var(--brd2);background:transparent;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--txt1);transition:background .15s}
+.wbtn:hover{background:var(--bg2)}
+.wval{font-size:13px;color:var(--txt1);min-width:64px;text-align:center}
+
+/* ── stories ── */
+.story-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:6px;margin-bottom:.5rem}
+.story-card{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rmd);padding:.45rem .75rem;cursor:pointer;display:flex;align-items:center;gap:7px;transition:border-color .15s,background .15s}
+.story-card:hover{border-color:var(--brd2);background:var(--bg2)}
+.story-card.done{opacity:.45}.story-card.done .stitle{text-decoration:line-through;color:var(--txt2)}
+.sdot{width:9px;height:9px;border-radius:50%;border:1.5px solid #e88fa0;flex-shrink:0;transition:background .2s}
+.story-card.done .sdot{background:#e88fa0}
+.stitle{font-size:13px;color:var(--txt1)}
+.kp-bar-wrap{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);padding:.75rem 1rem;margin-bottom:.5rem}
+.kp-label{font-size:13px;color:var(--txt2);margin-bottom:6px}
+
+/* ── buttons ── */
+.btn-row{display:flex;gap:8px;margin-top:.75rem;flex-wrap:wrap}
+.copy-btn,.add-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;border:.5px solid var(--brd2);border-radius:var(--rmd);padding:5px 12px;background:transparent;cursor:pointer;transition:background .15s;color:var(--txt2)}
+.copy-btn:hover,.add-btn:hover{background:var(--bg2)}
+.add-btn{color:#c4547a;border-color:#e88fa0}
+
+/* ── modal ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--bg1);border:1px solid var(--brd1);border-radius:16px;padding:1.5rem;width:min(420px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-title{font-size:16px;font-weight:500;color:var(--txt1);margin-bottom:1rem}
+.form-row{margin-bottom:.85rem}
+.form-label{font-size:12px;font-weight:500;color:var(--txt2);margin-bottom:4px;display:block}
+input[type=text],select{width:100%;padding:8px 10px;border-radius:var(--rmd);border:.5px solid var(--brd2);background:var(--bg1);color:var(--txt1);font-size:14px;outline:none;transition:border-color .15s}
+input[type=text]:focus,select:focus{border-color:#e88fa0}
+.tag-select{display:flex;gap:6px;flex-wrap:wrap}
+/* base unselected */
+.tag-opt{
+  padding:5px 12px;border-radius:999px;
+  border:1.5px solid var(--brd1);
+  font-size:12px;cursor:pointer;
+  transition:all .18s;
+  background:var(--bg2);color:var(--txt2);
+  font-weight:400;
+  position:relative;
+  user-select:none;
+}
+.tag-opt:hover{border-color:var(--brd2);filter:brightness(.97)}
+/* category colours */
+.tag-opt[data-v=tr].sel{background:#fde8ed;color:#993556;border-color:#e88fa0;font-weight:600;box-shadow:0 0 0 2.5px rgba(232,143,160,.25)}
+.tag-opt[data-v=en].sel{background:#E6F1FB;color:#185FA5;border-color:#185FA5;font-weight:600;box-shadow:0 0 0 2.5px rgba(24,95,165,.2)}
+.tag-opt[data-v=dev].sel{background:#EAF3DE;color:#3B6D11;border-color:#3B6D11;font-weight:600;box-shadow:0 0 0 2.5px rgba(59,109,17,.18)}
+.tag-opt[data-v=li].sel{background:#FAEEDA;color:#854F0B;border-color:#854F0B;font-weight:600;box-shadow:0 0 0 2.5px rgba(133,79,11,.18)}
+.tag-opt[data-v=custom].sel{background:#F0E6FF;color:#6B21A8;border-color:#6B21A8;font-weight:600;box-shadow:0 0 0 2.5px rgba(107,33,168,.2)}
+/* generic .sel for repeat / urgent / any non-data-v button */
+.tag-opt.sel:not([data-v]){
+  background:#fde8ed;color:#b03060;
+  border-color:#e88fa0;font-weight:600;
+  box-shadow:0 0 0 2.5px rgba(232,143,160,.28);
+}
+/* checkmark pseudo-element on selected */
+.tag-opt.sel::after{
+  content:'✓';
+  margin-left:5px;
+  font-size:10px;
+  opacity:.85;
+}
+/* urgent selected overrides */
+#urgentOn.sel{background:#FFF0F0;color:#C0392B;border-color:#E74C3C;box-shadow:0 0 0 2.5px rgba(231,76,60,.22)}
+/* normal selected */
+#urgentOff.sel{background:#F0FFF4;color:#276749;border-color:#48BB78;box-shadow:0 0 0 2.5px rgba(72,187,120,.2)}
+/* repeat selected */
+#repeatOff.sel{background:#F0FFF4;color:#276749;border-color:#48BB78;box-shadow:0 0 0 2.5px rgba(72,187,120,.2)}
+#repeatMonth.sel{background:#E6F1FB;color:#185FA5;border-color:#185FA5;box-shadow:0 0 0 2.5px rgba(24,95,165,.2)}
+#repeatWeek.sel{background:#EAF3DE;color:#3B6D11;border-color:#3B6D11;box-shadow:0 0 0 2.5px rgba(59,109,17,.18)}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+.btn-cancel{padding:7px 14px;border-radius:var(--rmd);border:.5px solid var(--brd2);background:transparent;color:var(--txt2);cursor:pointer;font-size:13px}
+.btn-save{padding:7px 16px;border-radius:var(--rmd);border:none;background:#e88fa0;color:#fff;cursor:pointer;font-size:13px;font-weight:500}
+.btn-save:hover{background:#d4728a}
+
+.gallery-section{margin-top:2rem}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:.6rem}
+.gallery-card{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);overflow:hidden;position:relative;cursor:default}
+.gallery-card canvas{display:block;width:100%;height:auto}
+.gallery-card .gc-meta{padding:6px 10px 8px;font-size:11px;color:var(--txt2)}
+.gallery-card .gc-week{font-weight:500;color:var(--txt1);font-size:12px}
+.gallery-card .gc-del{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;opacity:0;transition:opacity .15s}
+.gallery-card:hover .gc-del{opacity:1}
+.save-tree-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;border:.5px solid #e88fa0;border-radius:var(--rmd);padding:5px 12px;background:transparent;cursor:pointer;transition:background .15s;color:#c4547a;margin-top:.5rem}
+.save-tree-btn:hover{background:rgba(232,143,160,.08)}
+
+</style>
+</head>
+<body>
+<canvas id="petalCv"></canvas>
+<div class="wrap">
+  <h1>🌸 Sakura Goals</h1>
+  <p class="subtitle">Click the tree to shake petals · each completed goal blooms a new flower</p>
+
+  <div class="planner-header">
+    <span class="planner-title">This week</span>
+    <span class="week-label" id="weekLabel"></span>
+  </div>
+  <div class="day-cols" id="dayCols"></div>
+
+  <div class="tree-zone" id="treeZone" title="Click to shake">
+    <canvas id="treeCv" width="360" height="290"></canvas>
+  </div>
+  <div class="bloom-bar-outer">
+    <div class="bloom-bar-track"><div class="bloom-bar-fill" id="bloomFill" style="width:0%"></div></div>
+    <div class="bloom-label" id="bloomLbl">0 blossoms</div>
+
+  <div class="gallery-section">
+    <div class="sec-title" style="margin-top:1rem">Weekly tree gallery</div>
+    <button class="save-tree-btn" onclick="saveTreeToGallery()"><i class="ti ti-camera" aria-hidden="true"></i> Save this week's tree</button>
+    <div class="gallery-grid" id="galleryGrid"><div style="font-size:13px;color:var(--txt3);padding:4px 0">No trees saved yet.</div></div>
+  </div>
+
+  <div class="sec-title">Turkish reading — 12 short stories</div>
+  <div class="kp-bar-wrap">
+    <div class="kp-label">Before Küçük Prens: <b id="storiesDone">0</b> / 12 stories</div>
+    <div class="pbwrap" style="height:7px"><div class="pb" id="storiesPb" style="width:0%"></div></div>
+    <div class="plabel"><span id="storiesLeft">12 remaining</span><span id="storiesPct">0%</span></div>
+  </div>
+  <div class="story-grid" id="storyGrid"></div>
+
+  <div class="sec-title">Turkish reading goals</div><div id="sec-tr"></div>
+  <div class="sec-title">English fluency</div><div id="sec-en"></div>
+  <div class="sec-title">Dev & Notion</div><div id="sec-dev"></div>
+  <div class="sec-title">LinkedIn & marketing</div><div id="sec-li"></div>
+  <div class="sec-title">Custom tasks</div>
+  <div id="sec-custom"><div style="font-size:13px;color:var(--txt3);padding:4px 0">No custom tasks yet.</div></div>
+
+  <div class="btn-row">
+    <button class="add-btn" onclick="openModal()"><i class="ti ti-plus"></i> Add new task</button>
+    <button class="copy-btn" onclick="copyProgress()"><i class="ti ti-copy"></i> Copy progress</button>
+  </div>
+</div>
+
+<!-- modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-title">Add new task</div>
+    <div class="form-row">
+      <label class="form-label">Task name</label>
+      <input type="text" id="taskName" placeholder="e.g. Read 2 chapters of Küçük Prens">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Category</label>
+      <div class="tag-select" id="tagSelect">
+        <div class="tag-opt sel" data-v="custom" onclick="selectTag(this)">+ Custom</div>
+        <div class="tag-opt" data-v="tr" onclick="selectTag(this)">Turkish</div>
+        <div class="tag-opt" data-v="en" onclick="selectTag(this)">English</div>
+        <div class="tag-opt" data-v="dev" onclick="selectTag(this)">Dev</div>
+        <div class="tag-opt" data-v="li" onclick="selectTag(this)">LinkedIn</div>
+      </div>
+    </div>
+    <div class="form-row" id="customCatRow" style="display:none">
+      <label class="form-label">Category name</label>
+      <input type="text" id="customCatName" placeholder="e.g. Fitness, Reading, Art...">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Unlock after another task? <span style="font-size:10px;color:var(--txt3)">(optional)</span></label>
+      <select id="unlockAfter">
+        <option value="">— No dependency, always visible —</option>
+      </select>
+    </div>
+    <div class="form-row" id="monthRow">
+      <label class="form-label">Month to schedule it in</label>
+      <select id="taskMonth"></select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Repeat <span id="repeatHint" style="font-size:11px;color:var(--txt3);margin-left:4px">— Once</span></label>
+      <div style="display:flex;gap:6px">
+        <div class="tag-opt sel" id="repeatOff" onclick="selectRepeat('once')" style="flex:1;text-align:center">Once</div>
+        <div class="tag-opt" id="repeatMonth" onclick="selectRepeat('month')" style="flex:1;text-align:center">&#x1F501; Monthly</div>
+        <div class="tag-opt" id="repeatWeek" onclick="selectRepeat('week')" style="flex:1;text-align:center">&#x1F504; Weekly</div>
+      </div>
+    </div>
+    <div class="form-row" id="urgentRow">
+      <label class="form-label">Priority <span id="urgentHint" style="font-size:11px;color:var(--txt3);margin-left:4px">— Normal</span></label>
+      <div style="display:flex;gap:8px">
+        <div class="tag-opt sel" id="urgentOff" onclick="selectUrgent(false)" style="flex:1;text-align:center">Normal</div>
+        <div class="tag-opt" id="urgentOn" onclick="selectUrgent(true)" style="flex:1;text-align:center">🔥 Urgent — first 2 weeks</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveTask()">Add task</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONSTANTS ────────────────────────────────────────────────────────────────
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const TAG_LABELS_BASE = {tr:'Turkish',en:'English',dev:'Dev',li:'LinkedIn'};
+function getTagLabel(tag, customCat){ return TAG_LABELS_BASE[tag] || customCat || tag || 'Custom'; }
+// Backwards-compat alias
+const TAG_LABELS = {tr:'Turkish',en:'English',dev:'Dev',li:'LinkedIn',custom:'Custom'};
+
+// ─── SHARED STATE  (single source of truth) ───────────────────────────────────
+// Each weekly task has an id. state[id] = true/false means done/not done.
+// The planner and the goal cards BOTH read and write state[id].
+const state = {};
+let customTasks = [];   // [{id,title,tag,customCat,month,weekDay,repeat,unlockAfter,urgent}]
+let deletedGoals   = new Set(); // ids of hidden default goals
+let deletedStories = new Set(); // indices of hidden default stories
+let deletedWeekly  = new Set(); // ids of hidden default weekly planner tasks
+// repeat tasks get a fresh instanceKey each month: id+'_'+YYYY_MM
+let bloomN = 0;
+let blossomPositions = [];
+
+// ─── WEEKLY TASK DEFINITIONS ─────────────────────────────────────────────────
+// These are the "atomic" tasks. Weekly goal cards (essays, movies, etc.)
+// are made up of these tasks — ticking them here ticks the counter there.
+const weeklyTasks = {
+  Mon:[
+    {id:'w_mon1', text:'Read 1 Turkish story',       tag:'tr',  goalId:'tr_stories'},
+    {id:'w_mon2', text:'Write 1 essay',               tag:'en',  goalId:'en2'},
+    {id:'w_mon3', text:'LinkedIn post',               tag:'li',  goalId:'li1'},
+  ],
+  Tue:[
+    {id:'w_tue1', text:'Watch a movie',               tag:'en',  goalId:'en3'},
+    {id:'w_tue2', text:'Tongue twister',              tag:'en',  goalId:'en5'},
+    {id:'w_tue3', text:'Code practice',               tag:'dev', goalId:'dev1'},
+  ],
+  Wed:[
+    {id:'w_wed1', text:'Read 1 Turkish story',        tag:'tr',  goalId:'tr_stories'},
+    {id:'w_wed2', text:'Speak on random topic',       tag:'en',  goalId:'en4'},
+    {id:'w_wed3', text:'Work on Notion template',     tag:'dev', goalId:'dev4'},
+  ],
+  Thu:[
+    {id:'w_thu1', text:'Write 1 essay',               tag:'en',  goalId:'en2'},
+    {id:'w_thu2', text:'Speak on random topic',       tag:'en',  goalId:'en4'},
+    {id:'w_thu3', text:'Tongue twister',              tag:'en',  goalId:'en5'},
+  ],
+  Fri:[
+    {id:'w_fri1', text:'Read 1 Turkish story',        tag:'tr',  goalId:'tr_stories'},
+    {id:'w_fri2', text:'Movie + write review',        tag:'en',  goalId:'en3'},
+    {id:'w_fri3', text:'LinkedIn post',               tag:'li',  goalId:'li1'},
+  ],
+  Sat:[
+    {id:'w_sat1', text:'Speak on topic ×2',           tag:'en',  goalId:'en4'},
+    {id:'w_sat2', text:'Work on Notion template',     tag:'dev', goalId:'dev4'},
+    {id:'w_sat3', text:'Code practice',               tag:'dev', goalId:'dev1'},
+  ],
+  Sun:[
+    {id:'w_sun1', text:'Read 1 Turkish story',        tag:'tr',  goalId:'tr_stories'},
+    {id:'w_sun2', text:'Speak on topic ×2',           tag:'en',  goalId:'en4'},
+    {id:'w_sun3', text:'Review week / reflect',       tag:'li',  goalId:null},
+  ],
+};
+
+// Map goalId -> weekly max count (how many planner tasks feed that goal card)
+const goalWeeklyMax = {
+  en2: 2, en3: 2, en4: 5, en5: 3, li1: 2,
+  dev1: 2, dev4: 2,
+};
+
+// Count how many planner tasks for a given goalId are done this week
+function countGoalTasks(goalId) {
+  return Object.values(weeklyTasks).flat()
+    .filter(t => t.goalId === goalId && state[t.id])
+    .length;
+}
+
+// ─── BLOOM COUNTING ────────────────────────────────────────────────────────
+function countBloom() {
+  // stories (canonical count — planner story tasks feed these, not counted separately)
+  const storiesDone = Array.from({length:12},(_,i)=>!deletedStories.has(i)&&state['story_'+i]).filter(Boolean).length;
+  // planner tasks done — exclude tr_stories (counted via story cards) and deleted
+  const plannerDone = Object.values(weeklyTasks).flat()
+    .filter(t => state[t.id] && t.goalId !== 'tr_stories' && !deletedWeekly.has(t.id)).length;
+  // standalone goals (not tracked via planner counters)
+  const standaloneDone = goals.filter(g => !goalWeeklyMax[g.id] && !deletedGoals.has(g.id) && state[g.id]).length;
+  // custom tasks done (repeat tasks use period keys)
+  const customDone = customTasks.filter(t => getCustomDone(t) && isUnlocked(t)).length;
+  return storiesDone + plannerDone + standaloneDone + customDone;
+}
+
+function totalBlossoms() {
+  const plannerTotal = Object.values(weeklyTasks).flat()
+    .filter(t => t.goalId !== 'tr_stories' && !deletedWeekly.has(t.id)).length;
+  const standaloneTotal = goals.filter(g => !goalWeeklyMax[g.id] && !deletedGoals.has(g.id)).length;
+  const storiesTotal = 12 - deletedStories.size;
+  const customTotal = customTasks.filter(t => (t.repeat==='week'||t.repeat==='month'||t.repeat===true||isCurrentMonth(t.month)) && isUnlocked(t)).length;
+  return storiesTotal + plannerTotal + standaloneTotal + customTotal;
+}
+
+function isCurrentMonth(month) { return month === new Date().getMonth(); }
+
+// ─── PETAL CANVAS ─────────────────────────────────────────────────────────────
+const petalCv = document.getElementById('petalCv');
+const pCtx = petalCv.getContext('2d');
+let petals=[], pRaf;
+function resizeP(){petalCv.width=window.innerWidth;petalCv.height=window.innerHeight;}
+resizeP(); window.addEventListener('resize',resizeP);
+function spawnPetals(n,cx,cy){
+  for(let i=0;i<n;i++) petals.push({
+    x:cx+(Math.random()-.5)*70,y:cy,r:2.5+Math.random()*4,
+    vx:(Math.random()-.5)*2,vy:.6+Math.random()*1.8,alpha:.9,
+    rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.12,
+    w:Math.random()*Math.PI*2,ws:.03+Math.random()*.04,
+    col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec','#fbcfe8'][Math.floor(Math.random()*5)]
+  });
+  if(!pRaf) pLoop();
+}
+function pLoop(){
+  pCtx.clearRect(0,0,petalCv.width,petalCv.height);
+  petals=petals.filter(p=>p.alpha>.02&&p.y<petalCv.height+20);
+  petals.forEach(p=>{
+    p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.55;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.994;
+    pCtx.save();pCtx.globalAlpha=p.alpha;pCtx.translate(p.x,p.y);pCtx.rotate(p.rot);
+    pCtx.beginPath();pCtx.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);
+    pCtx.fillStyle=p.col;pCtx.fill();pCtx.restore();
+  });
+  if(petals.length) pRaf=requestAnimationFrame(pLoop); else pRaf=null;
+}
+setInterval(()=>{
+  if(bloomN>0&&Math.random()<.25){
+    const r=document.getElementById('treeZone').getBoundingClientRect();
+    spawnPetals(1,r.left+r.width/2+(Math.random()-.5)*80,r.top+r.height*.35);
+  }
+},2800);
+
+// ─── TREE CANVAS ──────────────────────────────────────────────────────────────
+const treeCv=document.getElementById('treeCv');
+const tCtx=treeCv.getContext('2d');
+const W=treeCv.width,H=treeCv.height,CX=W/2;
+
+function seededRand(seed){
+  let s=Math.abs(seed%2147483647)||1;
+  return()=>{s=s*16807%2147483647;return(s-1)/2147483646;};
+}
+function getWeekSeed(){
+  const n=new Date(),d=n.getDay(),m=new Date(n);
+  m.setDate(n.getDate()-((d+6)%7));
+  return m.getFullYear()*10000+m.getMonth()*100+m.getDate();
+}
+
+// ── Stored blossom cluster positions (built once per page-load) ─────────────
+function buildBlossomPositions(){
+  const rnd=seededRand(getWeekSeed());
+  // Hand-tuned cloud clusters that mirror a real sakura silhouette
+  const clusters=[
+    // crown top
+    {cx:CX,      cy:H*.10, spread:48, count:4},
+    {cx:CX-28,   cy:H*.15, spread:42, count:4},
+    {cx:CX+28,   cy:H*.15, spread:42, count:4},
+    // mid canopy
+    {cx:CX,      cy:H*.22, spread:62, count:5},
+    {cx:CX-62,   cy:H*.25, spread:44, count:4},
+    {cx:CX+62,   cy:H*.25, spread:44, count:4},
+    {cx:CX-35,   cy:H*.30, spread:50, count:4},
+    {cx:CX+35,   cy:H*.30, spread:50, count:4},
+    // lower canopy
+    {cx:CX,      cy:H*.37, spread:55, count:4},
+    {cx:CX-80,   cy:H*.38, spread:36, count:3},
+    {cx:CX+80,   cy:H*.38, spread:36, count:3},
+    {cx:CX-48,   cy:H*.44, spread:38, count:3},
+    {cx:CX+48,   cy:H*.44, spread:38, count:3},
+  ];
+  const pos=[];
+  clusters.forEach(cl=>{
+    for(let i=0;i<cl.count;i++){
+      const a=rnd()*Math.PI*2;
+      const dist=rnd()*cl.spread;
+      pos.push({
+        x: cl.cx+Math.cos(a)*dist+(rnd()-.5)*8,
+        y: cl.cy+Math.sin(a)*dist*.45+(rnd()-.5)*6,
+        r: 6+rnd()*5,
+        hue: 328+rnd()*24,
+        alpha:0, scale:1, rot:0
+      });
+    }
+  });
+  return pos;
+}
+
+// ── Draw the tree ────────────────────────────────────────────────────────────
+function drawTree(){
+  tCtx.clearRect(0,0,W,H);
+  const progress=bloomN/Math.max(1,totalBlossoms());
+
+  // --- ground shadow ---
+  tCtx.save();
+  tCtx.globalAlpha=0.12;
+  tCtx.beginPath();
+  tCtx.ellipse(CX,H-6,60,9,0,0,Math.PI*2);
+  tCtx.fillStyle='#5c2e0e';
+  tCtx.fill();
+  tCtx.restore();
+
+  // --- trunk ---
+  drawTrunk();
+
+  // --- blossom cloud puffs (soft background) ---
+  drawCloudPuffs(progress);
+
+  // --- individual flowers ---
+  blossomPositions.forEach(b=>{
+    if(b.alpha>0) drawFlower(b.x,b.y,b.r,b.alpha,b.hue,b.scale,b.rot);
+  });
+
+  // --- ground scattered petals ---
+  drawScatteredPetals(progress);
+
+  // --- particle overlay ---
+  drawParticles();
+}
+
+function drawTrunk(){
+  const rnd=seededRand(getWeekSeed()+7);
+  const tp=H*0.56; // trunk top Y
+
+  // ── subtle root buttresses ──
+  const roots=[
+    [-18, 0.18], [-28, 0.12], [-10, 0.09],
+    [ 18, 0.18], [ 28, 0.12], [ 10, 0.09],
+  ];
+  roots.forEach(([ox, thk])=>{
+    tCtx.save();
+    tCtx.beginPath();
+    tCtx.moveTo(CX+ox, H);
+    tCtx.quadraticCurveTo(
+      CX+ox*1.1, H*0.78,
+      CX+(ox>0?5:-5), tp+24
+    );
+    tCtx.lineWidth=Math.abs(ox)*thk;
+    tCtx.lineCap='round';
+    tCtx.strokeStyle=`hsl(22,${38+rnd()*8}%,${20+rnd()*6}%)`;
+    tCtx.stroke();
+    tCtx.restore();
+  });
+
+  // ── main trunk — filled silhouette ──
+  tCtx.save();
+  tCtx.beginPath();
+  // left edge — gently curved, slightly lean left
+  tCtx.moveTo(CX-16, H);
+  tCtx.bezierCurveTo(CX-18,H*0.80, CX-14,H*0.68, CX-8,tp);
+  // crown junction
+  tCtx.quadraticCurveTo(CX, tp-5, CX+8, tp);
+  // right edge
+  tCtx.bezierCurveTo(CX+14,H*0.68, CX+18,H*0.80, CX+16, H);
+  tCtx.closePath();
+  // two-shade fill: dark side left, lighter right
+  const tg=tCtx.createLinearGradient(CX-18,0,CX+18,0);
+  tg.addColorStop(0,'hsl(22,42%,20%)');
+  tg.addColorStop(0.35,'hsl(25,46%,30%)');
+  tg.addColorStop(0.65,'hsl(26,48%,34%)');
+  tg.addColorStop(1,'hsl(22,40%,22%)');
+  tCtx.fillStyle=tg;
+  tCtx.fill();
+  tCtx.restore();
+
+  // ── bark detail marks ──
+  tCtx.save();
+  tCtx.globalAlpha=0.15;
+  [[CX-3,H*0.70],[CX+4,H*0.79],[CX-5,H*0.87],[CX+2,H*0.91]].forEach(([kx,ky])=>{
+    tCtx.beginPath();
+    tCtx.ellipse(kx,ky, 3.5+rnd()*2, 1.5, 0.3, 0, Math.PI*2);
+    tCtx.fillStyle='#2a1005';
+    tCtx.fill();
+  });
+  tCtx.restore();
+
+  // ── branches — drawn as thick-to-thin curved strokes ──
+  const branches=[
+    // [startT along trunk, angle, length, lineW, splits]
+    // main left arm
+    {ty:0.58, ax:-0.55, len:110, w:5.5, children:[
+      {da:-0.5, rl:0.62, w:3.2},{da:0.3, rl:0.55, w:2.8},
+      {da:-0.9, rl:0.42, w:2.0},{da:0.65,rl:0.38, w:1.8},
+    ]},
+    // main right arm
+    {ty:0.58, ax:0.55, len:115, w:5.5, children:[
+      {da:0.5, rl:0.62, w:3.2},{da:-0.3, rl:0.55, w:2.8},
+      {da:0.9, rl:0.42, w:2.0},{da:-0.65,rl:0.38, w:1.8},
+    ]},
+    // upper left
+    {ty:0.42, ax:-0.82, len:78, w:3.8, children:[
+      {da:-0.4, rl:0.6, w:2.2},{da:0.5, rl:0.5, w:1.8},
+      {da:-1.0, rl:0.38, w:1.4},
+    ]},
+    // upper right
+    {ty:0.42, ax:0.82, len:82, w:3.8, children:[
+      {da:0.4, rl:0.6, w:2.2},{da:-0.5, rl:0.5, w:1.8},
+      {da:1.0, rl:0.38, w:1.4},
+    ]},
+    // top center up
+    {ty:0.30, ax:-0.05, len:68, w:3.0, children:[
+      {da:-0.55, rl:0.6, w:1.8},{da:0.55, rl:0.6, w:1.8},
+    ]},
+  ];
+
+  function drawBranch(x1,y1,angle,len,w,depth){
+    if(len<6||w<0.5)return;
+    const x2=x1+Math.cos(angle)*len;
+    const y2=y1+Math.sin(angle)*len;
+    const bend=(rnd()-.5)*0.22;
+    const mx=(x1+x2)/2+Math.cos(angle+Math.PI/2)*len*bend;
+    const my=(y1+y2)/2+Math.sin(angle+Math.PI/2)*len*bend;
+    tCtx.beginPath();
+    tCtx.moveTo(x1,y1);
+    tCtx.quadraticCurveTo(mx,my,x2,y2);
+    tCtx.lineWidth=w;
+    tCtx.lineCap='round';
+    tCtx.strokeStyle=`hsl(${24+depth*3},${42+depth*3}%,${24+depth*6}%)`;
+    tCtx.stroke();
+    return {x:x2,y:y2};
+  }
+
+  branches.forEach(br=>{
+    const bx=CX+(br.ax>0?6:-6);
+    const by=H*br.ty;
+    const baseAngle=-Math.PI/2+br.ax*.3;
+    const ep=drawBranch(bx,by,baseAngle,br.len,br.w,1);
+    if(!ep)return;
+    br.children.forEach(ch=>{
+      const cep=drawBranch(ep.x,ep.y,baseAngle+ch.da,br.len*ch.rl,ch.w,2);
+      if(!cep)return;
+      // tiny twigs
+      [-0.6,0.6].forEach(ta=>{
+        drawBranch(cep.x,cep.y,baseAngle+ch.da+ta,br.len*ch.rl*.38,ch.w*.5,3);
+      });
+    });
+  });
+}
+
+function drawCloudPuffs(progress){
+  if(progress<0.02)return;
+  const puffs=[
+    {x:CX,    y:H*.16,r:88},{x:CX-60,y:H*.24,r:70},{x:CX+60,y:H*.24,r:70},
+    {x:CX-30,y:H*.11,r:60},{x:CX+30,y:H*.11,r:60},{x:CX,   y:H*.06,r:50},
+    {x:CX-85,y:H*.34,r:46},{x:CX+85,y:H*.34,r:46},
+    {x:CX-50,y:H*.41,r:38},{x:CX+50,y:H*.41,r:38},
+  ];
+  puffs.forEach((p,i)=>{
+    const thresh=i/puffs.length;
+    const t=Math.max(0,(progress-thresh)*puffs.length*.7);
+    const a=Math.min(0.68,t*.68);
+    if(a<0.02)return;
+    tCtx.save();
+    tCtx.globalAlpha=a;
+    tCtx.beginPath();
+    tCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    // Soft pink gradient puff
+    const g=tCtx.createRadialGradient(p.x-p.r*.15,p.y-p.r*.1,0,p.x,p.y,p.r);
+    g.addColorStop(0, 'hsl(345,95%,93%)');
+    g.addColorStop(0.5,'hsl(340,88%,86%)');
+    g.addColorStop(1,  'rgba(255,210,225,0)');
+    tCtx.fillStyle=g;
+    tCtx.fill();
+    tCtx.restore();
+  });
+}
+
+// ── Single sakura flower ─────────────────────────────────────────────────────
+function drawFlower(x,y,r,alpha,hue,scale,rot){
+  if(alpha<=0)return;
+  const s=(scale||1), ro=(rot||0);
+  tCtx.save();
+  tCtx.globalAlpha=alpha;
+  tCtx.translate(x,y);
+  tCtx.scale(s,s);
+  tCtx.rotate(ro);
+
+  // 5 petals
+  for(let p=0;p<5;p++){
+    const a=(p/5)*Math.PI*2 - Math.PI/2;
+    tCtx.save();
+    tCtx.rotate(a);
+    // petal: oval shifted outward from center
+    tCtx.beginPath();
+    tCtx.ellipse(0,-r*0.72, r*0.44,r*0.58, 0, 0, Math.PI*2);
+    const pg=tCtx.createRadialGradient(0,-r*0.55,0, 0,-r*0.72,r*0.58);
+    pg.addColorStop(0, `hsl(${hue-12},100%,96%)`);
+    pg.addColorStop(0.5,`hsl(${hue},92%,88%)`);
+    pg.addColorStop(1,  `hsl(${hue+8},80%,76%)`);
+    tCtx.fillStyle=pg;
+    tCtx.fill();
+    // petal notch at tip
+    tCtx.beginPath();
+    tCtx.arc(0,-(r*0.72+r*0.58), r*0.12, 0, Math.PI*2);
+    tCtx.fillStyle=`hsl(${hue},88%,87%)`;
+    tCtx.fill();
+    // soft vein
+    tCtx.beginPath();
+    tCtx.moveTo(0,-r*0.16);
+    tCtx.lineTo(0,-r*1.26);
+    tCtx.strokeStyle=`hsla(${hue-5},70%,78%,0.4)`;
+    tCtx.lineWidth=0.5;
+    tCtx.stroke();
+    tCtx.restore();
+  }
+
+  // stamens
+  for(let s=0;s<12;s++){
+    const sa=(s/12)*Math.PI*2;
+    const sl=r*0.38+Math.random()*r*0.12;
+    const sx=Math.cos(sa)*sl, sy=Math.sin(sa)*sl;
+    tCtx.beginPath();
+    tCtx.moveTo(0,0);
+    tCtx.lineTo(sx,sy);
+    tCtx.strokeStyle=`hsla(45,90%,72%,0.7)`;
+    tCtx.lineWidth=0.6;
+    tCtx.stroke();
+    tCtx.beginPath();
+    tCtx.arc(sx,sy,0.9,0,Math.PI*2);
+    tCtx.fillStyle=`hsl(48,100%,78%)`;
+    tCtx.fill();
+  }
+
+  // center
+  tCtx.beginPath();
+  tCtx.arc(0,0,r*0.22,0,Math.PI*2);
+  tCtx.fillStyle=`hsl(52,100%,88%)`;
+  tCtx.fill();
+  tCtx.restore();
+}
+
+// ── Scattered petals on the ground ──────────────────────────────────────────
+function drawScatteredPetals(progress){
+  if(progress<0.06)return;
+  const rnd=seededRand(getWeekSeed()+77);
+  const count=Math.floor(progress*28);
+  for(let i=0;i<count;i++){
+    const gx=CX+(rnd()-.5)*280, gy=H*0.88+rnd()*H*0.10;
+    const gr=2+rnd()*3, rot=rnd()*Math.PI*2, gh=325+rnd()*28;
+    tCtx.save();
+    tCtx.globalAlpha=0.35+rnd()*0.3;
+    tCtx.translate(gx,gy);
+    tCtx.rotate(rot);
+    tCtx.beginPath();
+    tCtx.ellipse(0,0,gr,gr*0.48,0,0,Math.PI*2);
+    tCtx.fillStyle=`hsl(${gh},80%,84%)`;
+    tCtx.fill();
+    tCtx.restore();
+  }
+}
+
+// ── Bloom particles ──────────────────────────────────────────────────────────
+let bloomParticles=[];
+
+function triggerBloom(x,y,hue){
+  // 6 petals fly outward and drift down
+  for(let i=0;i<6;i++){
+    const a=(i/6)*Math.PI*2+(Math.random()-.5)*0.5;
+    const sp=1.0+Math.random()*1.6;
+    bloomParticles.push({
+      type:'petal', x, y,
+      vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-1.4,
+      r:2.5+Math.random()*2, rot:Math.random()*Math.PI*2,
+      vrot:(Math.random()-.5)*0.14,
+      hue:hue+(Math.random()-.5)*16,
+      life:0, maxLife:90+Math.random()*40
+    });
+  }
+  // 16 gold sparkle dust
+  for(let i=0;i<16;i++){
+    const a=Math.random()*Math.PI*2, sp=0.5+Math.random()*2.5;
+    bloomParticles.push({
+      type:'dust', x:x+(Math.random()-.5)*4, y:y+(Math.random()-.5)*4,
+      vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-1.8,
+      r:0.7+Math.random()*1.1, hue:42+Math.random()*16,
+      life:0, maxLife:28+Math.random()*22
+    });
+  }
+  // expanding ring
+  bloomParticles.push({type:'ring',x,y,r:2,hue,life:0,maxLife:38,vx:0,vy:0});
+}
+
+function drawParticles(){
+  bloomParticles=bloomParticles.filter(p=>p.life<p.maxLife);
+  bloomParticles.forEach(p=>{
+    p.life++; p.x+=p.vx; p.y+=p.vy; p.vy+=0.06; p.vx*=0.96;
+    const t=p.life/p.maxLife;
+    if(p.type==='petal'){
+      p.rot+=p.vrot;
+      const a=(1-t)*(1-t*0.5);
+      tCtx.save(); tCtx.globalAlpha=a;
+      tCtx.translate(p.x,p.y); tCtx.rotate(p.rot);
+      tCtx.beginPath();
+      tCtx.ellipse(0,0,p.r,p.r*0.5,0,0,Math.PI*2);
+      tCtx.fillStyle=`hsl(${p.hue},88%,85%)`;
+      tCtx.fill(); tCtx.restore();
+    } else if(p.type==='dust'){
+      const a=Math.pow(1-t,1.3);
+      tCtx.save(); tCtx.globalAlpha=a;
+      tCtx.beginPath();
+      tCtx.arc(p.x,p.y,p.r*(1+t*0.8),0,Math.PI*2);
+      tCtx.fillStyle=`hsl(${p.hue},100%,88%)`;
+      tCtx.fill(); tCtx.restore();
+    } else if(p.type==='ring'){
+      const a=(1-t)*0.6;
+      const rr=p.r+t*32;
+      tCtx.save(); tCtx.globalAlpha=a;
+      tCtx.beginPath(); tCtx.arc(p.x,p.y,rr,0,Math.PI*2);
+      tCtx.strokeStyle=`hsl(${p.hue},80%,88%)`;
+      tCtx.lineWidth=1.5*(1-t);
+      tCtx.stroke(); tCtx.restore();
+    }
+  });
+}
+
+// particle loop (only runs when particles exist)
+let pRaf2=null;
+function particleLoop(){
+  if(!bloomParticles.length){pRaf2=null;return;}
+  drawTree();
+  pRaf2=requestAnimationFrame(particleLoop);
+}
+
+// ── Bloom-in animation: petals unfold one by one ─────────────────────────────
+function animateBlossomIn(idx){
+  const b=blossomPositions[idx%blossomPositions.length];
+  if(!b)return;
+  b.alpha=0; b.scale=0.1; b.rot=Math.PI*0.35;
+  // fire particles slightly after flower appears
+  setTimeout(()=>{ triggerBloom(b.x,b.y,b.hue||336); playBloomSound(); }, 160);
+  const start=performance.now(), dur=950;
+  function tick(now){
+    const t=Math.min(1,(now-start)/dur);
+    // smooth ease-out + gentle overshoot
+    const e=1-Math.pow(1-t,2.8);
+    b.alpha=Math.min(1,e*1.6);
+    b.scale=0.1+e*0.96 + (t<0.7? Math.sin(t/0.7*Math.PI)*0.10 :0);
+    b.rot=(1-e)*Math.PI*0.35;
+    if(!pRaf2) drawTree();
+    if(t<1) requestAnimationFrame(tick);
+    else{ b.alpha=1; b.scale=1; b.rot=0; drawTree(); }
+  }
+  requestAnimationFrame(tick);
+  if(!pRaf2) particleLoop();
+}
+
+// ─── SINGLE BLOOM UPDATE ──────────────────────────────────────────────────────
+function updateBloom(gained){
+  const old=bloomN, newN=countBloom(), total=totalBlossoms();
+  bloomN=newN;
+  blossomPositions.forEach((b,i)=>{b.alpha=i<bloomN?1:0;});
+  if(gained&&bloomN>old){
+    animateBlossomIn(bloomN-1);
+    const r=document.getElementById('treeZone').getBoundingClientRect();
+    const idx=(bloomN-1)%blossomPositions.length;
+    const bx=r.left+(blossomPositions[idx].x/W)*r.width;
+    const by=r.top+(blossomPositions[idx].y/H)*r.height;
+    spawnPetals(18,bx,by);
+  } else {
+    drawTree();
+  }
+  const pct=Math.round(bloomN/total*100);
+  document.getElementById('bloomFill').style.width=pct+'%';
+  document.getElementById('bloomLbl').textContent=bloomN+' of '+total+' blossoms';
+}
+
+// ─── SYNC: planner → goal card ────────────────────────────────────────────────
+function syncGoalCard(goalId, gained){
+  if(!goalId) return;
+
+  // Special case: Turkish stories — each ticked planner task ticks the next story card
+  if(goalId==='tr_stories'){
+    if(gained){
+      // find the first unchecked story and tick it
+      const idx=Array.from({length:12},(_,i)=>i).find(i=>!state['story_'+i]);
+      if(idx!==undefined){ state['story_'+idx]=true; }
+    } else {
+      // un-tick the last checked story
+      let last=-1;
+      for(let i=11;i>=0;i--){ if(state['story_'+i]){last=i;break;} }
+      if(last>=0) state['story_'+last]=false;
+    }
+    buildStories();
+    updateStoryBar();
+    return;
+  }
+
+  if(!goalWeeklyMax[goalId]) return;
+  const cur=countGoalTasks(goalId);
+  const max=goalWeeklyMax[goalId];
+  const pb=document.getElementById('wpb_'+goalId);
+  const wv=document.getElementById('wv_'+goalId);
+  const card=document.getElementById('card_'+goalId);
+  if(pb) pb.style.width=Math.round(cur/max*100)+'%';
+  if(wv) wv.textContent=cur+' / '+max+' (from planner)';
+  if(card){
+    const isDone=cur>=max;
+    state[goalId]=isDone;
+    card.classList.toggle('done',isDone);
+  }
+}
+
+// ─── PLANNER ──────────────────────────────────────────────────────────────────
+function getWeekLabel(){
+  const now=new Date(),day=now.getDay();
+  const mon=new Date(now);mon.setDate(now.getDate()-((day+6)%7));
+  const sun=new Date(mon);sun.setDate(mon.getDate()+6);
+  const f=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  return f(mon)+' – '+f(sun);
+}
+
+function buildPlanner(){
+  document.getElementById('weekLabel').textContent=getWeekLabel();
+  const cols=document.getElementById('dayCols');cols.innerHTML='';
+  const todayDayIdx=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].indexOf(
+    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()]
+  );
+  DAYS.forEach((day,di)=>{
+    const col=document.createElement('div');col.className='day-col';
+    col.innerHTML=`<div class="day-name" style="${di===todayDayIdx?'color:#e88fa0;font-weight:700':''}">${day}</div>`;
+    const builtIn=(weeklyTasks[day]||[]).filter(t=>!state[t.id]&&!deletedWeekly.has(t.id));
+    const custom=customTasks.filter(t=>{
+      const inScope=t.repeat==='week'||t.repeat==='month'||t.repeat===true||isCurrentMonth(t.month);
+      return inScope&&t.weekDay===day&&!getCustomDone(t)&&isUnlocked(t);
+    });
+    const all=[...builtIn,...custom.map(t=>({id:t.id,text:t.title,tag:t.tag,goalId:null,isCustom:true}))];
+    if(!all.length){col.innerHTML+=`<div class="day-empty">free day</div>`;}
+    else all.forEach(t=>{
+      const d=document.createElement('div');
+      d.className='day-task';d.id='pt_'+t.id;
+      d.innerHTML=`<div class="task-tag tag-${t.tag}">${TAG_LABELS[t.tag]||t.tag}</div><div>${t.text}</div>`;
+      d.onclick=()=>togglePlannerTask(t);
+      col.appendChild(d);
+    });
+    cols.appendChild(col);
+  });
+}
+
+function togglePlannerTask(t){
+  playClickSound();
+  const el=document.getElementById('pt_'+t.id);if(!el)return;
+  // for custom repeat tasks, use the monthly key
+  const ct=t.isCustom?customTasks.find(x=>x.id===t.id):null;
+  const key=(ct&&ct.repeat&&ct.repeat!==false)?repeatKey(ct):t.id;
+  const gained=!state[key];
+  state[key]=gained;
+  el.classList.add('vanish');
+  setTimeout(()=>{
+    if(t.goalId) syncGoalCard(t.goalId, gained);
+    buildPlanner();
+    updateBloom(gained);
+  },250);
+}
+
+// ─── GOAL CARDS ───────────────────────────────────────────────────────────────
+const goals=[
+  {sec:'tr',id:'tr1',title:'Read Turkish easily',sub:'Daily reading practice'},
+  {sec:'tr',id:'tr2',title:'Read Küçük Prens',sub:'Unlocks after 12 short stories'},
+  {sec:'tr',id:'tr3',title:'Read Tehlikeli Oyunlar by Oğuz Atay',sub:'End goal'},
+  {sec:'en',id:'en1',title:'Speak more easily in English',sub:'Daily spoken practice'},
+  {sec:'en',id:'en2',title:'Write 2 essays weekly',sub:'Tracked via planner',weekly:{max:2,label:'essays'}},
+  {sec:'en',id:'en3',title:'Watch 2 movies & publish on Substack',sub:'Tracked via planner',weekly:{max:2,label:'movies'}},
+  {sec:'en',id:'en4',title:'Speak on random topic 5× weekly',sub:'Tracked via planner',weekly:{max:5,label:'sessions'}},
+  {sec:'en',id:'en5',title:'Tongue twisters 2–3× weekly',sub:'Tracked via planner',weekly:{max:3,label:'times'}},
+  {sec:'dev',id:'dev1',title:'Code practice',sub:'Tracked via planner',weekly:{max:2,label:'sessions'}},
+  {sec:'dev',id:'dev2',title:'Build mini app connected to Notion',sub:'Project goal'},
+  {sec:'dev',id:'dev3',title:'Dragon Portfolio',sub:'Build & manage'},
+  {sec:'dev',id:'dev4',title:'Work on Notion templates',sub:'Tracked via planner',weekly:{max:2,label:'sessions'}},
+  {sec:'dev',id:'dev5',title:'Sell Notion templates',sub:'Monetize'},
+  {sec:'li',id:'li1',title:'Post on LinkedIn 2× weekly',sub:'Tracked via planner',weekly:{max:2,label:'posts'}},
+  {sec:'li',id:'li2',title:'Advertise on YouTube & Pinterest',sub:'Marketing goal'},
+  {sec:'li',id:'li3',title:'Write about templates on LinkedIn',sub:'Content marketing'},
+];
+
+function cardHTML(g){
+  const done=!!state[g.id];
+  const isWeeklyTracked=!!goalWeeklyMax[g.id];
+  let inner='';
+  if(g.weekly){
+    const cur=isWeeklyTracked?countGoalTasks(g.id):(state[g.id+'_w']||0);
+    const max=g.weekly.max;
+    const pct=Math.round(cur/max*100);
+    const label=isWeeklyTracked?'(from planner)':g.weekly.label;
+    inner=`<div class="week-ctrl">
+      ${!isWeeklyTracked?`<button class="wbtn" onclick="event.stopPropagation();stepW('${g.id}',-1)">−</button>`:''}
+      <span class="wval" id="wv_${g.id}">${cur} / ${max} ${label}</span>
+      ${!isWeeklyTracked?`<button class="wbtn" onclick="event.stopPropagation();stepW('${g.id}',1)">+</button>`:''}
+    </div>
+    <div class="pbwrap"><div class="pb" id="wpb_${g.id}" style="width:${pct}%"></div></div>
+    ${isWeeklyTracked?'<div style="font-size:10px;color:var(--txt3);margin-top:3px">✓ Tick tasks in the weekly planner above</div>':''}`;
+  }
+  return `<div class="card${done?' done':''}" id="card_${g.id}" style="position:relative" onclick="toggleGoalCard('${g.id}')">
+    <div class="cb"><svg class="ck" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="cinfo"><div class="ctitle">${g.title}</div><div class="csub">${g.sub}</div>${inner}</div>
+    <button onclick="event.stopPropagation();deleteDefaultGoal('${g.id}')" title="Remove goal"
+      style="position:absolute;top:8px;right:8px;background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 5px;border-radius:4px;line-height:1;opacity:.4;transition:opacity .15s"
+      onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.4">✕</button>
+  </div>`;
+}
+
+function renderGoals(){
+  ['tr','en','dev','li'].forEach(sec=>{
+    document.getElementById('sec-'+sec).innerHTML=goals.filter(g=>g.sec===sec&&!deletedGoals.has(g.id)).map(cardHTML).join('');
+  });
+}
+function deleteDefaultGoal(id){
+  deletedGoals.add(id);
+  // remove planner tasks whose goalId matches
+  const toAnimate=[];
+  Object.values(weeklyTasks).flat().forEach(t=>{
+    if(t.goalId===id){
+      deletedWeekly.add(t.id);
+      const el=document.getElementById('pt_'+t.id);
+      if(el){ el.classList.add('vanish'); toAnimate.push(t.id); }
+    }
+  });
+  setTimeout(()=>{ renderGoals(); buildPlanner(); updateBloom(false); }, toAnimate.length?260:0);
+}
+
+function toggleGoalCard(id){
+  playCheckSound();
+  if(goalWeeklyMax[id]) return;
+  state[id]=!state[id];
+  document.getElementById('card_'+id).classList.toggle('done',state[id]);
+  renderCustomGoals();
+  updateBloom(state[id]);
+}
+
+function stepW(id,d){
+  const g=goals.find(x=>x.id===id);if(!g||!g.weekly||goalWeeklyMax[id])return;
+  const cur=state[id+'_w']||0;
+  const next=Math.max(0,Math.min(g.weekly.max,cur+d));
+  state[id+'_w']=next;
+  const pb=document.getElementById('wpb_'+id);if(pb)pb.style.width=Math.round(next/g.weekly.max*100)+'%';
+  const wv=document.getElementById('wv_'+id);if(wv)wv.textContent=`${next} / ${g.weekly.max} ${g.weekly.label}`;
+  if(next===g.weekly.max&&!state[id]){state[id]=true;document.getElementById('card_'+id).classList.add('done');updateBloom(true);}
+  else if(next<g.weekly.max&&state[id]){state[id]=false;document.getElementById('card_'+id).classList.remove('done');updateBloom(false);}
+}
+
+// ─── STORIES ──────────────────────────────────────────────────────────────────
+const stories=Array.from({length:12},(_,i)=>`Turkish story ${i+1}`);
+function buildStories(){
+  const g=document.getElementById('storyGrid');g.innerHTML='';
+  stories.forEach((s,i)=>{
+    if(deletedStories.has(i)) return;
+    if(state['story_'+i]===undefined)state['story_'+i]=false;
+    const d=document.createElement('div');
+    d.className='story-card'+(state['story_'+i]?' done':'');
+    d.style.position='relative';
+    d.innerHTML=`<div class="sdot"></div><span class="stitle">${s}</span>
+      <button onclick="event.stopPropagation();deleteStory(${i})" title="Remove story"
+        style="position:absolute;top:3px;right:3px;background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:11px;line-height:1;opacity:.35;transition:opacity .15s;padding:2px"
+        onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.35">✕</button>`;
+    d.onclick=()=>{playCheckSound();state['story_'+i]=!state['story_'+i];buildStories();updateStoryBar();renderCustomGoals();updateBloom(state['story_'+i]);};
+    g.appendChild(d);
+  });
+}
+function deleteStory(i){
+  deletedStories.add(i);
+  if(state['story_'+i]) state['story_'+i]=false;
+  buildStories(); updateStoryBar(); renderCustomGoals(); buildPlanner(); updateBloom(false);
+}
+function updateStoryBar(){
+  const active=stories.filter((_,i)=>!deletedStories.has(i));
+  const total=active.length;
+  const done=active.filter((_,i)=>{ const ri=stories.indexOf(_); return state['story_'+ri]; }).length;
+  const pct=total?Math.round(done/total*100):100;
+  document.getElementById('storiesPb').style.width=pct+'%';
+  document.getElementById('storiesDone').textContent=done;
+  document.getElementById('storiesLeft').textContent=(total-done)+' remaining';
+  document.getElementById('storiesPct').textContent=pct+'%';
+}
+
+// ─── CUSTOM TASKS ─────────────────────────────────────────────────────────────
+function weekNumber(d){ const s=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())); s.setUTCDate(s.getUTCDate()+4-(s.getUTCDay()||7)); const y=new Date(Date.UTC(s.getUTCFullYear(),0,1)); return Math.ceil((((s-y)/86400000)+1)/7); }
+function repeatKey(t){ 
+  const n=new Date();
+  if(t.repeat==='week') return t.id+'_w'+n.getFullYear()+'_'+weekNumber(n);
+  return t.id+'_'+n.getFullYear()+'_'+n.getMonth();
+}
+function getCustomDone(t){ 
+  if(t.repeat==='month'||t.repeat==='week') return !!state[repeatKey(t)];
+  if(t.repeat===true) return !!state[t.id+'_'+new Date().getFullYear()+'_'+new Date().getMonth()]; // legacy
+  return !!state[t.id]; 
+}
+
+
+// Returns true if a custom task's unlock prerequisite is satisfied
+function isUnlocked(t){
+  if(!t.unlockAfter) return true;
+  const prereqId=t.unlockAfter;
+  // check story
+  if(prereqId.startsWith('story_')) return !!state[prereqId];
+  // check goal card
+  if(state[prereqId]!==undefined) return !!state[prereqId];
+  // check another custom task
+  const ct=customTasks.find(x=>x.id===prereqId);
+  if(ct) return getCustomDone(ct);
+  return true;
+}
+
+function renderCustomGoals(){
+  const sec=document.getElementById('sec-custom');
+  if(!customTasks.length){sec.innerHTML='<div style="font-size:13px;color:var(--txt3);padding:4px 0">No custom tasks yet.</div>';return;}
+  sec.innerHTML=customTasks.map(t=>{
+    const done=getCustomDone(t);
+    const unlocked=isUnlocked(t);
+    const catLabel=getTagLabel(t.tag, t.customCat);
+    const catColor=t.tag==='custom'?'#6B21A8':({tr:'#993556',en:'#185FA5',dev:'#3B6D11',li:'#854F0B'}[t.tag]||'#6B21A8');
+    const catBg=t.tag==='custom'?'#F0E6FF':({tr:'#fde8ed',en:'#E6F1FB',dev:'#EAF3DE',li:'#FAEEDA'}[t.tag]||'#F0E6FF');
+    const urgentBadge=t.urgent?`<span style="font-size:9px;background:#FFF0F0;color:#C0392B;padding:1px 6px;border-radius:999px;font-weight:500">🔥 urgent</span>`:'';
+    const badge=t.repeat==='week'
+      ? `<span style="font-size:9px;background:#EAF3DE;color:#3B6D11;padding:1px 6px;border-radius:999px;font-weight:500">🔄 weekly</span>`
+      : t.repeat==='month'||t.repeat===true
+      ? `<span style="font-size:9px;background:#E6F1FB;color:#185FA5;padding:1px 6px;border-radius:999px;font-weight:500">🔁 monthly</span>`
+      : `<span style="font-size:9px;color:var(--txt3)">${MONTH_NAMES[t.month]}</span>`;
+    const prereqName=t.unlockAfter?(
+      goals.find(g=>g.id===t.unlockAfter)?.title ||
+      (t.unlockAfter.startsWith('story_')?'Turkish story '+(parseInt(t.unlockAfter.replace('story_',''))+1):'') ||
+      customTasks.find(x=>x.id===t.unlockAfter)?.title || ''
+    ):'';
+    const lockBadge=!unlocked
+      ? `<span style="font-size:9px;background:#f5f5f5;color:#999;padding:1px 6px;border-radius:999px;border:.5px solid #ddd">🔒 after: ${prereqName||'task'}</span>`
+      : (prereqName?`<span style="font-size:9px;background:#f0fff4;color:#276749;padding:1px 6px;border-radius:999px">🔓 unlocked</span>`:'');
+    return `<div class="card${done?' done':''}${!unlocked?' locked-task':''}" id="card_${t.id}"
+        style="position:relative;${!unlocked?'opacity:.45;pointer-events:none;':''}transition:opacity .3s"
+        onclick="toggleCustom('${t.id}')">
+      <div class="cb"><svg class="ck" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="cinfo">
+        <div class="ctitle">${t.title}</div>
+        <div class="csub" style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:3px">
+          <span style="font-size:9px;background:${catBg};color:${catColor};padding:1px 6px;border-radius:999px;font-weight:500">${catLabel}</span>
+          ${badge} ${urgentBadge} · ${t.weekDay} ${lockBadge}
+        </div>
+      </div>
+      <div style="position:absolute;top:6px;right:6px;display:flex;gap:4px">
+        <button onclick="event.stopPropagation();openModal('${t.id}')" title="Edit / set dependency"
+          style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">✎</button>
+        <button onclick="event.stopPropagation();deleteCustomTask('${t.id}')" title="Delete task"
+          style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:14px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function deleteCustomTask(id){
+  // find BEFORE removing so we can clean up keys
+  const dt=customTasks.find(x=>x.id===id);
+  if(dt){ delete state[id]; delete state[repeatKey(dt)]; }
+  // animate out any visible planner card
+  const plannerEl=document.getElementById('pt_'+id);
+  if(plannerEl){ plannerEl.classList.add('vanish'); }
+  customTasks=customTasks.filter(t=>t.id!==id);
+  setTimeout(()=>{ renderCustomGoals(); buildPlanner(); updateBloom(false); }, plannerEl?260:0);
+}
+
+function toggleCustom(id){
+  const t=customTasks.find(x=>x.id===id); if(!t) return;
+  const key=(t.repeat&&t.repeat!==false)?repeatKey(t):id;
+  state[key]=!state[key];
+  const card=document.getElementById('card_'+id);if(card)card.classList.toggle('done',!!state[key]);
+  buildPlanner();
+  updateBloom(!!state[key]);
+}
+
+// ─── SHAKE TREE ───────────────────────────────────────────────────────────────
+document.getElementById('treeZone').addEventListener('click',e=>{
+  if(e.target===treeCv||e.target===document.getElementById('treeZone')){
+    const r=treeCv.getBoundingClientRect();
+    spawnPetals(28,r.left+r.width/2,r.top+r.height*.38);
+    playTreeShakeSound();
+    treeCv.style.transform='translateX(-4px)';
+    setTimeout(()=>{treeCv.style.transform='translateX(4px)';setTimeout(()=>treeCv.style.transform='',80);},80);
+  }
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+let selectedTag='custom';
+function populateMonthSelect(){
+  const sel=document.getElementById('taskMonth');sel.innerHTML='';
+  const now=new Date();
+  for(let i=0;i<12;i++){
+    const m=(now.getMonth()+i)%12;
+    const opt=document.createElement('option');opt.value=m;
+    opt.textContent=MONTH_NAMES[m]+(i===0?' (this month)':i===1?' (next month)':'');
+    sel.appendChild(opt);
+  }
+}
+let repeatMode='once'; // 'once' | 'month' | 'week'
+let isUrgent=false;
+function selectUrgent(val){
+  isUrgent=val;
+  document.getElementById('urgentOff').classList.toggle('sel',!val);
+  document.getElementById('urgentOn').classList.toggle('sel',val);
+  const h=document.getElementById('urgentHint');
+  if(h) h.textContent=val?'— Urgent (first 2 weeks)':'— Normal';
+}
+function selectRepeat(val){
+  repeatMode=val;
+  document.getElementById('repeatOff').classList.toggle('sel',val==='once');
+  document.getElementById('repeatMonth').classList.toggle('sel',val==='month');
+  document.getElementById('repeatWeek').classList.toggle('sel',val==='week');
+  document.getElementById('monthRow').style.display=(val==='once')?'block':'none';
+  document.getElementById('urgentRow').style.display=(val==='week')?'none':'block';
+  const hints={once:'— Once',month:'— Every month',week:'— Every week'};
+  const h=document.getElementById('repeatHint');if(h)h.textContent=hints[val]||'';
+}
+function openModal(prefillId){
+  document.getElementById('taskName').value='';
+  document.getElementById('customCatName').value='';
+  selectedTag='custom'; repeatMode='once';
+  document.querySelectorAll('.tag-opt').forEach(o=>o.classList.toggle('sel',o.dataset.v==='custom'));
+  document.getElementById('repeatOff').classList.add('sel');
+  document.getElementById('repeatMonth').classList.remove('sel');
+  document.getElementById('repeatWeek').classList.remove('sel');
+  document.getElementById('monthRow').style.display='block';
+  isUrgent=false;
+  document.getElementById('urgentOff').classList.add('sel');
+  document.getElementById('urgentOn').classList.remove('sel');
+  document.getElementById('urgentRow').style.display='block';
+  const rh=document.getElementById('repeatHint');if(rh)rh.textContent='— Once';
+  const uh=document.getElementById('urgentHint');if(uh)uh.textContent='— Normal';
+  document.getElementById('customCatRow').style.display='block'; // custom selected by default
+  // populate unlock-after select
+  const sel=document.getElementById('unlockAfter');
+  sel.innerHTML='<option value="">— No dependency, always visible —</option>';
+  // built-in goals
+  goals.forEach(g=>{ const o=document.createElement('option');o.value=g.id;o.textContent=g.title;sel.appendChild(o); });
+  // stories
+  for(let i=0;i<12;i++){ const o=document.createElement('option');o.value='story_'+i;o.textContent='Turkish story '+(i+1);sel.appendChild(o); }
+  // custom tasks
+  customTasks.forEach(t=>{ const o=document.createElement('option');o.value=t.id;o.textContent=t.title+(t.customCat?' ['+t.customCat+']':'');sel.appendChild(o); });
+  if(prefillId) sel.value=prefillId;
+  populateMonthSelect();
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('taskName').focus(),100);
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+function selectTag(el){
+  selectedTag=el.dataset.v;
+  document.querySelectorAll('.tag-opt').forEach(o=>o.classList.toggle('sel',o===el));
+  document.getElementById('customCatRow').style.display=(selectedTag==='custom')?'block':'none';
+}
+function pickRandomDay(month, urgentOnly){
+  const now=new Date();
+  const year=now.getMonth()<=month?now.getFullYear():now.getFullYear()+1;
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const startDay=(year===now.getFullYear()&&month===now.getMonth())?now.getDate():1;
+  const candidates=[];
+  for(let d=startDay;d<=daysInMonth;d++){
+    // urgent = only days 1-14 of the month
+    if(urgentOnly && d>14) break;
+    const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(year,month,d).getDay()];
+    if(dn!=='Sun') candidates.push(dn);
+  }
+  if(!candidates.length) return DAYS[Math.floor(Math.random()*6)];
+  return candidates[Math.floor(Math.random()*candidates.length)];
+}
+function saveTask(){
+  const name=document.getElementById('taskName').value.trim();
+  if(!name){document.getElementById('taskName').focus();return;}
+  const customCat=(selectedTag==='custom'?document.getElementById('customCatName').value.trim():'') || '';
+  const unlockAfter=document.getElementById('unlockAfter').value||'';
+  const month=(repeatMode!=='once')?new Date().getMonth():parseInt(document.getElementById('taskMonth').value);
+  const day=pickRandomDay(month, isUrgent);
+  const id='custom_'+Date.now();
+  if(repeatMode==='once') state[id]=false;
+  customTasks.push({id,title:name,tag:selectedTag,customCat,month,weekDay:day,repeat:repeatMode,unlockAfter,urgent:isUrgent});
+  renderCustomGoals();buildPlanner();updateBloom(false);closeModal();
+}
+document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+
+// ─── COPY PROGRESS ───────────────────────────────────────────────────────────
+function copyProgress(){
+  const lines=['# Sakura Goals — Progress\n'];
+  lines.push('## Turkish stories ('+stories.filter((_,i)=>state['story_'+i]).length+'/12)');
+  stories.forEach((s,i)=>lines.push((state['story_'+i]?'[x]':'[ ]')+' '+s));lines.push('');
+  ['tr','en','dev','li'].forEach(sec=>{
+    const t={tr:'Turkish',en:'English',dev:'Dev & Notion',li:'LinkedIn'};
+    lines.push('## '+t[sec]);
+    goals.filter(g=>g.sec===sec).forEach(g=>{
+      let l=(state[g.id]?'[x]':'[ ]')+' '+g.title;
+      if(g.weekly&&goalWeeklyMax[g.id])l+=` (${countGoalTasks(g.id)}/${g.weekly.max})`;
+      else if(g.weekly)l+=` (${state[g.id+'_w']||0}/${g.weekly.max})`;
+      lines.push(l);
+    });lines.push('');
+  });
+  if(customTasks.length){
+    lines.push('## Custom tasks');
+    customTasks.forEach(t=>{ const done=getCustomDone(t); lines.push((done?'[x]':'[ ]')+' '+t.title+' ('+(t.repeat==='week'?'🔄 weekly':t.repeat?'🔁 monthly':MONTH_NAMES[t.month])+', '+t.weekDay+')'); });
+  }
+  const txt=lines.join('\n');
+  navigator.clipboard.writeText(txt).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);});
+  const b=document.querySelector('.copy-btn');
+  b.innerHTML='<i class="ti ti-check"></i> Copied!';
+  setTimeout(()=>{b.innerHTML='<i class="ti ti-copy"></i> Copy progress';},2000);
+}
+
+
+
+// ─── SOUND ENGINE ─────────────────────────────────────────────────────────────
+let audioCtx=null;
+function getAudio(){
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+// Long dreamy reverb tail
+function makeReverb(ac,secs){
+  const len=ac.sampleRate*secs, buf=ac.createBuffer(2,len,ac.sampleRate);
+  for(let ch=0;ch<2;ch++){
+    const d=buf.getChannelData(ch);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,1.4);
+  }
+  const v=ac.createConvolver(); v.buffer=buf; return v;
+}
+
+// Silky sine with 2 gentle harmonics — bright but soft
+function silkTone(ac,freq,when,dur,vol,dest){
+  [[1,1],[2.003,0.28],[3.01,0.10]].forEach(([rat,amp])=>{
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.type='sine'; o.frequency.value=freq*rat;
+    o.connect(g); g.connect(dest);
+    g.gain.setValueAtTime(0,when);
+    g.gain.linearRampToValueAtTime(vol*amp,when+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001,when+dur);
+    o.start(when); o.stop(when+dur+0.05);
+  });
+}
+
+// Soft low-passed noise breath
+function breathNoise(ac,freq,when,dur,vol,dest){
+  const len=Math.ceil(ac.sampleRate*dur);
+  const buf=ac.createBuffer(1,len,ac.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<len;i++) d[i]=Math.random()*2-1;
+  const src=ac.createBufferSource();
+  src.buffer=buf;
+  const lpf=ac.createBiquadFilter();
+  lpf.type='lowpass'; lpf.frequency.value=freq; lpf.Q.value=0.5;
+  const g=ac.createGain();
+  src.connect(lpf); lpf.connect(g); g.connect(dest);
+  g.gain.setValueAtTime(0,when);
+  g.gain.linearRampToValueAtTime(vol,when+dur*0.25);
+  g.gain.linearRampToValueAtTime(vol*0.7,when+dur*0.6);
+  g.gain.exponentialRampToValueAtTime(0.0001,when+dur);
+  src.start(when); src.stop(when+dur+0.05);
+}
+
+// ✦ CHECK SOUND — crystalline koto pluck: two notes a fifth apart, tiny echo
+// ☁️ CLOUD TOUCH SOUND — soft airy puff, like pressing a fluffy cloud
+function playClickSound(){
+  const ac=getAudio(), now=ac.currentTime;
+
+  // --- Long dreamy reverb tail to make everything float ---
+  const rev=makeReverb(ac,2.2);
+  const master=ac.createGain(); master.gain.value=0.45;
+  rev.connect(master); master.connect(ac.destination);
+
+  // 1. Soft airy whoosh — low-passed noise, very gentle envelope
+  //    Like the air releasing from a cloud when you touch it
+  const wLen=Math.ceil(ac.sampleRate*0.22);
+  const wBuf=ac.createBuffer(1,wLen,ac.sampleRate);
+  const wd=wBuf.getChannelData(0);
+  for(let i=0;i<wLen;i++) wd[i]=(Math.random()*2-1);
+  const whoosh=ac.createBufferSource(); whoosh.buffer=wBuf;
+  const lpf=ac.createBiquadFilter(); lpf.type='lowpass'; lpf.frequency.value=680; lpf.Q.value=0.4;
+  const wg=ac.createGain();
+  whoosh.connect(lpf); lpf.connect(wg); wg.connect(rev);
+  wg.gain.setValueAtTime(0,now);
+  wg.gain.linearRampToValueAtTime(0.18,now+0.025);   // quick soft rise
+  wg.gain.exponentialRampToValueAtTime(0.0001,now+0.22); // long airy fade
+  whoosh.start(now); whoosh.stop(now+0.25);
+
+  // 2. Two overlapping sine puffs — warm and round, not sharp
+  //    High note first, then a lower warmer one right after
+  //    Like the gentle "pop" of a soap bubble
+  [[880, 0,     0.10, 0.10],
+   [523, 0.03,  0.13, 0.09],
+   [1320,0.01,  0.07, 0.05]].forEach(([freq,delay,dur,vol])=>{
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(freq*1.01,now+delay);
+    o.frequency.exponentialRampToValueAtTime(freq*0.98,now+delay+dur);
+    o.connect(g); g.connect(rev);
+    g.gain.setValueAtTime(0,now+delay);
+    g.gain.linearRampToValueAtTime(vol,now+delay+0.008); // instant soft attack
+    g.gain.exponentialRampToValueAtTime(0.0001,now+delay+dur);
+    o.start(now+delay); o.stop(now+delay+dur+0.05);
+  });
+
+  // 3. Tiny glitter shimmer — very faint high sparkle like light catching the cloud
+  silkTone(ac, 2093, now+0.04, 0.55, 0.032, rev);
+  silkTone(ac, 2637, now+0.07, 0.45, 0.022, rev);
+}
+
+function playCheckSound(){
+  const ac=getAudio(), now=ac.currentTime;
+  const rev=makeReverb(ac,1.8);
+  const out=ac.createGain(); out.gain.value=0.52;
+  rev.connect(out); out.connect(ac.destination);
+  // root + fifth, two layers: pluck + soft tail
+  [[493.88,0],[740.0,0.07],[493.88,0.14],[987.77,0.14]].forEach(([f,t])=>{
+    silkTone(ac,f,now+t,1.4,0.18,rev);
+  });
+  // tiny shimmer a tenth above
+  silkTone(ac,1244.5,now+0.04,0.6,0.06,rev);
+}
+
+// 🌸 BLOOM SOUND — sakura bell: rising pentatonic cascade + choir exhale
+function playBloomSound(){
+  const ac=getAudio(), now=ac.currentTime;
+  const rev=makeReverb(ac,3.2);
+  const out=ac.createGain(); out.gain.value=0.48;
+  rev.connect(out); out.connect(ac.destination);
+  // ascending Gmaj pentatonic: G3 A3 B3 D4 E4 G4 B4 D5
+  [196,220,246.94,293.66,329.63,392,493.88,587.33].forEach((f,i)=>{
+    silkTone(ac,f, now+i*0.075, 2.8-i*0.05, 0.16-i*0.012, rev);
+  });
+  // choir breath pad — slow swell sine cluster
+  [261.63,329.63,392,523.25].forEach((f,i)=>{
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.type='sine'; o.frequency.value=f+i*0.4;
+    o.connect(g); g.connect(rev);
+    g.gain.setValueAtTime(0,now+0.1);
+    g.gain.linearRampToValueAtTime(0.055,now+0.55);
+    g.gain.exponentialRampToValueAtTime(0.0001,now+3.0);
+    o.start(now+0.1); o.stop(now+3.1);
+  });
+  // high shimmer dust
+  silkTone(ac,2093,now+0.3,1.0,0.04,rev);
+  silkTone(ac,2637,now+0.5,0.8,0.03,rev);
+}
+
+// 🎋 TREE SHAKE — wind + distant chimes + leaf rustle
+function playTreeShakeSound(){
+  const ac=getAudio(), now=ac.currentTime;
+  const rev=makeReverb(ac,2.5);
+  const out=ac.createGain(); out.gain.value=0.42;
+  rev.connect(out); out.connect(ac.destination);
+  // wind: two low-pass noise layers at different speeds
+  breathNoise(ac, 600,  now,       0.7, 0.10, rev);
+  breathNoise(ac, 1200, now+0.08,  0.5, 0.07, rev);
+  breathNoise(ac, 3500, now+0.02,  0.35,0.04, rev);
+  // chime hits — random high pentatonic notes
+  const chimes=[1174.66,1318.51,1567.98,1760,2093];
+  for(let i=0;i<7;i++){
+    const f=chimes[Math.floor(Math.random()*chimes.length)];
+    silkTone(ac,f, now+Math.random()*0.45, 1.2+Math.random()*0.5, 0.10+Math.random()*0.04, rev);
+  }
+  // soft low meditation drone — single gentle sine
+  const drone=ac.createOscillator(), dg=ac.createGain();
+  drone.type='sine'; drone.frequency.setValueAtTime(164.81,now);
+  drone.frequency.linearRampToValueAtTime(161,now+1.5);
+  drone.connect(dg); dg.connect(rev);
+  dg.gain.setValueAtTime(0,now);
+  dg.gain.linearRampToValueAtTime(0.06,now+0.08);
+  dg.gain.exponentialRampToValueAtTime(0.0001,now+1.8);
+  drone.start(now); drone.stop(now+1.9);
+}
+
+// ─── WEEKLY GALLERY ───────────────────────────────────────────────────────────
+let treeGallery=[];  // [{weekLabel, dataUrl, bloom, total}]
+
+function getWeekKeyStr(){
+  const n=new Date(),d=n.getDay(),mon=new Date(n);
+  mon.setDate(n.getDate()-((d+6)%7));
+  const f=dt=>dt.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  const sun=new Date(mon);sun.setDate(mon.getDate()+6);
+  return f(mon)+' – '+f(sun);
+}
+
+function saveTreeToGallery(){
+  // snapshot the tree canvas to a data URL
+  const dataUrl=treeCv.toDataURL('image/png');
+  const label=getWeekKeyStr();
+  // replace if same week already saved
+  const existing=treeGallery.findIndex(g=>g.weekLabel===label);
+  const entry={weekLabel:label,dataUrl,bloom:bloomN,total:totalBlossoms()};
+  if(existing>=0) treeGallery[existing]=entry;
+  else treeGallery.unshift(entry);
+  renderGallery();
+  const btn=document.querySelector('.save-tree-btn');
+  btn.innerHTML='<i class="ti ti-check" aria-hidden="true"></i> Saved!';
+  setTimeout(()=>{btn.innerHTML='<i class="ti ti-camera" aria-hidden="true"></i> Save this week\'s tree';},2000);
+}
+
+function deleteFromGallery(idx){
+  treeGallery.splice(idx,1);
+  renderGallery();
+}
+
+function renderGallery(){
+  const grid=document.getElementById('galleryGrid');
+  if(!treeGallery.length){grid.innerHTML='<div style="font-size:13px;color:var(--txt3);padding:4px 0">No trees saved yet.</div>';return;}
+  grid.innerHTML=treeGallery.map((g,i)=>`
+    <div class="gallery-card">
+      <img src="${g.dataUrl}" style="display:block;width:100%;height:auto" alt="Week of ${g.weekLabel}">
+      <button class="gc-del" onclick="deleteFromGallery(${i})" title="Remove">✕</button>
+      <div class="gc-meta">
+        <div class="gc-week">${g.weekLabel}</div>
+        <div>${g.bloom} / ${g.total} blossoms</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+blossomPositions=buildBlossomPositions();
+buildStories();updateStoryBar();renderGoals();renderCustomGoals();buildPlanner();
+drawTree();updateBloom(false);
+spawnPetals(14,window.innerWidth/2,200);
+</script>
+</body>
+</html>
