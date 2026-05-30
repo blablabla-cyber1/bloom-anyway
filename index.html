@@ -13,8 +13,44 @@
 .modal-box{background:#1e1e1e!important}select,input{background:#2a2a2a!important;color:#f0f0f0!important}}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg2);min-height:100vh}
+.page-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem;align-items:start}
+.span-full{grid-column:1/-1}
+.col-left,.col-right{min-width:0}
+.bloom-bar-outer{max-width:520px;width:100%;margin:.4rem auto .15rem}
+@media(max-width:700px){
+  .page-grid{grid-template-columns:1fr}
+  .span-full{grid-column:1}
+  .wrap{padding:1.5rem 1rem 4rem}
+}
+/* ── Full-width two-column layout ── */
+.page-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 2.5rem;
+  align-items:start;
+}
+.col-left{min-width:0}
+.col-right{min-width:0}
+/* planner spans full width */
+.planner-wrap{grid-column:1/-1;margin-bottom:.5rem}
+/* tree + bar span full width */
+.tree-wrap-full{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;margin-bottom:1rem}
+/* gallery spans full width */
+.gallery-wrap-full{grid-column:1/-1}
+/* mobile: stack */
+@media(max-width:700px){
+  .page-grid{grid-template-columns:1fr}
+  .planner-wrap,.tree-wrap-full,.gallery-wrap-full{grid-column:1}
+  .wrap{padding:1.5rem 1rem 4rem}
+}
+/* wider story grid */
+.story-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))!important}
+/* wider gallery grid */
+.gallery-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))!important}
+/* bigger tree canvas */
+#treeCv{width:100%;max-width:520px;height:auto}
 #petalCv{position:fixed;top:0;left:0;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;padding:1.5rem 1rem 4rem;max-width:680px;margin:0 auto}
+.wrap{position:relative;z-index:1;padding:1.5rem 2.5rem 4rem;max-width:100%;margin:0 auto}
 h1{font-size:22px;font-weight:500;color:var(--txt1);text-align:center;margin-bottom:4px}
 .subtitle{font-size:13px;color:var(--txt2);text-align:center;margin-bottom:1.5rem}
 
@@ -37,7 +73,7 @@ h1{font-size:22px;font-weight:500;color:var(--txt1);text-align:center;margin-bot
 
 /* ── tree ── */
 .tree-zone{display:flex;flex-direction:column;align-items:center;margin-bottom:.5rem;cursor:pointer}
-.bloom-bar-outer{max-width:360px;width:100%;margin:.4rem auto .15rem}
+
 .bloom-bar-track{background:var(--bg2);border-radius:999px;height:6px;overflow:hidden;border:.5px solid var(--brd1)}
 .bloom-bar-fill{height:100%;border-radius:999px;background:#e88fa0;transition:width .6s cubic-bezier(.4,0,.2,1)}
 .bloom-label{font-size:11px;color:var(--txt2);text-align:center;margin-top:3px}
@@ -151,43 +187,60 @@ input[type=text]:focus,select:focus{border-color:#e88fa0}
   <h1>🌸 Sakura Goals</h1>
   <p class="subtitle">Click the tree to shake petals · each completed goal blooms a new flower</p>
 
-  <div class="planner-header">
-    <span class="planner-title">This week</span>
-    <span class="week-label" id="weekLabel"></span>
-  </div>
-  <div class="day-cols" id="dayCols"></div>
+  <div class="page-grid">
 
-  <div class="tree-zone" id="treeZone" title="Click to shake">
-    <canvas id="treeCv" width="360" height="290"></canvas>
-  </div>
-  <div class="bloom-bar-outer">
-    <div class="bloom-bar-track"><div class="bloom-bar-fill" id="bloomFill" style="width:0%"></div></div>
-    <div class="bloom-label" id="bloomLbl">0 blossoms</div>
+    <!-- full-width: planner -->
+    <div class="span-full">
+      <div class="planner-header">
+        <span class="planner-title">This week</span>
+        <span class="week-label" id="weekLabel"></span>
+      </div>
+      <div class="day-cols" id="dayCols"></div>
+    </div>
 
-  <div class="gallery-section">
-    <div class="sec-title" style="margin-top:1rem">Weekly tree gallery</div>
-    <button class="save-tree-btn" onclick="saveTreeToGallery()"><i class="ti ti-camera" aria-hidden="true"></i> Save this week's tree</button>
-    <div class="gallery-grid" id="galleryGrid"><div style="font-size:13px;color:var(--txt3);padding:4px 0">No trees saved yet.</div></div>
-  </div>
+    <!-- full-width: tree -->
+    <div class="span-full" style="display:flex;flex-direction:column;align-items:center;margin-bottom:.5rem">
+      <div class="tree-zone" id="treeZone" title="Click to shake">
+        <canvas id="treeCv" width="520" height="400"></canvas>
+      </div>
+      <div class="bloom-bar-outer">
+        <div class="bloom-bar-track"><div class="bloom-bar-fill" id="bloomFill" style="width:0%"></div></div>
+        <div class="bloom-label" id="bloomLbl">0 blossoms</div>
+      </div>
+    </div>
 
-  <div class="sec-title">Turkish reading — 12 short stories</div>
-  <div class="kp-bar-wrap">
-    <div class="kp-label">Before Küçük Prens: <b id="storiesDone">0</b> / 12 stories</div>
-    <div class="pbwrap" style="height:7px"><div class="pb" id="storiesPb" style="width:0%"></div></div>
-    <div class="plabel"><span id="storiesLeft">12 remaining</span><span id="storiesPct">0%</span></div>
-  </div>
-  <div class="story-grid" id="storyGrid"></div>
+    <!-- full-width: gallery -->
+    <div class="span-full gallery-section">
+      <div class="sec-title" style="margin-top:.25rem">Weekly tree gallery</div>
+      <button class="save-tree-btn" onclick="saveTreeToGallery()"><i class="ti ti-camera" aria-hidden="true"></i> Save this week's tree</button>
+      <div class="gallery-grid" id="galleryGrid"><div style="font-size:13px;color:var(--txt3);padding:4px 0">No trees saved yet.</div></div>
+    </div>
 
-  <div class="sec-title">Turkish reading goals</div><div id="sec-tr"></div>
-  <div class="sec-title">English fluency</div><div id="sec-en"></div>
-  <div class="sec-title">Dev & Notion</div><div id="sec-dev"></div>
-  <div class="sec-title">LinkedIn & marketing</div><div id="sec-li"></div>
-  <div class="sec-title">Custom tasks</div>
-  <div id="sec-custom"><div style="font-size:13px;color:var(--txt3);padding:4px 0">No custom tasks yet.</div></div>
+    <!-- left column -->
+    <div class="col-left">
+      <div class="sec-title">Turkish reading — 12 short stories</div>
+      <div class="kp-bar-wrap">
+        <div class="kp-label">Before Küçük Prens: <b id="storiesDone">0</b> / 12 stories</div>
+        <div class="pbwrap" style="height:7px"><div class="pb" id="storiesPb" style="width:0%"></div></div>
+        <div class="plabel"><span id="storiesLeft">12 remaining</span><span id="storiesPct">0%</span></div>
+      </div>
+      <div class="story-grid" id="storyGrid"></div>
+      <div class="sec-title">Turkish reading goals</div><div id="sec-tr"></div>
+      <div class="sec-title">Dev & Notion</div><div id="sec-dev"></div>
+    </div>
 
-  <div class="btn-row">
-    <button class="add-btn" onclick="openModal()"><i class="ti ti-plus"></i> Add new task</button>
-    <button class="copy-btn" onclick="copyProgress()"><i class="ti ti-copy"></i> Copy progress</button>
+    <!-- right column -->
+    <div class="col-right">
+      <div class="sec-title">English fluency</div><div id="sec-en"></div>
+      <div class="sec-title">LinkedIn & marketing</div><div id="sec-li"></div>
+      <div class="sec-title">Custom tasks</div>
+      <div id="sec-custom"><div style="font-size:13px;color:var(--txt3);padding:4px 0">No custom tasks yet.</div></div>
+      <div class="btn-row">
+        <button class="add-btn" onclick="openModal()"><i class="ti ti-plus"></i> Add new task</button>
+        <button class="copy-btn" onclick="copyProgress()"><i class="ti ti-copy"></i> Copy progress</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -382,7 +435,10 @@ setInterval(()=>{
 // ─── TREE CANVAS ──────────────────────────────────────────────────────────────
 const treeCv=document.getElementById('treeCv');
 const tCtx=treeCv.getContext('2d');
-const W=treeCv.width,H=treeCv.height,CX=W/2;
+// W/H read dynamically so canvas resize is respected
+let W=treeCv.width,H=treeCv.height,CX=W/2;
+function syncTreeSize(){ W=treeCv.offsetWidth||treeCv.width; H=treeCv.offsetHeight||treeCv.height; CX=W/2; }
+window.addEventListener('resize',()=>{ syncTreeSize(); drawTree(); });
 
 function seededRand(seed){
   let s=Math.abs(seed%2147483647)||1;
