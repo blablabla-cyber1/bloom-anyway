@@ -2,15 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sakura Goals</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
+
 :root{--bg1:#fff;--bg2:#f5f5f5;--txt1:#1a1a1a;--txt2:#6b7280;--txt3:#9ca3af;--brd1:rgba(0,0,0,.12);--brd2:rgba(0,0,0,.22);--rmd:8px;--rlg:12px}
-@media(prefers-color-scheme:dark){:root{--bg1:#1e1e1e;--bg2:#2a2a2a;--txt1:#f0f0f0;--txt2:#9ca3af;--txt3:#6b7280;--brd1:rgba(255,255,255,.1);--brd2:rgba(255,255,255,.2)}
+@media(prefers-color-scheme:dark){:root:not(.light){--bg1:#1e1e1e;--bg2:#2a2a2a;--txt1:#f0f0f0;--txt2:#9ca3af;--txt3:#6b7280;--brd1:rgba(255,255,255,.1);--brd2:rgba(255,255,255,.2)}
 .tag-tr{background:#4a1528!important;color:#f4c0d1!important}.tag-en{background:#042c53!important;color:#b5d4f4!important}
 .tag-dev{background:#173404!important;color:#c0dd97!important}.tag-li{background:#412402!important;color:#fac775!important}
 .modal-box{background:#1e1e1e!important}select,input{background:#2a2a2a!important;color:#f0f0f0!important}}
+/* ── Manual dark mode class ── */
+html.dark{--bg1:#1e1e1e;--bg2:#1a1a1a;--txt1:#f0f0f0;--txt2:#9ca3af;--txt3:#6b7280;--brd1:rgba(255,255,255,.1);--brd2:rgba(255,255,255,.2)}
+html.dark .tag-tr{background:#4a1528!important;color:#f4c0d1!important}
+html.dark .tag-en{background:#042c53!important;color:#b5d4f4!important}
+html.dark .tag-dev{background:#173404!important;color:#c0dd97!important}
+html.dark .tag-li{background:#412402!important;color:#fac775!important}
+html.dark .modal-box{background:#1e1e1e!important}
+html.dark select,html.dark input[type=text]{background:#2a2a2a!important;color:#f0f0f0!important}
+
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg2);min-height:100vh}
 .page-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem;align-items:start}
@@ -179,9 +189,111 @@ input[type=text]:focus,select:focus{border-color:#e88fa0}
 .save-tree-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;border:.5px solid #e88fa0;border-radius:var(--rmd);padding:5px 12px;background:transparent;cursor:pointer;transition:background .15s;color:#c4547a;margin-top:.5rem}
 .save-tree-btn:hover{background:rgba(232,143,160,.08)}
 
+
+/* ── Dark mode toggle ── */
+.dark-toggle{
+  position:fixed;top:14px;right:18px;z-index:200;
+  width:38px;height:38px;border-radius:50%;
+  border:.5px solid var(--brd2);
+  background:var(--bg1);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;line-height:1;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+  transition:background .2s,transform .2s,box-shadow .2s;
+}
+.dark-toggle:hover{transform:scale(1.1);box-shadow:0 4px 14px rgba(0,0,0,.18)}
+
+
+/* ══ PAGE ROUTER ══════════════════════════════════════════════════════════ */
+.page{display:none;min-height:100vh}.page.active{display:block}
+
+/* ══ LOGIN ════════════════════════════════════════════════════════════════ */
+.login-bg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg2);position:relative;overflow:hidden}
+#loginPetalCv{position:fixed;inset:0;pointer-events:none;z-index:0}
+.login-card{position:relative;z-index:1;background:var(--bg1);border:.5px solid var(--brd1);border-radius:20px;padding:2.5rem 2rem;width:min(380px,92vw);box-shadow:0 24px 64px rgba(0,0,0,.12);text-align:center}
+.login-logo{font-size:48px;margin-bottom:.5rem}
+.login-title{font-size:22px;font-weight:600;color:var(--txt1);margin-bottom:.25rem}
+.login-sub{font-size:13px;color:var(--txt2);margin-bottom:2rem}
+.login-tabs{display:flex;margin-bottom:1.5rem;border:.5px solid var(--brd1);border-radius:10px;overflow:hidden}
+.login-tab{flex:1;padding:8px;font-size:13px;cursor:pointer;background:transparent;border:none;color:var(--txt2);transition:all .18s;font-weight:500}
+.login-tab.active{background:#fde8ed;color:#c4547a}
+.login-field{margin-bottom:1rem;text-align:left}
+.login-field label{display:block;font-size:12px;font-weight:500;color:var(--txt2);margin-bottom:4px}
+.login-field input{width:100%;padding:9px 12px;border-radius:10px;border:.5px solid var(--brd2);background:var(--bg1);color:var(--txt1);font-size:14px;outline:none;transition:border-color .15s}
+.login-field input:focus{border-color:#e88fa0}
+.login-btn{width:100%;padding:10px;border-radius:10px;border:none;background:#e88fa0;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:.5rem;transition:background .18s}
+.login-btn:hover{background:#d4728a}
+.login-err{font-size:12px;color:#c0392b;margin-top:.5rem;min-height:18px}
+.login-guest{font-size:12px;color:var(--txt3);margin-top:1rem;cursor:pointer;text-decoration:underline}
+.login-guest:hover{color:var(--txt2)}
+
+/* ══ TOP NAV ══════════════════════════════════════════════════════════════ */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:200;height:48px;background:var(--bg1);border-bottom:.5px solid var(--brd1);display:flex;align-items:center;padding:0 20px;gap:12px;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.topnav-logo{font-size:16px;font-weight:600;color:var(--txt1);flex:1}
+.nav-btn{padding:5px 14px;border-radius:999px;border:.5px solid var(--brd1);background:transparent;font-size:12px;color:var(--txt2);cursor:pointer;transition:all .15s;font-weight:500}
+.nav-btn:hover,.nav-btn.active{background:#fde8ed;color:#c4547a;border-color:#e88fa0}
+.nav-user{font-size:12px;color:var(--txt2)}
+.nav-logout{font-size:12px;color:var(--txt3);cursor:pointer;padding:4px 8px;border-radius:6px;border:none;background:transparent}
+.nav-logout:hover{color:#c0392b}
+.page-with-nav{padding-top:52px}
+
+/* ══ COMPLETED PAGE ═══════════════════════════════════════════════════════ */
+.completed-wrap{max-width:900px;margin:0 auto;padding:2rem 2.5rem 4rem}
+.completed-title{font-size:22px;font-weight:500;color:var(--txt1);margin-bottom:4px}
+.completed-sub{font-size:13px;color:var(--txt2);margin-bottom:1.5rem}
+.completed-empty{text-align:center;padding:4rem 2rem;color:var(--txt3);font-size:14px;line-height:1.7}
+.c-sec-title{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--txt2);padding:0 0 6px 10px;border-left:2px solid #e88fa0;margin:1.2rem 0 .6rem}
+.c-item{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);padding:.65rem 1rem;margin-bottom:.4rem;display:flex;align-items:center;gap:10px}
+.c-check{width:18px;height:18px;border-radius:50%;background:#e88fa0;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.c-title{font-size:14px;color:var(--txt1);text-decoration:line-through;opacity:.65;flex:1}
+.c-date{font-size:11px;color:var(--txt3);white-space:nowrap}
+.c-del{border:none;background:transparent;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 6px;border-radius:6px;transition:all .15s}
+.c-del:hover{background:#fde8ed;color:#c4547a}
+.ci-tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:999px;font-weight:500;margin-right:4px;flex-shrink:0}
+.clear-btn{font-size:12px;color:#c0392b;border:.5px solid rgba(192,57,43,.3);border-radius:8px;padding:4px 12px;background:transparent;cursor:pointer;margin-bottom:1rem}
+.clear-btn:hover{background:rgba(192,57,43,.06)}
+/* dark-toggle in nav */
+.dark-toggle{width:32px;height:32px;border-radius:50%;border:.5px solid var(--brd2);background:var(--bg1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:background .2s,transform .2s;position:static!important}
+.dark-toggle:hover{transform:scale(1.1)}
+
 </style>
 </head>
 <body>
+
+<!-- ══ LOGIN ══ -->
+<div id="page-login" class="page active">
+<canvas id="loginPetalCv"></canvas>
+<div class="login-bg">
+  <div class="login-card">
+    <div class="login-logo">🌸</div>
+    <div class="login-title">Sakura Goals</div>
+    <div class="login-sub">Your personal goal tracker</div>
+    <div class="login-tabs">
+      <button class="login-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign in</button>
+      <button class="login-tab" id="tabSignup" onclick="switchAuthTab('signup')">Sign up</button>
+    </div>
+    <div class="login-field"><label>Username</label><input id="authUser" type="text" placeholder="your name"></div>
+    <div class="login-field"><label>Password</label><input id="authPass" type="password" placeholder="••••••••"></div>
+    <div class="login-err" id="authErr"></div>
+    <button class="login-btn" id="authSubmitBtn" onclick="submitAuth()">Sign in</button>
+    <div class="login-guest" onclick="guestLogin()">Continue as guest (no save)</div>
+  </div>
+</div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav class="topnav" id="topnav" style="display:none">
+  <span class="topnav-logo">🌸 Sakura Goals</span>
+  <button class="nav-btn active" id="navHome" onclick="showPage('home')">Home</button>
+  <button class="nav-btn" id="navCompleted" onclick="showPage('completed')">✓ Completed</button>
+  <span class="nav-user" id="navUser"></span>
+  <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
+  <button class="nav-logout" onclick="logout()">Sign out</button>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div id="page-home" class="page page-with-nav">
 <canvas id="petalCv"></canvas>
 <div class="wrap">
   <h1>🌸 Sakura Goals</h1>
@@ -242,6 +354,17 @@ input[type=text]:focus,select:focus{border-color:#e88fa0}
     </div>
 
   </div>
+</div>
+</div>
+
+<!-- ══ COMPLETED ══ -->
+<div id="page-completed" class="page page-with-nav">
+<div class="completed-wrap">
+  <div class="completed-title">✓ Completed tasks</div>
+  <div class="completed-sub" id="completedSub">Tasks you've finished — automatically moved here</div>
+  <button class="clear-btn" onclick="clearAllCompleted()">Clear all</button>
+  <div id="completedList"></div>
+</div>
 </div>
 
 <!-- modal -->
@@ -1508,11 +1631,269 @@ function renderGallery(){
   `).join('');
 }
 
-// ─── INIT ────────────────────────────────────────────────────────────────────
-blossomPositions=buildBlossomPositions();
-buildStories();updateStoryBar();renderGoals();renderCustomGoals();buildPlanner();
-drawTree();updateBloom(false);
-spawnPetals(14,window.innerWidth/2,200);
+
+// ─── DARK MODE TOGGLE ────────────────────────────────────────────────────────
+(function(){
+  // Respect saved preference, fallback to system
+  const saved=localStorage.getItem('sakura-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(saved===null&&sysDark)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+function toggleDark(){
+  const html=document.documentElement;
+  const isDark=html.classList.toggle('dark');
+  localStorage.setItem('sakura-theme',isDark?'dark':'light');
+  document.getElementById('darkToggle').textContent=isDark?'☀️':'🌙';
+  // redraw tree for correct bg-aware rendering
+  drawTree();
+}
+// sync button icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+});
+
+// ─── INIT deferred to loginUser/guestLogin ───────────────────────────────────
+
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH & PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════
+let currentUser=null;
+function getUsers(){try{return JSON.parse(localStorage.getItem('sakura_users')||'{}')}catch(e){return{}}}
+function saveUsers(u){localStorage.setItem('sakura_users',JSON.stringify(u))}
+function userKey(u){return'sakura_data_'+u}
+
+function loadUserData(username){
+  try{
+    const raw=localStorage.getItem(userKey(username));if(!raw)return;
+    const d=JSON.parse(raw);
+    if(d.state)Object.assign(state,d.state);
+    if(d.customTasks)customTasks=d.customTasks;
+    if(d.deletedGoals)deletedGoals=new Set(d.deletedGoals);
+    if(d.deletedStories)deletedStories=new Set(d.deletedStories);
+    if(d.deletedWeekly)deletedWeekly=new Set(d.deletedWeekly);
+    if(d.completedArchive)completedArchive=d.completedArchive;
+    if(d.treeGallery)treeGallery=d.treeGallery;
+  }catch(e){}
+}
+function saveUserData(){
+  if(!currentUser)return;
+  localStorage.setItem(userKey(currentUser),JSON.stringify({
+    state,customTasks,completedArchive,treeGallery,
+    deletedGoals:[...deletedGoals],
+    deletedStories:[...deletedStories],
+    deletedWeekly:[...deletedWeekly],
+  }));
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETED ARCHIVE
+// ═══════════════════════════════════════════════════════════════════
+let completedArchive=[];
+
+function archiveItem(id,title,tag,customCat,source){
+  if(completedArchive.find(x=>x.id===id))return;
+  completedArchive.unshift({id,title,tag:tag||'custom',customCat:customCat||'',source:source||'goal',
+    completedAt:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})});
+  saveUserData();
+  if(document.getElementById('page-completed').classList.contains('active'))renderCompletedPage();
+}
+
+function unarchiveItem(id){
+  completedArchive=completedArchive.filter(x=>x.id!==id);
+  saveUserData();renderCompletedPage();
+}
+function clearAllCompleted(){completedArchive=[];saveUserData();renderCompletedPage();}
+
+function renderCompletedPage(){
+  const list=document.getElementById('completedList');if(!list)return;
+  const sub=document.getElementById('completedSub');
+  if(!completedArchive.length){
+    list.innerHTML='<div class="completed-empty">🌱 No completed tasks yet.<br>Finish tasks on the home page and they\'ll appear here automatically.</div>';
+    if(sub)sub.textContent='Tasks you\'ve finished — automatically moved here';return;
+  }
+  if(sub)sub.textContent=completedArchive.length+' task'+(completedArchive.length!==1?'s':'')+' completed';
+  const groups={planner:'Weekly planner',goal:'Goal cards',story:'Turkish stories',custom:'Custom tasks'};
+  const grouped={};
+  completedArchive.forEach(t=>{(grouped[t.source]=grouped[t.source]||[]).push(t);});
+  const catColors={tr:'#fde8ed|#993556',en:'#E6F1FB|#185FA5',dev:'#EAF3DE|#3B6D11',li:'#FAEEDA|#854F0B',custom:'#F0E6FF|#6B21A8'};
+  let html='';
+  Object.entries(groups).forEach(([src,label])=>{
+    const items=grouped[src];if(!items||!items.length)return;
+    html+=`<div class="c-sec-title">${label} (${items.length})</div>`;
+    items.forEach(t=>{
+      const[bg,col]=(catColors[t.tag]||'#F0E6FF|#6B21A8').split('|');
+      const catLabel=t.customCat||TAG_LABELS_BASE[t.tag]||t.tag||'Custom';
+      html+=`<div class="c-item">
+        <div class="c-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="ci-tag" style="background:${bg};color:${col}">${catLabel}</span>
+        <span class="c-title">${t.title}</span>
+        <span class="c-date">${t.completedAt}</span>
+        <button class="c-del" onclick="unarchiveItem('${t.id}')" title="Remove">✕</button>
+      </div>`;
+    });
+  });
+  list.innerHTML=html;
+}
+
+// ── Intercept completions to auto-archive ─────────────────────────────────────
+function hookTogglePlanner(t){
+  const gained=!state[t.id];
+  const el=document.getElementById('pt_'+t.id);if(!el)return;
+  playClickSound();
+  state[t.id]=gained;
+  el.classList.add('vanish');
+  setTimeout(()=>{
+    if(t.goalId)syncGoalCard(t.goalId,gained);
+    if(gained)archiveItem(t.id+'_'+Date.now(),t.text,t.tag,'','planner');
+    buildPlanner();updateBloom(gained);saveUserData();
+  },250);
+}
+
+function hookToggleGoal(id){
+  if(goalWeeklyMax[id])return;
+  playCheckSound();
+  const wasDone=!!state[id];
+  state[id]=!state[id];
+  document.getElementById('card_'+id).classList.toggle('done',state[id]);
+  if(state[id]&&!wasDone){const g=goals.find(x=>x.id===id);if(g)archiveItem(id+'_arch',g.title,g.sec,'','goal');}
+  renderCustomGoals();updateBloom(state[id]);saveUserData();
+}
+
+function hookToggleCustom(id){
+  const ct=customTasks.find(x=>x.id===id);if(!ct)return;
+  const key=(ct.repeat&&ct.repeat!==false)?repeatKey(ct):id;
+  const wasDone=!!state[key];
+  state[key]=!state[key];
+  const card=document.getElementById('card_'+id);if(card)card.classList.toggle('done',!!state[key]);
+  if(!wasDone&&state[key])archiveItem(id+'_arch_'+Date.now(),ct.title,ct.tag,ct.customCat||'','custom');
+  buildPlanner();updateBloom(!!state[key]);saveUserData();
+}
+
+// Override global functions with hooks
+togglePlannerTask=hookTogglePlanner;
+toggleGoalCard=hookToggleGoal;
+toggleCustom=hookToggleCustom;
+
+// Story interception handled in buildStories override below
+const _buildStoriesOrig=buildStories;
+function buildStories(){
+  _buildStoriesOrig();
+  const grid=document.getElementById('storyGrid');if(!grid)return;
+  Array.from(grid.children).forEach((card,idx)=>{
+    const i=stories.findIndex((_,si)=>{
+      // match to the idx-th visible story
+      let vis=0;
+      for(let j=0;j<stories.length;j++){if(!deletedStories.has(j)){if(vis===idx){return j===si;}vis++;}}
+      return false;
+    });
+    if(i<0)return;
+    const originalClick=card.onclick;
+    card.onclick=(e)=>{
+      if(e.target.tagName==='BUTTON')return;
+      playCheckSound();
+      const wasDone=!!state['story_'+i];
+      state['story_'+i]=!state['story_'+i];
+      buildStories();updateStoryBar();renderCustomGoals();updateBloom(state['story_'+i]);
+      if(!wasDone&&state['story_'+i])archiveItem('story_'+i+'_arch_'+Date.now(),'Turkish story '+(i+1),'tr','','story');
+      saveUserData();
+    };
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const nb=document.getElementById('nav'+name.charAt(0).toUpperCase()+name.slice(1));
+  if(nb)nb.classList.add('active');
+  if(name==='completed')renderCompletedPage();
+  if(name==='home'){syncTreeSize();drawTree();}
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH FLOW
+// ═══════════════════════════════════════════════════════════════════
+let authMode='login';
+function switchAuthTab(mode){
+  authMode=mode;
+  document.getElementById('tabLogin').classList.toggle('active',mode==='login');
+  document.getElementById('tabSignup').classList.toggle('active',mode==='signup');
+  document.getElementById('authSubmitBtn').textContent=mode==='login'?'Sign in':'Create account';
+  document.getElementById('authErr').textContent='';
+}
+function submitAuth(){
+  const user=document.getElementById('authUser').value.trim();
+  const pass=document.getElementById('authPass').value;
+  const err=document.getElementById('authErr');
+  if(!user||!pass){err.textContent='Please fill in both fields.';return;}
+  const users=getUsers();
+  if(authMode==='signup'){
+    if(users[user]){err.textContent='Username already taken.';return;}
+    users[user]=btoa(pass);saveUsers(users);
+    err.style.color='#276749';err.textContent='Account created! Signing in…';
+    setTimeout(()=>loginUser(user),700);
+  }else{
+    if(!users[user]||users[user]!==btoa(pass)){err.textContent='Wrong username or password.';return;}
+    loginUser(user);
+  }
+}
+function loginUser(username){
+  currentUser=username;
+  document.getElementById('navUser').textContent='👤 '+username;
+  document.getElementById('topnav').style.display='flex';
+  loadUserData(username);
+  initApp();showPage('home');
+}
+function guestLogin(){
+  currentUser=null;
+  const nu=document.getElementById('navUser');nu.textContent='Guest';nu.style.fontStyle='italic';
+  document.getElementById('topnav').style.display='flex';
+  initApp();showPage('home');
+}
+function logout(){
+  saveUserData();currentUser=null;
+  Object.keys(state).forEach(k=>delete state[k]);
+  customTasks=[];completedArchive=[];treeGallery=[];
+  deletedGoals=new Set();deletedStories=new Set();deletedWeekly=new Set();
+  document.getElementById('topnav').style.display='none';
+  document.getElementById('authUser').value='';
+  document.getElementById('authPass').value='';
+  document.getElementById('authErr').textContent='';
+  showPage('login');
+}
+function initApp(){
+  syncTreeSize();
+  blossomPositions=buildBlossomPositions();
+  buildStories();updateStoryBar();renderGoals();renderCustomGoals();buildPlanner();
+  drawTree();updateBloom(false);
+  spawnPetals(14,window.innerWidth/2,250);
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');if(btn)btn.textContent=isDark?'☀️':'🌙';
+}
+
+// ─── login page floating petals ───────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('loginPetalCv');if(!cv)return;
+  const lc=cv.getContext('2d');let lp=[];
+  function resL(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  resL();window.addEventListener('resize',resL);
+  function spawnL(){for(let i=0;i<3;i++)lp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*4,vx:(Math.random()-.5)*.8,vy:.5+Math.random()*1.2,alpha:.85,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.08,w:Math.random()*Math.PI*2,ws:.02+Math.random()*.03,col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec'][Math.floor(Math.random()*4)]});}
+  function loopL(){lc.clearRect(0,0,cv.width,cv.height);lp=lp.filter(p=>p.alpha>.02&&p.y<cv.height+20);lp.forEach(p=>{p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.5;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.997;lc.save();lc.globalAlpha=p.alpha;lc.translate(p.x,p.y);lc.rotate(p.rot);lc.beginPath();lc.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);lc.fillStyle=p.col;lc.fill();lc.restore();});requestAnimationFrame(loopL);}
+  setInterval(spawnL,400);loopL();
+})();
+
+// enter key on login
+document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
+document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
 </script>
 </body>
 </html>
