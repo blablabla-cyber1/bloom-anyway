@@ -257,6 +257,58 @@ input[type=text]:focus,select:focus{border-color:#e88fa0}
 .dark-toggle{width:32px;height:32px;border-radius:50%;border:.5px solid var(--brd2);background:var(--bg1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:background .2s,transform .2s;position:static!important}
 .dark-toggle:hover{transform:scale(1.1)}
 
+
+/* ── Login fade-out ── */
+#page-login{transition:opacity .5s ease,transform .5s ease}
+#page-login.fade-out{opacity:0;transform:scale(1.04);pointer-events:none}
+
+/* ── Welcome / clear-defaults banner ── */
+.welcome-banner{
+  background:linear-gradient(135deg,#fde8ed,#fce7f3);
+  border:1px solid #f4b8c8;border-radius:var(--rlg);
+  padding:1rem 1.25rem;margin-bottom:1.2rem;display:flex;align-items:flex-start;gap:12px;
+}
+html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);border-color:#6b2040}
+.welcome-banner-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.welcome-banner-body{flex:1}
+.welcome-banner-title{font-size:14px;font-weight:600;color:var(--txt1);margin-bottom:3px}
+.welcome-banner-sub{font-size:12px;color:var(--txt2);line-height:1.5}
+.welcome-banner-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.wb-keep{padding:5px 14px;border-radius:999px;border:.5px solid var(--brd2);background:transparent;font-size:12px;color:var(--txt2);cursor:pointer;transition:background .15s}
+.wb-keep:hover{background:var(--bg2)}
+.wb-clear{padding:5px 14px;border-radius:999px;border:none;background:#e88fa0;font-size:12px;color:#fff;font-weight:500;cursor:pointer;transition:background .15s}
+.wb-clear:hover{background:#d4728a}
+
+/* ── Weekly carry-over modal ── */
+.carryover-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:center;justify-content:center}
+.carryover-overlay.open{display:flex}
+.carryover-box{background:var(--bg1);border:1px solid var(--brd1);border-radius:16px;padding:1.5rem;width:min(440px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.18)}
+.carryover-title{font-size:16px;font-weight:500;color:var(--txt1);margin-bottom:.4rem}
+.carryover-sub{font-size:13px;color:var(--txt2);margin-bottom:1rem;line-height:1.5}
+.carryover-list{max-height:180px;overflow-y:auto;margin-bottom:1rem}
+.carryover-item{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;color:var(--txt2);cursor:pointer}
+.carryover-item input[type=checkbox]{accent-color:#e88fa0;width:14px;height:14px;cursor:pointer}
+.carryover-actions{display:flex;gap:8px;justify-content:flex-end}
+.co-skip{padding:7px 14px;border-radius:var(--rmd);border:.5px solid var(--brd2);background:transparent;color:var(--txt2);cursor:pointer;font-size:13px}
+.co-carry{padding:7px 16px;border-radius:var(--rmd);border:none;background:#e88fa0;color:#fff;cursor:pointer;font-size:13px;font-weight:500}
+.co-carry:hover{background:#d4728a}
+
+/* ── Pinned page ── */
+.pinned-wrap{max-width:900px;margin:0 auto;padding:2rem 2.5rem 4rem}
+.pinned-title{font-size:22px;font-weight:500;color:var(--txt1);margin-bottom:4px}
+.pinned-sub{font-size:13px;color:var(--txt2);margin-bottom:1.5rem}
+.pinned-empty{text-align:center;padding:4rem 2rem;color:var(--txt3);font-size:14px;line-height:1.8}
+.pin-btn{border:none;background:transparent;cursor:pointer;font-size:14px;padding:2px 5px;
+  border-radius:4px;line-height:1;opacity:.35;transition:opacity .15s,color .15s;color:var(--txt2)}
+.pin-btn:hover,.pin-btn.pinned{opacity:1;color:#e88fa0}
+.pinned-card{background:var(--bg1);border:.5px solid #f4b8c8;border-radius:var(--rlg);
+  padding:.7rem 1rem;margin-bottom:.45rem;display:flex;align-items:flex-start;gap:10px;
+  box-shadow:0 2px 8px rgba(232,143,160,.12)}
+.pinned-card .pc-title{font-size:14px;color:var(--txt1);flex:1}
+.pinned-card .pc-sub{font-size:11px;color:var(--txt3);margin-top:2px}
+.pinned-card .pc-unpin{border:none;background:transparent;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 6px;border-radius:6px;transition:all .15s}
+.pinned-card .pc-unpin:hover{background:#fde8ed;color:#c4547a}
+
 </style>
 </head>
 <body>
@@ -287,10 +339,24 @@ input[type=text]:focus,select:focus{border-color:#e88fa0}
   <span class="topnav-logo">🌸 Sakura Goals</span>
   <button class="nav-btn active" id="navHome" onclick="showPage('home')">Home</button>
   <button class="nav-btn" id="navCompleted" onclick="showPage('completed')">✓ Completed</button>
+  <button class="nav-btn" id="navPinned" onclick="showPage('pinned')">📌 Pinned</button>
   <span class="nav-user" id="navUser"></span>
   <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
   <button class="nav-logout" onclick="logout()">Sign out</button>
 </nav>
+
+<!-- carry-over modal -->
+<div class="carryover-overlay" id="carryoverOverlay">
+  <div class="carryover-box">
+    <div class="carryover-title">📅 New week!</div>
+    <div class="carryover-sub" id="carryoverSub">You have unfinished tasks from last week. Pick the ones you want to carry over:</div>
+    <div class="carryover-list" id="carryoverList"></div>
+    <div class="carryover-actions">
+      <button class="co-skip" onclick="resolveCarryover(false)">Skip all</button>
+      <button class="co-carry" onclick="resolveCarryover(true)">Carry selected</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ HOME ══ -->
 <div id="page-home" class="page page-with-nav">
@@ -298,6 +364,18 @@ input[type=text]:focus,select:focus{border-color:#e88fa0}
 <div class="wrap">
   <h1>🌸 Sakura Goals</h1>
   <p class="subtitle">Click the tree to shake petals · each completed goal blooms a new flower</p>
+
+  <div id="welcomeBanner" class="welcome-banner" style="display:none">
+    <div class="welcome-banner-icon">🌸</div>
+    <div class="welcome-banner-body">
+      <div class="welcome-banner-title">Welcome! Want to start fresh?</div>
+      <div class="welcome-banner-sub">The app comes with default goals and tasks. You can clear them all and build your own, or keep them as a starting point.</div>
+      <div class="welcome-banner-btns">
+        <button class="wb-keep" onclick="dismissWelcome(false)">Keep defaults</button>
+        <button class="wb-clear" onclick="dismissWelcome(true)">Clear all defaults</button>
+      </div>
+    </div>
+  </div>
 
   <div class="page-grid">
 
@@ -364,6 +442,15 @@ input[type=text]:focus,select:focus{border-color:#e88fa0}
   <div class="completed-sub" id="completedSub">Tasks you've finished — automatically moved here</div>
   <button class="clear-btn" onclick="clearAllCompleted()">Clear all</button>
   <div id="completedList"></div>
+</div>
+</div>
+
+<!-- ══ PINNED PAGE ══ -->
+<div id="page-pinned" class="page page-with-nav">
+<div class="pinned-wrap">
+  <div class="pinned-title">📌 Pinned tasks</div>
+  <div class="pinned-sub">Tasks you've pinned — always visible here regardless of week or status</div>
+  <div id="pinnedList"></div>
 </div>
 </div>
 
@@ -1118,9 +1205,13 @@ function cardHTML(g){
   return `<div class="card${done?' done':''}" id="card_${g.id}" style="position:relative" onclick="toggleGoalCard('${g.id}')">
     <div class="cb"><svg class="ck" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div class="cinfo"><div class="ctitle">${g.title}</div><div class="csub">${g.sub}</div>${inner}</div>
-    <button onclick="event.stopPropagation();deleteDefaultGoal('${g.id}')" title="Remove goal"
-      style="position:absolute;top:8px;right:8px;background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 5px;border-radius:4px;line-height:1;opacity:.4;transition:opacity .15s"
-      onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.4">✕</button>
+    <div style="position:absolute;top:6px;right:6px;display:flex;gap:2px">
+      <button onclick="event.stopPropagation();togglePin('goal_${g.id}',${JSON.stringify(g.title).replace(/'/g,\'\')},g.sec,'','goal')" id="pin_goal_${g.id}"
+        class="pin-btn${pinnedItems.has('goal_'+g.id)?' pinned':''}" title="Pin task">📌</button>
+      <button onclick="event.stopPropagation();deleteDefaultGoal('${g.id}')" title="Remove goal"
+        style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 5px;border-radius:4px;line-height:1;opacity:.4;transition:opacity .15s"
+        onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.4">✕</button>
+    </div>
   </div>`;
 }
 
@@ -1893,6 +1984,203 @@ function initApp(){
 // enter key on login
 document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
 document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
+// ═══════════════════════════════════════════════════════════════════
+// PINNED TASKS
+// ═══════════════════════════════════════════════════════════════════
+let pinnedItems = new Set(); // set of pin keys like 'goal_en2', 'story_3', 'custom_xxx'
+
+function togglePin(key, title, tag, customCat, source){
+  if(pinnedItems.has(key)){ pinnedItems.delete(key); }
+  else { pinnedItems.add(key); }
+  // update pin button appearance
+  const btn=document.getElementById('pin_'+key);
+  if(btn) btn.classList.toggle('pinned', pinnedItems.has(key));
+  renderPinnedPage();
+  saveUserData();
+}
+
+function renderPinnedPage(){
+  const list=document.getElementById('pinnedList'); if(!list)return;
+  if(!pinnedItems.size){
+    list.innerHTML='<div class="pinned-empty">📌 No pinned tasks yet.<br>Click the 📌 icon on any task to pin it here.</div>';
+    return;
+  }
+  const catColors={tr:'#fde8ed|#993556',en:'#E6F1FB|#185FA5',dev:'#EAF3DE|#3B6D11',li:'#FAEEDA|#854F0B',custom:'#F0E6FF|#6B21A8'};
+  let html='';
+  pinnedItems.forEach(key=>{
+    // resolve display info from key
+    let title='', tag='custom', customCat='', sub='';
+    if(key.startsWith('goal_')){
+      const gid=key.replace('goal_','');
+      const g=goals.find(x=>x.id===gid);
+      if(g){title=g.title;tag=g.sec;sub=g.sub;}
+    } else if(key.startsWith('story_')){
+      const si=parseInt(key.replace('story_',''));
+      title='Turkish story '+(si+1); tag='tr'; sub='Reading goal';
+    } else if(key.startsWith('custom_')){
+      const ct=customTasks.find(x=>x.id===key.replace('custom_',''));
+      if(ct){title=ct.title;tag=ct.tag;customCat=ct.customCat||'';sub=(ct.customCat||TAG_LABELS_BASE[ct.tag]||'Custom');}
+    }
+    if(!title) return;
+    const[bg,col]=(catColors[tag]||'#F0E6FF|#6B21A8').split('|');
+    const catLabel=customCat||TAG_LABELS_BASE[tag]||tag||'Custom';
+    html+=`<div class="pinned-card">
+      <div style="flex:1;min-width:0">
+        <div class="pc-title">${title}</div>
+        <div class="pc-sub"><span style="font-size:9px;background:${bg};color:${col};padding:1px 6px;border-radius:999px;font-weight:500">${catLabel}</span>${sub?' · '+sub:''}</div>
+      </div>
+      <button class="pc-unpin" onclick="togglePin('${key}','','','','')" title="Unpin">✕</button>
+    </div>`;
+  });
+  list.innerHTML=html||'<div class="pinned-empty">📌 No pinned tasks yet.</div>';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// WELCOME BANNER (new user clear defaults)
+// ═══════════════════════════════════════════════════════════════════
+function showWelcomeBannerIfNew(){
+  // show only if user has no saved data at all
+  if(currentUser&&localStorage.getItem(userKey(currentUser))) return;
+  if(!currentUser) return; // guests don't get it
+  const banner=document.getElementById('welcomeBanner');
+  if(banner) banner.style.display='flex';
+}
+
+function dismissWelcome(clearDefaults){
+  const banner=document.getElementById('welcomeBanner');
+  if(banner) banner.style.display='none';
+  if(clearDefaults){
+    // remove all default goals
+    goals.forEach(g=>{ deletedGoals.add(g.id); Object.values(weeklyTasks).flat().forEach(t=>{ if(t.goalId===g.id) deletedWeekly.add(t.id); }); });
+    // remove all stories
+    for(let i=0;i<12;i++) deletedStories.add(i);
+    // remove standalone weekly tasks without goal links
+    Object.values(weeklyTasks).flat().forEach(t=>{ deletedWeekly.add(t.id); });
+    renderGoals(); buildStories(); updateStoryBar(); buildPlanner(); updateBloom(false);
+  }
+  saveUserData();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY CARRY-OVER
+// ═══════════════════════════════════════════════════════════════════
+function getCurrentWeekKey(){
+  const n=new Date(), d=n.getDay(), mon=new Date(n);
+  mon.setDate(n.getDate()-((d+6)%7));
+  return mon.getFullYear()+'_'+mon.getMonth()+'_'+mon.getDate();
+}
+
+let carryoverPending=[]; // tasks pending carry-over decision
+
+function checkWeekRollover(){
+  const thisWeek=getCurrentWeekKey();
+  const lastWeek=state['__lastWeekKey__'];
+  if(!lastWeek||lastWeek===thisWeek){ state['__lastWeekKey__']=thisWeek; return; }
+  // week changed — find incomplete built-in planner tasks from last week
+  const incomplete=[];
+  Object.entries(weeklyTasks).forEach(([day,tasks])=>{
+    tasks.forEach(t=>{
+      if(!state[t.id]&&!deletedWeekly.has(t.id)){
+        incomplete.push({id:t.id,text:t.text,day,tag:t.tag});
+      }
+    });
+  });
+  state['__lastWeekKey__']=thisWeek;
+  // reset all weekly task states for the new week
+  Object.values(weeklyTasks).flat().forEach(t=>{ if(state[t.id]) delete state[t.id]; });
+  if(!incomplete.length){ saveUserData(); return; }
+  // show modal
+  carryoverPending=incomplete;
+  const list=document.getElementById('carryoverList');
+  if(list) list.innerHTML=incomplete.map(t=>`
+    <label class="carryover-item">
+      <input type="checkbox" checked data-tid="${t.id}">
+      <span class="task-tag tag-${t.tag}" style="font-size:9px">${TAG_LABELS_BASE[t.tag]||t.tag}</span>
+      ${t.text} <span style="font-size:10px;color:var(--txt3);margin-left:4px">(${t.day})</span>
+    </label>`).join('');
+  document.getElementById('carryoverSub').textContent=`You had ${incomplete.length} unfinished task${incomplete.length!==1?'s':''} last week. Pick ones to carry over:`;
+  document.getElementById('carryoverOverlay').classList.add('open');
+}
+
+function resolveCarryover(doCarry){
+  document.getElementById('carryoverOverlay').classList.remove('open');
+  if(doCarry){
+    // mark selected tasks as "carried" — they show up in this week's planner
+    document.querySelectorAll('#carryoverList input[type=checkbox]').forEach(cb=>{
+      if(cb.checked){
+        const tid=cb.dataset.tid;
+        // remove from deletedWeekly if it was there, keep state[tid]=false (undone)
+        deletedWeekly.delete(tid);
+        state[tid]=false;
+      }
+    });
+  }
+  carryoverPending=[];
+  buildPlanner(); saveUserData();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage to support pinned
+// ═══════════════════════════════════════════════════════════════════
+const _showPageOrig=showPage;
+function showPage(name){
+  _showPageOrig(name);
+  if(name==='pinned') renderPinnedPage();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+const _loginUserOrig=loginUser;
+function loginUser(username){
+  const loginPage=document.getElementById('page-login');
+  loginPage.classList.add('fade-out');
+  setTimeout(()=>{ _loginUserOrig(username); showWelcomeBannerIfNew(); checkWeekRollover(); }, 480);
+}
+const _guestLoginOrig=guestLogin;
+function guestLogin(){
+  const loginPage=document.getElementById('page-login');
+  loginPage.classList.add('fade-out');
+  setTimeout(()=>{ _guestLoginOrig(); checkWeekRollover(); }, 480);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+const _saveUserDataOrig=saveUserData;
+function saveUserData(){
+  if(!currentUser)return;
+  localStorage.setItem(userKey(currentUser),JSON.stringify({
+    state,customTasks,completedArchive,treeGallery,
+    deletedGoals:[...deletedGoals],
+    deletedStories:[...deletedStories],
+    deletedWeekly:[...deletedWeekly],
+    pinnedItems:[...pinnedItems],
+  }));
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+const _loadUserDataOrig=loadUserData;
+function loadUserData(username){
+  _loadUserDataOrig(username);
+  try{
+    const raw=localStorage.getItem(userKey(username));if(!raw)return;
+    const d=JSON.parse(raw);
+    if(d.pinnedItems) pinnedItems=new Set(d.pinnedItems);
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+const _logoutOrig=logout;
+function logout(){
+  pinnedItems=new Set();
+  _logoutOrig();
+}
 
 </script>
 </body>
