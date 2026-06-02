@@ -1206,8 +1206,8 @@ function cardHTML(g){
     <div class="cb"><svg class="ck" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div class="cinfo"><div class="ctitle">${g.title}</div><div class="csub">${g.sub}</div>${inner}</div>
     <div style="position:absolute;top:6px;right:6px;display:flex;gap:2px">
-      <button onclick="event.stopPropagation();togglePin('goal_${g.id}',${JSON.stringify(g.title).replace(/'/g,\'\')},g.sec,'','goal')" id="pin_goal_${g.id}"
-        class="pin-btn${pinnedItems.has('goal_'+g.id)?' pinned':''}" title="Pin task">📌</button>
+      <button onclick="event.stopPropagation();togglePin('goal_'+this.dataset.gid)" data-gid="${g.id}"
+        class="pin-btn" id="pin_goal_${g.id}" title="Pin task">📌</button>
       <button onclick="event.stopPropagation();deleteDefaultGoal('${g.id}')" title="Remove goal"
         style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 5px;border-radius:4px;line-height:1;opacity:.4;transition:opacity .15s"
         onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.4">✕</button>
@@ -1218,6 +1218,13 @@ function cardHTML(g){
 function renderGoals(){
   ['tr','en','dev','li'].forEach(sec=>{
     document.getElementById('sec-'+sec).innerHTML=goals.filter(g=>g.sec===sec&&!deletedGoals.has(g.id)).map(cardHTML).join('');
+  });
+  syncPinButtons();
+}
+function syncPinButtons(){
+  pinnedItems.forEach(key=>{
+    const btn=document.getElementById('pin_'+key);
+    if(btn) btn.classList.add('pinned');
   });
 }
 function deleteDefaultGoal(id){
@@ -1990,10 +1997,9 @@ document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='E
 // ═══════════════════════════════════════════════════════════════════
 let pinnedItems = new Set(); // set of pin keys like 'goal_en2', 'story_3', 'custom_xxx'
 
-function togglePin(key, title, tag, customCat, source){
-  if(pinnedItems.has(key)){ pinnedItems.delete(key); }
-  else { pinnedItems.add(key); }
-  // update pin button appearance
+function togglePin(key){
+  if(pinnedItems.has(key)) pinnedItems.delete(key);
+  else pinnedItems.add(key);
   const btn=document.getElementById('pin_'+key);
   if(btn) btn.classList.toggle('pinned', pinnedItems.has(key));
   renderPinnedPage();
@@ -2030,7 +2036,7 @@ function renderPinnedPage(){
         <div class="pc-title">${title}</div>
         <div class="pc-sub"><span style="font-size:9px;background:${bg};color:${col};padding:1px 6px;border-radius:999px;font-weight:500">${catLabel}</span>${sub?' · '+sub:''}</div>
       </div>
-      <button class="pc-unpin" onclick="togglePin('${key}','','','','')" title="Unpin">✕</button>
+      <button class="pc-unpin" onclick="togglePin('${key}')" title="Unpin">✕</button>
     </div>`;
   });
   list.innerHTML=html||'<div class="pinned-empty">📌 No pinned tasks yet.</div>';
