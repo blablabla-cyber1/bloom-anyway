@@ -1263,22 +1263,7 @@ function stepW(id,d){
 
 // ─── STORIES ──────────────────────────────────────────────────────────────────
 const stories=Array.from({length:12},(_,i)=>`Turkish story ${i+1}`);
-function buildStories(){
-  const g=document.getElementById('storyGrid');g.innerHTML='';
-  stories.forEach((s,i)=>{
-    if(deletedStories.has(i)) return;
-    if(state['story_'+i]===undefined)state['story_'+i]=false;
-    const d=document.createElement('div');
-    d.className='story-card'+(state['story_'+i]?' done':'');
-    d.style.position='relative';
-    d.innerHTML=`<div class="sdot"></div><span class="stitle">${s}</span>
-      <button onclick="event.stopPropagation();deleteStory(${i})" title="Remove story"
-        style="position:absolute;top:3px;right:3px;background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:11px;line-height:1;opacity:.35;transition:opacity .15s;padding:2px"
-        onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.35">✕</button>`;
-    d.onclick=()=>{playCheckSound();state['story_'+i]=!state['story_'+i];buildStories();updateStoryBar();renderCustomGoals();updateBloom(state['story_'+i]);};
-    g.appendChild(d);
-  });
-}
+
 function deleteStory(i){
   deletedStories.add(i);
   if(state['story_'+i]) state['story_'+i]=false;
@@ -1765,28 +1750,8 @@ function getUsers(){try{return JSON.parse(localStorage.getItem('sakura_users')||
 function saveUsers(u){localStorage.setItem('sakura_users',JSON.stringify(u))}
 function userKey(u){return'sakura_data_'+u}
 
-function loadUserData(username){
-  try{
-    const raw=localStorage.getItem(userKey(username));if(!raw)return;
-    const d=JSON.parse(raw);
-    if(d.state)Object.assign(state,d.state);
-    if(d.customTasks)customTasks=d.customTasks;
-    if(d.deletedGoals)deletedGoals=new Set(d.deletedGoals);
-    if(d.deletedStories)deletedStories=new Set(d.deletedStories);
-    if(d.deletedWeekly)deletedWeekly=new Set(d.deletedWeekly);
-    if(d.completedArchive)completedArchive=d.completedArchive;
-    if(d.treeGallery)treeGallery=d.treeGallery;
-  }catch(e){}
-}
-function saveUserData(){
-  if(!currentUser)return;
-  localStorage.setItem(userKey(currentUser),JSON.stringify({
-    state,customTasks,completedArchive,treeGallery,
-    deletedGoals:[...deletedGoals],
-    deletedStories:[...deletedStories],
-    deletedWeekly:[...deletedWeekly],
-  }));
-}
+// loadUserData merged below
+// saveUserData merged below
 
 // ═══════════════════════════════════════════════════════════════════
 // COMPLETED ARCHIVE
@@ -1878,43 +1843,37 @@ toggleGoalCard=hookToggleGoal;
 toggleCustom=hookToggleCustom;
 
 // Story interception handled in buildStories override below
-const _buildStoriesOrig=buildStories;
 function buildStories(){
-  _buildStoriesOrig();
-  const grid=document.getElementById('storyGrid');if(!grid)return;
-  Array.from(grid.children).forEach((card,idx)=>{
-    const i=stories.findIndex((_,si)=>{
-      // match to the idx-th visible story
-      let vis=0;
-      for(let j=0;j<stories.length;j++){if(!deletedStories.has(j)){if(vis===idx){return j===si;}vis++;}}
-      return false;
-    });
-    if(i<0)return;
-    const originalClick=card.onclick;
-    card.onclick=(e)=>{
-      if(e.target.tagName==='BUTTON')return;
+  const g=document.getElementById('storyGrid'); if(!g) return;
+  g.innerHTML='';
+  stories.forEach((s,i)=>{
+    if(deletedStories.has(i)) return;
+    if(state['story_'+i]===undefined) state['story_'+i]=false;
+    const d=document.createElement('div');
+    d.className='story-card'+(state['story_'+i]?' done':'');
+    d.style.position='relative';
+    d.innerHTML=`<div class="sdot"></div><span class="stitle">${s}</span>
+      <button onclick="event.stopPropagation();deleteStory(${i})" title="Remove"
+        style="position:absolute;top:3px;right:3px;background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:11px;line-height:1;opacity:.35;transition:opacity .15s;padding:2px"
+        onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.35">✕</button>`;
+    d.onclick=(e)=>{
+      if(e.target.tagName==='BUTTON') return;
       playCheckSound();
       const wasDone=!!state['story_'+i];
       state['story_'+i]=!state['story_'+i];
-      buildStories();updateStoryBar();renderCustomGoals();updateBloom(state['story_'+i]);
-      if(!wasDone&&state['story_'+i])archiveItem('story_'+i+'_arch_'+Date.now(),'Turkish story '+(i+1),'tr','','story');
+      buildStories(); updateStoryBar(); renderCustomGoals(); updateBloom(state['story_'+i]);
+      if(!wasDone&&state['story_'+i]) archiveItem('story_'+i+'_arch_'+Date.now(),'Turkish story '+(i+1),'tr','','story');
       saveUserData();
     };
+    g.appendChild(d);
   });
 }
+
 
 // ═══════════════════════════════════════════════════════════════════
 // PAGE ROUTING
 // ═══════════════════════════════════════════════════════════════════
-function showPage(name){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const nb=document.getElementById('nav'+name.charAt(0).toUpperCase()+name.slice(1));
-  if(nb)nb.classList.add('active');
-  if(name==='completed')renderCompletedPage();
-  if(name==='home'){syncTreeSize();drawTree();}
-}
+// showPage merged below
 
 // ═══════════════════════════════════════════════════════════════════
 // AUTH FLOW
@@ -1943,30 +1902,9 @@ function submitAuth(){
     loginUser(user);
   }
 }
-function loginUser(username){
-  currentUser=username;
-  document.getElementById('navUser').textContent='👤 '+username;
-  document.getElementById('topnav').style.display='flex';
-  loadUserData(username);
-  initApp();showPage('home');
-}
-function guestLogin(){
-  currentUser=null;
-  const nu=document.getElementById('navUser');nu.textContent='Guest';nu.style.fontStyle='italic';
-  document.getElementById('topnav').style.display='flex';
-  initApp();showPage('home');
-}
-function logout(){
-  saveUserData();currentUser=null;
-  Object.keys(state).forEach(k=>delete state[k]);
-  customTasks=[];completedArchive=[];treeGallery=[];
-  deletedGoals=new Set();deletedStories=new Set();deletedWeekly=new Set();
-  document.getElementById('topnav').style.display='none';
-  document.getElementById('authUser').value='';
-  document.getElementById('authPass').value='';
-  document.getElementById('authErr').textContent='';
-  showPage('login');
-}
+// loginUser merged below
+// guestLogin merged below
+// logout merged below
 function initApp(){
   syncTreeSize();
   blossomPositions=buildBlossomPositions();
@@ -2129,36 +2067,54 @@ function resolveCarryover(doCarry){
 // ═══════════════════════════════════════════════════════════════════
 // PATCH showPage to support pinned
 // ═══════════════════════════════════════════════════════════════════
-const _showPageOrig=showPage;
 function showPage(name){
-  _showPageOrig(name);
-  if(name==='pinned') renderPinnedPage();
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const nb=document.getElementById('nav'+name.charAt(0).toUpperCase()+name.slice(1));
+  if(nb) nb.classList.add('active');
+  if(name==='completed') renderCompletedPage();
+  if(name==='pinned')    renderPinnedPage();
+  if(name==='home'){     syncTreeSize(); drawTree(); }
 }
 
 // ═══════════════════════════════════════════════════════════════════
 // PATCH loginUser & guestLogin for smooth fade + week check
 // ═══════════════════════════════════════════════════════════════════
-const _loginUserOrig=loginUser;
 function loginUser(username){
   const loginPage=document.getElementById('page-login');
   loginPage.classList.add('fade-out');
-  setTimeout(()=>{ _loginUserOrig(username); showWelcomeBannerIfNew(); checkWeekRollover(); }, 480);
+  setTimeout(()=>{
+    currentUser=username;
+    document.getElementById('navUser').textContent='👤 '+username;
+    document.getElementById('topnav').style.display='flex';
+    loadUserData(username);
+    initApp();
+    showPage('home');
+    showWelcomeBannerIfNew();
+    checkWeekRollover();
+  },480);
 }
-const _guestLoginOrig=guestLogin;
 function guestLogin(){
   const loginPage=document.getElementById('page-login');
   loginPage.classList.add('fade-out');
-  setTimeout(()=>{ _guestLoginOrig(); checkWeekRollover(); }, 480);
+  setTimeout(()=>{
+    currentUser=null;
+    const nu=document.getElementById('navUser');nu.textContent='Guest';nu.style.fontStyle='italic';
+    document.getElementById('topnav').style.display='flex';
+    initApp();
+    showPage('home');
+    checkWeekRollover();
+  },480);
 }
 
 // ═══════════════════════════════════════════════════════════════════
 // PATCH saveUserData to include pinnedItems
 // ═══════════════════════════════════════════════════════════════════
-const _saveUserDataOrig=saveUserData;
 function saveUserData(){
-  if(!currentUser)return;
-  localStorage.setItem(userKey(currentUser),JSON.stringify({
-    state,customTasks,completedArchive,treeGallery,
+  if(!currentUser) return;
+  localStorage.setItem(userKey(currentUser), JSON.stringify({
+    state, customTasks, completedArchive, treeGallery,
     deletedGoals:[...deletedGoals],
     deletedStories:[...deletedStories],
     deletedWeekly:[...deletedWeekly],
@@ -2169,23 +2125,37 @@ function saveUserData(){
 // ═══════════════════════════════════════════════════════════════════
 // PATCH loadUserData to restore pinnedItems
 // ═══════════════════════════════════════════════════════════════════
-const _loadUserDataOrig=loadUserData;
 function loadUserData(username){
-  _loadUserDataOrig(username);
   try{
-    const raw=localStorage.getItem(userKey(username));if(!raw)return;
+    const raw=localStorage.getItem(userKey(username)); if(!raw) return;
     const d=JSON.parse(raw);
-    if(d.pinnedItems) pinnedItems=new Set(d.pinnedItems);
-  }catch(e){}
+    if(d.state)          Object.assign(state,d.state);
+    if(d.customTasks)    customTasks=d.customTasks;
+    if(d.deletedGoals)   deletedGoals=new Set(d.deletedGoals);
+    if(d.deletedStories) deletedStories=new Set(d.deletedStories);
+    if(d.deletedWeekly)  deletedWeekly=new Set(d.deletedWeekly);
+    if(d.completedArchive) completedArchive=d.completedArchive;
+    if(d.treeGallery)    treeGallery=d.treeGallery;
+    if(d.pinnedItems)    pinnedItems=new Set(d.pinnedItems);
+  }catch(e){ console.warn('loadUserData error',e); }
 }
 
 // ═══════════════════════════════════════════════════════════════════
 // PATCH logout to reset pinnedItems
 // ═══════════════════════════════════════════════════════════════════
-const _logoutOrig=logout;
 function logout(){
+  saveUserData();
+  currentUser=null;
   pinnedItems=new Set();
-  _logoutOrig();
+  Object.keys(state).forEach(k=>delete state[k]);
+  customTasks=[];completedArchive=[];treeGallery=[];
+  deletedGoals=new Set();deletedStories=new Set();deletedWeekly=new Set();
+  document.getElementById('topnav').style.display='none';
+  document.getElementById('page-login').classList.remove('fade-out');
+  document.getElementById('authUser').value='';
+  document.getElementById('authPass').value='';
+  document.getElementById('authErr').textContent='';
+  showPage('login');
 }
 
 </script>
