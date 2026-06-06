@@ -405,6 +405,76 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
 .task-time-badge{font-size:10px;color:#c4547a;background:#fde8ed;border-radius:999px;
   padding:1px 7px;margin-top:4px;display:inline-block}
 
+
+/* ── Goals vs Tasks separation ── */
+.goals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:1.5rem}
+.goal-tile{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);
+  padding:1rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.goal-tile:hover{border-color:#e88fa0;transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,143,160,.15)}
+.goal-tile.gt-done{opacity:.55}
+.goal-tile-icon{font-size:24px;margin-bottom:.5rem}
+.goal-tile-name{font-size:14px;font-weight:500;color:var(--txt1);margin-bottom:.25rem;line-height:1.3}
+.goal-tile-meta{font-size:11px;color:var(--txt2);margin-bottom:.6rem}
+.goal-tile-bar{background:var(--bg2);border-radius:999px;height:4px;overflow:hidden}
+.goal-tile-fill{height:100%;border-radius:999px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.goal-tile-pct{font-size:10px;color:var(--txt3);margin-top:3px;text-align:right}
+.goal-tile .gt-del{position:absolute;top:6px;right:6px;background:transparent;border:none;
+  cursor:pointer;color:var(--txt3);font-size:12px;opacity:0;transition:opacity .15s;padding:2px 4px}
+.goal-tile:hover .gt-del{opacity:.7}
+.add-goal-tile{background:transparent;border:1.5px dashed var(--brd2);border-radius:var(--rlg);
+  padding:1rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:.25rem;color:var(--txt3);font-size:13px;min-height:110px;transition:all .2s}
+.add-goal-tile:hover{border-color:#e88fa0;color:#c4547a;background:#fde8ed1a}
+
+/* tasks linked to goal */
+.linked-task-card{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);
+  padding:.6rem 1rem;margin-bottom:.4rem;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .15s}
+.linked-task-card:hover{border-color:var(--brd2);background:var(--bg2)}
+.ltc-goal-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ltc-title{font-size:13px;color:var(--txt1);flex:1}
+.ltc-goal-name{font-size:10px;color:var(--txt3)}
+
+/* ── Stopwatch tab ── */
+.sw-tabs{display:flex;gap:0;margin-bottom:1.5rem;border:.5px solid var(--brd1);border-radius:10px;overflow:hidden;max-width:340px}
+.sw-tab{flex:1;padding:8px;font-size:13px;cursor:pointer;background:transparent;border:none;
+  color:var(--txt2);transition:all .18s;font-weight:500}
+.sw-tab.active{background:#fde8ed;color:#c4547a}
+.sw-panel{display:none}.sw-panel.active{display:block}
+/* raw stopwatch display */
+.raw-sw-display{text-align:center;padding:1.5rem 0}
+.raw-sw-time{font-size:54px;font-weight:200;color:var(--txt1);letter-spacing:3px;font-variant-numeric:tabular-nums}
+.raw-sw-ms{font-size:20px;color:var(--txt2)}
+.raw-sw-controls{display:flex;gap:12px;justify-content:center;margin-top:1rem}
+
+/* ── Progress / Graph page ── */
+.progress-wrap{max-width:900px;margin:0 auto;padding:2rem 2.5rem 4rem}
+.progress-title{font-size:22px;font-weight:500;color:var(--txt1);margin-bottom:4px}
+.progress-sub{font-size:13px;color:var(--txt2);margin-bottom:1.5rem}
+.chart-controls{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.chart-filter-btn{padding:5px 14px;border-radius:999px;border:.5px solid var(--brd1);
+  background:transparent;font-size:12px;color:var(--txt2);cursor:pointer;transition:all .15s;font-weight:500}
+.chart-filter-btn:hover,.chart-filter-btn.active{background:#fde8ed;color:#c4547a;border-color:#e88fa0}
+.chart-canvas-wrap{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);
+  padding:1.25rem;margin-bottom:1rem;overflow-x:auto}
+.chart-canvas-wrap canvas{display:block;max-width:100%}
+.chart-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:.75rem}
+.chart-legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--txt2)}
+.chart-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.goal-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:150;align-items:center;justify-content:center}
+.goal-modal-overlay.open{display:flex}
+.goal-modal-box{background:var(--bg1);border:1px solid var(--brd1);border-radius:16px;padding:1.5rem;width:min(400px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.18)}
+
+
+.home-filter-btn{padding:3px 10px;border-radius:999px;border:.5px solid var(--brd1);
+  background:transparent;font-size:11px;color:var(--txt2);cursor:pointer;transition:all .15s}
+.home-filter-btn.active{background:#fde8ed;color:#c4547a;border-color:#e88fa0}
+
+
+/* countdown timer */
+.ct-preset{padding:5px 12px;border-radius:999px;border:.5px solid var(--brd1);
+  background:transparent;font-size:12px;color:var(--txt2);cursor:pointer;transition:all .15s}
+.ct-preset:hover,.ct-preset.active{background:#fde8ed;color:#c4547a;border-color:#e88fa0;font-weight:500}
+
 </style>
 </head>
 <body>
@@ -437,6 +507,7 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
   <button class="nav-btn" id="navCompleted" onclick="showPage('completed')">✓ Completed</button>
   <button class="nav-btn" id="navPinned" onclick="showPage('pinned')">📌 Pinned</button>
   <button class="nav-btn" id="navStopwatch" onclick="showPage('stopwatch')">⏱ Timer</button>
+  <button class="nav-btn" id="navProgress" onclick="showPage('progress')">📊 Progress</button>
   <span class="nav-user" id="navUser"></span>
   <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
   <button class="nav-logout" onclick="logout()">Sign out</button>
@@ -508,8 +579,30 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
       <div class="gallery-grid" id="galleryGrid"><div style="font-size:13px;color:var(--txt3);padding:4px 0">No trees saved yet.</div></div>
     </div>
 
+    <!-- full-width: custom goals grid -->
+    <div class="span-full">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:.5rem">
+        <div class="sec-title" style="margin:0">🎯 My goals</div>
+        <button onclick="showPage('progress')" style="font-size:11px;color:#c4547a;background:transparent;border:.5px solid #e88fa0;border-radius:999px;padding:3px 10px;cursor:pointer">See full chart →</button>
+      </div>
+      <div class="goals-grid" id="customGoalsGrid"></div>
+
+      <!-- inline progress chart -->
+      <div id="homeProgressSection" style="display:none;margin-bottom:1.5rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;flex-wrap:wrap;gap:6px">
+          <span style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--txt2)">📊 Progress overview</span>
+          <div style="display:flex;gap:5px;flex-wrap:wrap" id="homeChartFilters"></div>
+        </div>
+        <div style="background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);padding:1rem;overflow-x:auto">
+          <canvas id="homeProgressCanvas" height="220" style="display:block;max-width:100%"></canvas>
+        </div>
+        <div id="homeProgressLegend" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:.6rem"></div>
+      </div>
+    </div>
+
     <!-- left column -->
     <div class="col-left">
+      <div class="sec-title" style="margin-top:.5rem">📚 Built-in reading path</div>
       <div class="sec-title">Turkish reading — 12 short stories</div>
       <div class="kp-bar-wrap">
         <div class="kp-label">Before Küçük Prens: <b id="storiesDone">0</b> / 12 stories</div>
@@ -525,7 +618,7 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
     <div class="col-right">
       <div class="sec-title">English fluency</div><div id="sec-en"></div>
       <div class="sec-title">LinkedIn & marketing</div><div id="sec-li"></div>
-      <div class="sec-title">Custom tasks</div>
+      <div class="sec-title">📋 Tasks</div>
       <div id="sec-custom"><div style="font-size:13px;color:var(--txt3);padding:4px 0">No custom tasks yet.</div></div>
       <div class="chart-section">
         <div class="chart-title">⏱ Time logged per task</div>
@@ -563,8 +656,15 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
 <!-- ══ STOPWATCH PAGE ══ -->
 <div id="page-stopwatch" class="page page-with-nav">
 <div class="sw-wrap">
-  <div class="sw-title">⏱ Focus Timer</div>
-  <div class="sw-sub">Track how long you work on each task</div>
+  <div class="sw-title">⏱ Timer</div>
+  <div class="sw-sub">Focus timer & stopwatch</div>
+
+  <div class="sw-tabs">
+    <button class="sw-tab active" id="tabFocus" onclick="swSwitchTab('focus')">🎯 Focus timer</button>
+    <button class="sw-tab" id="tabSW" onclick="swSwitchTab('timer')">⏲ Countdown</button>
+  </div>
+
+  <div class="sw-panel active" id="panelFocus">
 
   <div class="sw-task-select">
     <div class="sw-task-label">Working on…</div>
@@ -596,9 +696,93 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
   </div>
 
   <div id="swSessionHistory"></div>
+  </div><!-- end panelFocus -->
+
+  <div class="sw-panel" id="panelStopwatch">
+
+    <!-- duration presets + custom input -->
+    <div style="margin-bottom:1.25rem">
+      <div class="sw-task-label" style="margin-bottom:8px">Set duration</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px" id="ctPresets">
+        <button class="ct-preset active" data-mins="5"  onclick="ctSetPreset(5)">5 min</button>
+        <button class="ct-preset"        data-mins="10" onclick="ctSetPreset(10)">10 min</button>
+        <button class="ct-preset"        data-mins="15" onclick="ctSetPreset(15)">15 min</button>
+        <button class="ct-preset"        data-mins="25" onclick="ctSetPreset(25)">25 min 🍅</button>
+        <button class="ct-preset"        data-mins="45" onclick="ctSetPreset(45)">45 min</button>
+        <button class="ct-preset"        data-mins="60" onclick="ctSetPreset(60)">1 hour</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input type="number" id="ctHours"   min="0" max="23" value="0"  style="width:60px;padding:6px;border-radius:8px;border:.5px solid var(--brd2);background:var(--bg1);color:var(--txt1);font-size:14px;text-align:center"> h
+        <input type="number" id="ctMinutes" min="0" max="59" value="5"  style="width:60px;padding:6px;border-radius:8px;border:.5px solid var(--brd2);background:var(--bg1);color:var(--txt1);font-size:14px;text-align:center"> m
+        <input type="number" id="ctSeconds" min="0" max="59" value="0"  style="width:60px;padding:6px;border-radius:8px;border:.5px solid var(--brd2);background:var(--bg1);color:var(--txt1);font-size:14px;text-align:center"> s
+      </div>
+    </div>
+
+    <!-- clock face -->
+    <div class="sw-clock-wrap" style="margin-bottom:1.25rem">
+      <div class="sw-clock-canvas-wrap">
+        <canvas id="ctCanvas" width="260" height="260"></canvas>
+        <div class="sw-time-display">
+          <div class="sw-time-hms" id="ctDisplay">00:05:00</div>
+          <div class="sw-status" id="ctStatus">ready</div>
+        </div>
+      </div>
+      <div class="sw-controls">
+        <button class="sw-btn sw-btn-reset" onclick="ctReset()" title="Reset">↺</button>
+        <button class="sw-btn sw-btn-start" id="ctStartBtn" onclick="ctToggle()" title="Start">▶</button>
+      </div>
+    </div>
+
+    <!-- finished banner (hidden until done) -->
+    <div id="ctDoneBanner" style="display:none;text-align:center;padding:1rem;background:#fde8ed;border-radius:var(--rlg);margin-top:.5rem">
+      <div style="font-size:28px;margin-bottom:.25rem">🌸</div>
+      <div style="font-size:15px;font-weight:500;color:#c4547a">Time's up!</div>
+      <div style="font-size:12px;color:#993556;margin-top:3px">Great work — take a breath 🍃</div>
+    </div>
+
+  </div><!-- end panelStopwatch -->
 </div>
 </div>
 
+
+<!-- goal creation modal -->
+<div class="goal-modal-overlay" id="goalModalOverlay" onclick="if(event.target===this)closeGoalModal()">
+  <div class="goal-modal-box">
+    <div class="modal-title">Add new goal</div>
+    <div class="form-row">
+      <label class="form-label">Goal name</label>
+      <input type="text" id="goalName" placeholder="e.g. Become fluent in Turkish">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Icon (emoji)</label>
+      <input type="text" id="goalIcon" placeholder="🎯" style="max-width:80px">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Description <span style="font-size:10px;color:var(--txt3)">(optional)</span></label>
+      <input type="text" id="goalDesc" placeholder="Short description">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeGoalModal()">Cancel</button>
+      <button class="btn-save" onclick="saveGoal()">Add goal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROGRESS PAGE ══ -->
+<div id="page-progress" class="page page-with-nav">
+<div class="progress-wrap">
+  <div class="progress-title">📊 Goals progress</div>
+  <div class="progress-sub">Track how you're doing across all your goals</div>
+  <div class="chart-controls" id="progressChartControls">
+    <button class="chart-filter-btn active" data-goal="all" onclick="setProgressFilter('all')">All goals</button>
+  </div>
+  <div class="chart-canvas-wrap">
+    <canvas id="progressChartCanvas" height="320"></canvas>
+  </div>
+  <div class="chart-legend" id="progressLegend"></div>
+  <div id="progressDetail" style="margin-top:1.5rem"></div>
+</div>
+</div>
 
 <!-- modal -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
@@ -621,6 +805,12 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
     <div class="form-row" id="customCatRow" style="display:none">
       <label class="form-label">Category name</label>
       <input type="text" id="customCatName" placeholder="e.g. Fitness, Reading, Art...">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Linked to goal <span style="font-size:10px;color:var(--txt3)">(optional)</span></label>
+      <select id="taskLinkedGoal">
+        <option value="">— Not linked to a goal —</option>
+      </select>
     </div>
     <div class="form-row">
       <label class="form-label">Unlock after another task? <span style="font-size:10px;color:var(--txt3)">(optional)</span></label>
@@ -1482,42 +1672,6 @@ function isUnlocked(t){
   return true;
 }
 
-function renderCustomGoals(){
-  const sec=document.getElementById('sec-custom');
-  const visible=customTasks.filter(t=>!getCustomDone(t)&&!pinnedItems.has('custom_'+t.id));
-  if(!customTasks.length){sec.innerHTML='<div style="font-size:13px;color:var(--txt3);padding:4px 0">No custom tasks yet.</div>';return;}
-  if(!visible.length){sec.innerHTML='<div style="font-size:13px;color:var(--txt3);padding:4px 0">All custom tasks completed or pinned.</div>';return;}
-  sec.innerHTML=visible.map(t=>{
-    const unlocked=isUnlocked(t);
-    const catLabel=getTagLabel(t.tag,t.customCat);
-    const catColor=t.tag==='custom'?'#6B21A8':({tr:'#993556',en:'#185FA5',dev:'#3B6D11',li:'#854F0B'}[t.tag]||'#6B21A8');
-    const catBg=t.tag==='custom'?'#F0E6FF':({tr:'#fde8ed',en:'#E6F1FB',dev:'#EAF3DE',li:'#FAEEDA'}[t.tag]||'#F0E6FF');
-    const badge=t.repeat==='week'?`<span style="font-size:9px;background:#EAF3DE;color:#3B6D11;padding:1px 6px;border-radius:999px;font-weight:500">&#x1F504; weekly</span>`:t.repeat==='month'||t.repeat===true?`<span style="font-size:9px;background:#E6F1FB;color:#185FA5;padding:1px 6px;border-radius:999px;font-weight:500">&#x1F501; monthly</span>`:`<span style="font-size:9px;color:var(--txt3)">${MONTH_NAMES[t.month]}</span>`;
-    const urgentBadge=t.urgent?`<span style="font-size:9px;background:#FFF0F0;color:#C0392B;padding:1px 6px;border-radius:999px;font-weight:500">&#x1F525; urgent</span>`:'';
-    const prereqName=t.unlockAfter?(goals.find(g=>g.id===t.unlockAfter)?.title||(t.unlockAfter.startsWith('story_')?'Turkish story '+(parseInt(t.unlockAfter.replace('story_',''))+1):'')||customTasks.find(x=>x.id===t.unlockAfter)?.title||''):'';
-    const lockBadge=!unlocked?`<span style="font-size:9px;background:#f5f5f5;color:#999;padding:1px 6px;border-radius:999px;border:.5px solid #ddd">&#x1F512; after: ${prereqName||'task'}</span>`:(prereqName?`<span style="font-size:9px;background:#f0fff4;color:#276749;padding:1px 6px;border-radius:999px">&#x1F513; unlocked</span>`:'');
-    const secs=taskTimeLogs[t.id]||0;
-    const timeBadge=secs>0?`<span class="task-time-badge">&#x23F1; ${fmtSeconds(secs)}</span>`:'';
-    return `<div class="card${!unlocked?' locked-task':''}" id="card_${t.id}" style="position:relative;${!unlocked?'opacity:.45;pointer-events:none;':''}transition:opacity .3s" onclick="hookToggleCustom('${t.id}')">
-      <div class="cb"><svg class="ck" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="cinfo">
-        <div class="ctitle">${t.title}</div>
-        <div class="csub" style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:3px">
-          <span style="font-size:9px;background:${catBg};color:${catColor};padding:1px 6px;border-radius:999px;font-weight:500">${catLabel}</span>
-          ${badge} ${urgentBadge} &middot; ${t.weekDay} ${lockBadge}
-        </div>
-        ${timeBadge}
-        <button class="task-timer-btn" onclick="event.stopPropagation();openTimerForTask('${t.id}')">&#x23F1; Start timer</button>
-      </div>
-      <div style="position:absolute;top:6px;right:6px;display:flex;gap:4px">
-        <button onclick="event.stopPropagation();togglePin('custom_'+this.dataset.tid)" data-tid="${t.id}" class="pin-btn" id="pin_custom_${t.id}" title="Pin">&#x1F4CC;</button>
-        <button onclick="event.stopPropagation();openModal('${t.id}')" title="Edit" style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">&#x270E;</button>
-        <button onclick="event.stopPropagation();deleteCustomTask('${t.id}')" title="Delete" style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:14px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">&#x2715;</button>
-      </div>
-    </div>`;
-  }).join('');
-  syncPinButtons();
-}
 
 function deleteCustomTask(id){
   // find BEFORE removing so we can clean up keys
@@ -1581,36 +1735,6 @@ function selectRepeat(val){
   const hints={once:'— Once',month:'— Every month',week:'— Every week'};
   const h=document.getElementById('repeatHint');if(h)h.textContent=hints[val]||'';
 }
-function openModal(prefillId){
-  document.getElementById('taskName').value='';
-  document.getElementById('customCatName').value='';
-  selectedTag='custom'; repeatMode='once';
-  document.querySelectorAll('.tag-opt').forEach(o=>o.classList.toggle('sel',o.dataset.v==='custom'));
-  document.getElementById('repeatOff').classList.add('sel');
-  document.getElementById('repeatMonth').classList.remove('sel');
-  document.getElementById('repeatWeek').classList.remove('sel');
-  document.getElementById('monthRow').style.display='block';
-  isUrgent=false;
-  document.getElementById('urgentOff').classList.add('sel');
-  document.getElementById('urgentOn').classList.remove('sel');
-  document.getElementById('urgentRow').style.display='block';
-  const rh=document.getElementById('repeatHint');if(rh)rh.textContent='— Once';
-  const uh=document.getElementById('urgentHint');if(uh)uh.textContent='— Normal';
-  document.getElementById('customCatRow').style.display='block'; // custom selected by default
-  // populate unlock-after select
-  const sel=document.getElementById('unlockAfter');
-  sel.innerHTML='<option value="">— No dependency, always visible —</option>';
-  // built-in goals
-  goals.forEach(g=>{ const o=document.createElement('option');o.value=g.id;o.textContent=g.title;sel.appendChild(o); });
-  // stories
-  for(let i=0;i<12;i++){ const o=document.createElement('option');o.value='story_'+i;o.textContent='Turkish story '+(i+1);sel.appendChild(o); }
-  // custom tasks
-  customTasks.forEach(t=>{ const o=document.createElement('option');o.value=t.id;o.textContent=t.title+(t.customCat?' ['+t.customCat+']':'');sel.appendChild(o); });
-  if(prefillId) sel.value=prefillId;
-  populateMonthSelect();
-  document.getElementById('modalOverlay').classList.add('open');
-  setTimeout(()=>document.getElementById('taskName').focus(),100);
-}
 function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
 function selectTag(el){
   selectedTag=el.dataset.v;
@@ -1631,18 +1755,6 @@ function pickRandomDay(month, urgentOnly){
   }
   if(!candidates.length) return DAYS[Math.floor(Math.random()*6)];
   return candidates[Math.floor(Math.random()*candidates.length)];
-}
-function saveTask(){
-  const name=document.getElementById('taskName').value.trim();
-  if(!name){document.getElementById('taskName').focus();return;}
-  const customCat=(selectedTag==='custom'?document.getElementById('customCatName').value.trim():'') || '';
-  const unlockAfter=document.getElementById('unlockAfter').value||'';
-  const month=(repeatMode!=='once')?new Date().getMonth():parseInt(document.getElementById('taskMonth').value);
-  const day=pickRandomDay(month, isUrgent);
-  const id='custom_'+Date.now();
-  if(repeatMode==='once') state[id]=false;
-  customTasks.push({id,title:name,tag:selectedTag,customCat,month,weekDay:day,repeat:repeatMode,unlockAfter,urgent:isUrgent});
-  renderCustomGoals();buildPlanner();updateBloom(false);closeModal();
 }
 document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
 
@@ -2084,7 +2196,7 @@ function hookToggleCustom(id){
     renderCompletedPage();
   }
   // re-render home + planner
-  renderCustomGoals(); buildPlanner(); updateBloom(!!state[key]); saveUserData();
+  renderCustomGoals(); renderCustomGoals_Goals(); buildPlanner(); updateBloom(!!state[key]); saveUserData(); renderHomeProgress();
 }
 
 // Override global functions with hooks
@@ -2158,15 +2270,6 @@ function submitAuth(){
 // loginUser merged below
 // guestLogin merged below
 // logout merged below
-function initApp(){
-  syncTreeSize();
-  blossomPositions=buildBlossomPositions();
-  buildStories();updateStoryBar();renderGoals();renderCustomGoals();buildPlanner();
-  drawTree();updateBloom(false);
-  spawnPetals(14,window.innerWidth/2,250);
-  const isDark=document.documentElement.classList.contains('dark');
-  const btn=document.getElementById('darkToggle');if(btn)btn.textContent=isDark?'☀️':'🌙';
-}
 
 // ─── login page floating petals ───────────────────────────────────────────────
 (function(){
@@ -2324,17 +2427,6 @@ function resolveCarryover(doCarry){
 // ═══════════════════════════════════════════════════════════════════
 // PATCH showPage to support pinned
 // ═══════════════════════════════════════════════════════════════════
-function showPage(name){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const nb=document.getElementById('nav'+name.charAt(0).toUpperCase()+name.slice(1));
-  if(nb) nb.classList.add('active');
-  if(name==='completed') renderCompletedPage();
-  if(name==='pinned')    renderPinnedPage();
-  if(name==='stopwatch'){ swPopulateTaskSelect(swCurrentTaskId||''); swRenderSessionHistory(); swDrawClock(swElapsed>0?(swElapsed%60)/60:0); }
-  if(name==='home'){     syncTreeSize(); drawTree(); renderHomeChart(); }
-}
 
 // ═══════════════════════════════════════════════════════════════════
 // PATCH loginUser & guestLogin for smooth fade + week check
@@ -2370,34 +2462,10 @@ function guestLogin(){
 // ═══════════════════════════════════════════════════════════════════
 // PATCH saveUserData to include pinnedItems
 // ═══════════════════════════════════════════════════════════════════
-function saveUserData(){
-  if(!currentUser) return;
-  localStorage.setItem(userKey(currentUser),JSON.stringify({
-    state,customTasks,completedArchive,treeGallery,
-    deletedGoals:[...deletedGoals],deletedStories:[...deletedStories],deletedWeekly:[...deletedWeekly],
-    pinnedItems:[...pinnedItems],taskTimeLogs,taskSessions,
-  }));
-}
 
 // ═══════════════════════════════════════════════════════════════════
 // PATCH loadUserData to restore pinnedItems
 // ═══════════════════════════════════════════════════════════════════
-function loadUserData(username){
-  try{
-    const raw=localStorage.getItem(userKey(username)); if(!raw)return;
-    const d=JSON.parse(raw);
-    if(d.state)          Object.assign(state,d.state);
-    if(d.customTasks)    customTasks=d.customTasks;
-    if(d.deletedGoals)   deletedGoals=new Set(d.deletedGoals);
-    if(d.deletedStories) deletedStories=new Set(d.deletedStories);
-    if(d.deletedWeekly)  deletedWeekly=new Set(d.deletedWeekly);
-    if(d.completedArchive) completedArchive=d.completedArchive;
-    if(d.treeGallery)    treeGallery=d.treeGallery;
-    if(d.pinnedItems)    pinnedItems=new Set(d.pinnedItems);
-    if(d.taskTimeLogs)   taskTimeLogs=d.taskTimeLogs;
-    if(d.taskSessions)   taskSessions=d.taskSessions;
-  }catch(e){console.warn(e);}
-}
 
 // ═══════════════════════════════════════════════════════════════════
 // PATCH logout to reset pinnedItems
@@ -5439,6 +5507,671 @@ document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='E
 const _loadUD_sw=loadUserData;
 
 
+
+// ═══════════════════════════════════════════════════════════════════
+// CUSTOM GOALS DATA
+// ═══════════════════════════════════════════════════════════════════
+let customGoals = []; // [{id,title,icon,desc,color}]
+const GOAL_COLORS=['#e88fa0', '#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fb923c', '#f87171', '#c084fc'];
+
+function getGoalColor(idx){ return GOAL_COLORS[idx%GOAL_COLORS.length]; }
+
+// ── CRUD ──────────────────────────────────────────────────────────
+function openGoalModal(){ document.getElementById('goalName').value=''; document.getElementById('goalIcon').value=''; document.getElementById('goalDesc').value=''; document.getElementById('goalModalOverlay').classList.add('open'); setTimeout(()=>document.getElementById('goalName').focus(),100); }
+function closeGoalModal(){ document.getElementById('goalModalOverlay').classList.remove('open'); }
+function saveGoal(){
+  const title=document.getElementById('goalName').value.trim(); if(!title) return;
+  const icon=document.getElementById('goalIcon').value.trim()||'🎯';
+  const desc=document.getElementById('goalDesc').value.trim();
+  const id='cg_'+Date.now();
+  customGoals.push({id,title,icon,desc,color:getGoalColor(customGoals.length)});
+  closeGoalModal(); renderCustomGoals_Goals(); renderCustomGoals(); updateGoalDropdowns(); saveUserData();
+}
+function deleteCustomGoal(id){
+  if(!confirm('Delete this goal? Tasks linked to it will remain but unlinked.')) return;
+  customGoals=customGoals.filter(g=>g.id!==id);
+  customTasks.forEach(t=>{ if(t.linkedGoalId===id) t.linkedGoalId=''; });
+  renderCustomGoals_Goals(); renderCustomGoals(); updateGoalDropdowns(); saveUserData();
+}
+
+// ── Render goals grid on home ─────────────────────────────────────
+function renderCustomGoals_Goals(){
+  const grid=document.getElementById('customGoalsGrid'); if(!grid) return;
+  let html='';
+  customGoals.forEach((g,i)=>{
+    const linked=customTasks.filter(t=>t.linkedGoalId===g.id);
+    const done=linked.filter(t=>getCustomDone(t)).length;
+    const total=linked.length;
+    const pct=total?Math.round(done/total*100):0;
+    const clr=g.color||getGoalColor(i);
+    html+=`<div class="goal-tile${pct===100?' gt-done':''}" onclick="filterTasksByGoal('${g.id}')">
+      <button class="gt-del" onclick="event.stopPropagation();deleteCustomGoal('${g.id}')" title="Delete goal">✕</button>
+      <div class="goal-tile-icon">${g.icon}</div>
+      <div class="goal-tile-name">${g.title}</div>
+      <div class="goal-tile-meta">${total?done+'/'+total+' tasks':'No tasks yet'}</div>
+      <div class="goal-tile-bar"><div class="goal-tile-fill" style="width:${pct}%;background:${clr}"></div></div>
+      <div class="goal-tile-pct">${pct}%</div>
+    </div>`;
+  });
+  html+=`<div class="add-goal-tile" onclick="openGoalModal()"><span style="font-size:24px">+</span><span>Add goal</span></div>`;
+  grid.innerHTML=html;
+  setTimeout(renderHomeProgress,50);
+}
+
+// Filter tasks shown in sec-custom by goal
+let activeGoalFilter='';
+function filterTasksByGoal(goalId){
+  activeGoalFilter=activeGoalFilter===goalId?'':goalId;
+  renderCustomGoals();
+  // highlight selected tile
+  document.querySelectorAll('.goal-tile').forEach(t=>t.style.boxShadow='');
+  if(activeGoalFilter){
+    const tiles=document.querySelectorAll('.goal-tile');
+    customGoals.forEach((g,i)=>{ if(g.id===activeGoalFilter && tiles[i]) tiles[i].style.boxShadow='0 0 0 2px '+g.color; });
+  }
+}
+
+// ── Populate goal dropdowns in task modal ─────────────────────────
+function updateGoalDropdowns(){
+  const sel=document.getElementById('taskLinkedGoal'); if(!sel) return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Not linked to a goal —</option>';
+  customGoals.forEach(g=>{ const o=document.createElement('option'); o.value=g.id; o.textContent=g.icon+' '+g.title; sel.appendChild(o); });
+  sel.value=cur||'';
+}
+
+// ── Override openModal to populate goal dropdown ──────────────────
+
+// ── Override saveTask to capture linkedGoalId ─────────────────────
+
+// ══════════════════════════════════════════════════════════════════
+// OVERRIDE renderCustomGoals to respect activeGoalFilter
+// ══════════════════════════════════════════════════════════════════
+function renderCustomGoals(){
+  // apply goal filter on top of existing logic
+  const sec=document.getElementById('sec-custom'); if(!sec) return;
+  let visible=customTasks.filter(t=>!getCustomDone(t)&&!pinnedItems.has('custom_'+t.id));
+  if(activeGoalFilter) visible=visible.filter(t=>t.linkedGoalId===activeGoalFilter);
+  // show goal label on each card
+  if(!customTasks.length){sec.innerHTML='<div style="font-size:13px;color:var(--txt3);padding:4px 0">No tasks yet — add a goal first, then add tasks.</div>';return;}
+  if(!visible.length){
+    const msg=activeGoalFilter?'No tasks for this goal yet.':'All tasks completed or pinned.';
+    sec.innerHTML=`<div style="font-size:13px;color:var(--txt3);padding:4px 0">${msg}</div>`;return;
+  }
+  const catColors={tr:'#fde8ed|#993556',en:'#E6F1FB|#185FA5',dev:'#EAF3DE|#3B6D11',li:'#FAEEDA|#854F0B',custom:'#F0E6FF|#6B21A8'};
+  sec.innerHTML=visible.map(t=>{
+    const unlocked=isUnlocked(t);
+    const catLabel=getTagLabel(t.tag,t.customCat);
+    const [catBg,catColor]=(catColors[t.tag]||'#F0E6FF|#6B21A8').split('|');
+    const goal=customGoals.find(g=>g.id===t.linkedGoalId);
+    const goalBadge=goal?`<span style="font-size:9px;padding:1px 6px;border-radius:999px;background:${goal.color}22;color:${goal.color};border:.5px solid ${goal.color}44;font-weight:500">${goal.icon} ${goal.title}</span>`:'';
+    const secs=taskTimeLogs[t.id]||0;
+    const timeBadge=secs>0?`<span class="task-time-badge">⏱ ${fmtSeconds(secs)}</span>`:'';
+    const badge=t.repeat==='week'?`<span style="font-size:9px;background:#EAF3DE;color:#3B6D11;padding:1px 6px;border-radius:999px;font-weight:500">🔄 weekly</span>`:t.repeat==='month'||t.repeat===true?`<span style="font-size:9px;background:#E6F1FB;color:#185FA5;padding:1px 6px;border-radius:999px;font-weight:500">🔁 monthly</span>`:`<span style="font-size:9px;color:var(--txt3)">${MONTH_NAMES[t.month]}</span>`;
+    return `<div class="card${!unlocked?' locked-task':''}" id="card_${t.id}" style="position:relative;${!unlocked?'opacity:.45;pointer-events:none;':''}transition:opacity .3s" onclick="hookToggleCustom('${t.id}')">
+      <div class="cb"><svg class="ck" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="cinfo">
+        <div class="ctitle">${t.title}</div>
+        <div class="csub" style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:3px">
+          <span style="font-size:9px;background:${catBg};color:${catColor};padding:1px 6px;border-radius:999px;font-weight:500">${catLabel}</span>
+          ${badge} ${goalBadge}
+        </div>
+        ${timeBadge}
+        <button class="task-timer-btn" onclick="event.stopPropagation();openTimerForTask('${t.id}')">⏱ Start timer</button>
+      </div>
+      <div style="position:absolute;top:6px;right:6px;display:flex;gap:4px">
+        <button onclick="event.stopPropagation();togglePin('custom_'+this.dataset.tid)" data-tid="${t.id}" class="pin-btn" id="pin_custom_${t.id}" title="Pin">📌</button>
+        <button onclick="event.stopPropagation();openModal('${t.id}')" title="Edit" style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">✎</button>
+        <button onclick="event.stopPropagation();deleteCustomTask('${t.id}')" title="Delete" style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:14px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+  syncPinButtons();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PROGRESS / GRAPH PAGE
+// ══════════════════════════════════════════════════════════════════
+let progressFilter='all'; // 'all' or a goal id
+
+function setProgressFilter(goalId){
+  progressFilter=goalId;
+  document.querySelectorAll('.chart-filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.goal===goalId));
+  renderProgressChart();
+}
+
+function buildProgressChartControls(){
+  const ctrl=document.getElementById('progressChartControls'); if(!ctrl) return;
+  let html=`<button class="chart-filter-btn active" data-goal="all" onclick="setProgressFilter('all')">All goals</button>`;
+  // system goal groups
+  const sysGroups=[
+    {id:'sys_tr',label:'🇹🇷 Turkish',color:'#e88fa0'},
+    {id:'sys_en',label:'🗣 English',color:'#60a5fa'},
+    {id:'sys_dev',label:'💻 Dev',color:'#34d399'},
+    {id:'sys_li',label:'💼 LinkedIn',color:'#fb923c'},
+  ];
+  sysGroups.forEach(g=>{ html+=`<button class="chart-filter-btn" data-goal="${g.id}" onclick="setProgressFilter('${g.id}')">${g.label}</button>`; });
+  // custom goals
+  customGoals.forEach(g=>{ html+=`<button class="chart-filter-btn" data-goal="${g.id}" onclick="setProgressFilter('${g.id}')">${g.icon} ${g.title}</button>`; });
+  ctrl.innerHTML=html;
+}
+
+function getGoalProgress(goalId){
+  // returns {done, total, pct, label, color}
+  const sysMap={
+    sys_tr:{label:'Turkish',color:'#e88fa0',ids:goals.filter(g=>g.sec==='tr').map(g=>g.id)},
+    sys_en:{label:'English',color:'#60a5fa',ids:goals.filter(g=>g.sec==='en').map(g=>g.id)},
+    sys_dev:{label:'Dev',color:'#34d399',ids:goals.filter(g=>g.sec==='dev').map(g=>g.id)},
+    sys_li:{label:'LinkedIn',color:'#fb923c',ids:goals.filter(g=>g.sec==='li').map(g=>g.id)},
+  };
+  if(sysMap[goalId]){
+    const m=sysMap[goalId];
+    const done=m.ids.filter(id=>!!state[id]).length;
+    return {done,total:m.ids.length,pct:m.ids.length?Math.round(done/m.ids.length*100):0,label:m.label,color:m.color};
+  }
+  const cg=customGoals.find(g=>g.id===goalId);
+  if(cg){
+    const linked=customTasks.filter(t=>t.linkedGoalId===goalId);
+    const done=linked.filter(t=>getCustomDone(t)).length;
+    return {done,total:linked.length,pct:linked.length?Math.round(done/linked.length*100):0,label:cg.icon+' '+cg.title,color:cg.color};
+  }
+  return {done:0,total:0,pct:0,label:'',color:'#e88fa0'};
+}
+
+function renderProgressChart(){
+  const canvas=document.getElementById('progressChartCanvas'); if(!canvas) return;
+  const ctx2=canvas.getContext('2d');
+  const W=canvas.parentElement.clientWidth-40||700;
+  canvas.width=W; canvas.height=320;
+  ctx2.clearRect(0,0,W,320);
+
+  const allGoalIds=['sys_tr','sys_en','sys_dev','sys_li',...customGoals.map(g=>g.id)];
+  const toShow=progressFilter==='all'?allGoalIds:[progressFilter];
+
+  if(progressFilter==='all'){
+    // Bar chart — all goals comparison
+    const data=toShow.map(id=>getGoalProgress(id)).filter(d=>d.total>0||d.label);
+    if(!data.length){ ctx2.fillStyle='var(--txt3)'; ctx2.font='14px sans-serif'; ctx2.fillText('No goals yet.',20,160); return; }
+    const bw=Math.min(60,(W-80)/data.length-12);
+    const maxH=220; const bottom=280;
+    // grid lines
+    [0,25,50,75,100].forEach(pct=>{
+      const y=bottom-pct/100*maxH;
+      ctx2.beginPath(); ctx2.moveTo(50,y); ctx2.lineTo(W-20,y);
+      ctx2.strokeStyle='rgba(128,128,128,.12)'; ctx2.lineWidth=1; ctx2.stroke();
+      ctx2.fillStyle='rgba(128,128,128,.5)'; ctx2.font='10px sans-serif'; ctx2.fillText(pct+'%',4,y+4);
+    });
+    data.forEach((d,i)=>{
+      const x=60+i*(W-80)/data.length;
+      const barH=d.pct/100*maxH;
+      // shadow bar
+      ctx2.fillStyle='rgba(128,128,128,.06)'; ctx2.fillRect(x,bottom-maxH,bw,maxH);
+      // filled bar
+      const grad=ctx2.createLinearGradient(0,bottom-barH,0,bottom);
+      grad.addColorStop(0,d.color); grad.addColorStop(1,d.color+'88');
+      ctx2.fillStyle=grad;
+      // animate-like: draw rounded rect
+      const r=6;
+      ctx2.beginPath();
+      ctx2.moveTo(x+r,bottom-barH); ctx2.lineTo(x+bw-r,bottom-barH);
+      ctx2.arcTo(x+bw,bottom-barH,x+bw,bottom-barH+r,r);
+      ctx2.lineTo(x+bw,bottom); ctx2.lineTo(x,bottom);
+      ctx2.lineTo(x,bottom-barH+r);
+      ctx2.arcTo(x,bottom-barH,x+r,bottom-barH,r);
+      ctx2.closePath(); ctx2.fill();
+      // pct label
+      ctx2.fillStyle=d.color; ctx2.font='bold 12px sans-serif'; ctx2.textAlign='center';
+      ctx2.fillText(d.pct+'%',x+bw/2,bottom-barH-6);
+      // name label (short)
+      ctx2.fillStyle='rgba(128,128,128,.8)'; ctx2.font='10px sans-serif';
+      const short=d.label.length>8?d.label.substring(0,7)+'…':d.label;
+      ctx2.fillText(short,x+bw/2,bottom+14);
+      ctx2.textAlign='left';
+    });
+    // legend
+    const leg=document.getElementById('progressLegend'); if(leg){ leg.innerHTML=data.map(d=>`<div class="chart-legend-item"><div class="chart-legend-dot" style="background:${d.color}"></div>${d.label}: ${d.done}/${d.total}</div>`).join(''); }
+  } else {
+    // Detail view — horizontal bar + task list
+    const d=getGoalProgress(progressFilter);
+    // big pct ring
+    const cx2=W/2, cy2=140, R2=100;
+    ctx2.beginPath(); ctx2.arc(cx2,cy2,R2,0,Math.PI*2);
+    ctx2.strokeStyle='var(--bg2)'; ctx2.lineWidth=16; ctx2.stroke();
+    const endA=-Math.PI/2+d.pct/100*Math.PI*2;
+    ctx2.beginPath(); ctx2.arc(cx2,cy2,R2,-Math.PI/2,endA);
+    ctx2.strokeStyle=d.color; ctx2.lineWidth=16; ctx2.lineCap='round'; ctx2.stroke();
+    ctx2.fillStyle=d.color; ctx2.font='bold 36px sans-serif'; ctx2.textAlign='center';
+    ctx2.fillText(d.pct+'%',cx2,cy2+8);
+    ctx2.fillStyle='rgba(128,128,128,.7)'; ctx2.font='13px sans-serif';
+    ctx2.fillText(d.done+' of '+d.total+' tasks',cx2,cy2+30);
+    ctx2.fillStyle=d.color; ctx2.font='bold 14px sans-serif';
+    ctx2.fillText(d.label,cx2,cy2-R2-20);
+    ctx2.textAlign='left';
+    const leg=document.getElementById('progressLegend'); if(leg) leg.innerHTML='';
+  }
+
+  // Detail task list below chart
+  const detail=document.getElementById('progressDetail'); if(!detail) return;
+  if(progressFilter!=='all'){
+    const tasks=customTasks.filter(t=>t.linkedGoalId===progressFilter);
+    if(!tasks.length){ detail.innerHTML='<div style="font-size:13px;color:var(--txt3)">No tasks linked to this goal yet.</div>'; return; }
+    detail.innerHTML='<div class="sec-title" style="margin-top:0">Tasks for this goal</div>'+
+      tasks.map(t=>{
+        const done=getCustomDone(t);
+        const secs=taskTimeLogs[t.id]||0;
+        return `<div class="linked-task-card${done?' done':''}" onclick="showPage('home')">
+          <div class="ltc-goal-dot" style="background:${done?'#e88fa0':'var(--brd2)'}"></div>
+          <div><div class="ltc-title" style="${done?'text-decoration:line-through;opacity:.6':''}${secs?';':''}}">${t.title}</div>
+          ${secs?`<div style="font-size:10px;color:var(--txt3)">⏱ ${fmtSeconds(secs)} logged</div>`:''}
+          </div>
+          <span style="font-size:12px">${done?'✓':''}</span>
+        </div>`;
+      }).join('');
+  } else { detail.innerHTML=''; }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RAW STOPWATCH
+// ══════════════════════════════════════════════════════════════════
+// ── Countdown Timer ───────────────────────────────────────────────────────────
+let ctRunning=false, ctRaf=null;
+let ctTotalSecs=300; // default 5 min
+let ctRemaining=300;
+let ctStartTime=0, ctStartRemaining=300;
+
+function ctSetPreset(mins){
+  ctReset();
+  ctTotalSecs=mins*60; ctRemaining=ctTotalSecs;
+  document.getElementById('ctHours').value=Math.floor(mins/60);
+  document.getElementById('ctMinutes').value=mins%60;
+  document.getElementById('ctSeconds').value=0;
+  document.querySelectorAll('.ct-preset').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.mins)===mins));
+  ctUpdateDisplay(ctRemaining);
+  ctDrawClock(1);
+}
+
+function ctReadInputs(){
+  const h=parseInt(document.getElementById('ctHours').value)||0;
+  const m=parseInt(document.getElementById('ctMinutes').value)||0;
+  const s=parseInt(document.getElementById('ctSeconds').value)||0;
+  return h*3600+m*60+s;
+}
+
+function ctToggle(){
+  if(ctRunning){
+    // pause
+    ctRunning=false; cancelAnimationFrame(ctRaf);
+    document.getElementById('ctStartBtn').textContent='▶';
+    document.getElementById('ctStartBtn').className='sw-btn sw-btn-start';
+    document.getElementById('ctStatus').textContent='paused';
+  } else {
+    // start / resume
+    const secs=ctReadInputs();
+    if(secs<=0) return;
+    if(ctRemaining<=0||ctRemaining===ctTotalSecs){
+      ctTotalSecs=secs; ctRemaining=secs;
+      document.querySelectorAll('.ct-preset').forEach(b=>b.classList.remove('active'));
+    }
+    ctStartTime=performance.now();
+    ctStartRemaining=ctRemaining;
+    ctRunning=true;
+    ctRaf=requestAnimationFrame(ctLoop);
+    document.getElementById('ctStartBtn').textContent='⏸';
+    document.getElementById('ctStartBtn').className='sw-btn sw-btn-pause';
+    document.getElementById('ctStatus').textContent='running';
+    document.getElementById('ctDoneBanner').style.display='none';
+  }
+}
+
+function ctLoop(){
+  const elapsed=(performance.now()-ctStartTime)/1000;
+  ctRemaining=Math.max(0, ctStartRemaining-elapsed);
+  ctUpdateDisplay(ctRemaining);
+  ctDrawClock(ctRemaining/ctTotalSecs);
+  if(ctRemaining<=0){
+    ctRunning=false;
+    document.getElementById('ctStartBtn').textContent='▶';
+    document.getElementById('ctStartBtn').className='sw-btn sw-btn-start';
+    document.getElementById('ctStatus').textContent='done!';
+    document.getElementById('ctDoneBanner').style.display='block';
+    ctPlayDoneSound();
+    return;
+  }
+  ctRaf=requestAnimationFrame(ctLoop);
+}
+
+function ctReset(){
+  ctRunning=false; cancelAnimationFrame(ctRaf);
+  ctRemaining=ctReadInputs(); ctTotalSecs=ctRemaining||300;
+  document.getElementById('ctStartBtn').textContent='▶';
+  document.getElementById('ctStartBtn').className='sw-btn sw-btn-start';
+  document.getElementById('ctStatus').textContent='ready';
+  document.getElementById('ctDoneBanner').style.display='none';
+  ctUpdateDisplay(ctRemaining);
+  ctDrawClock(1);
+}
+
+function ctUpdateDisplay(secs){
+  document.getElementById('ctDisplay').textContent=fmtHMS(secs);
+}
+
+function ctDrawClock(fraction){
+  const cv=document.getElementById('ctCanvas'); if(!cv)return;
+  const ctx=cv.getContext('2d');
+  const W=260, R=W/2, r=R-14;
+  ctx.clearRect(0,0,W,W);
+  // background ring
+  ctx.beginPath(); ctx.arc(R,R,r,0,Math.PI*2);
+  ctx.strokeStyle='var(--bg2)'; ctx.lineWidth=10; ctx.stroke();
+  // remaining arc — drawn from top going clockwise
+  if(fraction>0){
+    ctx.beginPath(); ctx.arc(R,R,r,-Math.PI/2,-Math.PI/2+fraction*Math.PI*2);
+    const grad=ctx.createLinearGradient(0,0,W,W);
+    const hue=fraction>0.33?'#e88fa0':'#f4b8c8'; // redder when running low
+    grad.addColorStop(0,fraction<0.2?'#f4b8c8':'#fce4ec');
+    grad.addColorStop(1,fraction<0.2?'#e88fa0':'#c4547a');
+    ctx.strokeStyle=grad; ctx.lineWidth=10; ctx.lineCap='round'; ctx.stroke();
+  }
+  // 5 petal dots
+  for(let p=0;p<5;p++){
+    const a=(p/5)*Math.PI*2-Math.PI/2;
+    const px=R+Math.cos(a)*r, py=R+Math.sin(a)*r;
+    ctx.save(); ctx.translate(px,py); ctx.rotate(a);
+    ctx.beginPath(); ctx.ellipse(0,0,4,2.5,0,0,Math.PI*2);
+    ctx.fillStyle=ctRunning?'#e88fa0':'#f4b8c8'; ctx.globalAlpha=.7; ctx.fill();
+    ctx.restore();
+  }
+  // tick on current position
+  const tickA=-Math.PI/2+fraction*Math.PI*2;
+  ctx.beginPath(); ctx.arc(R+Math.cos(tickA)*r,R+Math.sin(tickA)*r,6,0,Math.PI*2);
+  ctx.fillStyle='#e88fa0'; ctx.globalAlpha=1; ctx.fill();
+  ctx.beginPath(); ctx.arc(R+Math.cos(tickA)*r,R+Math.sin(tickA)*r,3.5,0,Math.PI*2);
+  ctx.fillStyle='#fff'; ctx.fill();
+}
+
+function ctPlayDoneSound(){
+  try{
+    const ac=getAudio(), now=ac.currentTime;
+    const rev=makeReverb(ac,2.5);
+    const out=ac.createGain(); out.gain.value=0.5; rev.connect(out); out.connect(ac.destination);
+    // three ascending chimes
+    [523.25,659.25,783.99,1046.5].forEach((f,i)=>{
+      silkTone(ac,f,now+i*0.12,2.0,0.18-i*0.02,rev);
+    });
+    // soft choir swell
+    [261.63,329.63,392].forEach((f,i)=>{
+      const o=ac.createOscillator(),g=ac.createGain();
+      o.type='sine'; o.frequency.value=f; o.connect(g); g.connect(rev);
+      g.gain.setValueAtTime(0,now+0.1); g.gain.linearRampToValueAtTime(0.05,now+0.5);
+      g.gain.exponentialRampToValueAtTime(0.0001,now+2.5);
+      o.start(now+0.1); o.stop(now+2.6);
+    });
+  }catch(e){}
+}
+
+// sync inputs with preset buttons when user types
+['ctHours','ctMinutes','ctSeconds'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('input',()=>{
+    document.querySelectorAll('.ct-preset').forEach(b=>b.classList.remove('active'));
+  });
+});
+
+function swSwitchTab(tab){
+  document.getElementById('tabFocus').classList.toggle('active',tab==='focus');
+  document.getElementById('tabSW').classList.toggle('active',tab==='timer');
+  document.getElementById('panelFocus').classList.toggle('active',tab==='focus');
+  document.getElementById('panelStopwatch').classList.toggle('active',tab==='timer');
+  if(tab==='timer') ctDrawClock(ctRemaining/Math.max(1,ctTotalSecs));
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PATCH showPage for progress
+// ══════════════════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════════
+// PATCH saveUserData / loadUserData for customGoals
+// ══════════════════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════════
+// PATCH initApp
+// ══════════════════════════════════════════════════════════════════
+
+// enter on goal modal
+document.addEventListener('DOMContentLoaded',()=>{
+  const gn=document.getElementById('goalName');
+  if(gn) gn.addEventListener('keydown',e=>{ if(e.key==='Enter') saveGoal(); });
+});
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const nb=document.getElementById('nav'+name.charAt(0).toUpperCase()+name.slice(1));
+  if(nb) nb.classList.add('active');
+  if(name==='completed')  renderCompletedPage();
+  if(name==='pinned')     renderPinnedPage();
+  if(name==='stopwatch'){ swPopulateTaskSelect(swCurrentTaskId||''); swRenderSessionHistory(); swDrawClock(swElapsed>0?(swElapsed%60)/60:0); }
+  if(name==='progress'){  buildProgressChartControls(); renderProgressChart(); }
+  if(name==='home'){      syncTreeSize(); drawTree(); renderHomeChart(); renderCustomGoals_Goals(); setTimeout(renderHomeProgress,100); }
+}
+
+function saveUserData(){
+  if(!currentUser) return;
+  localStorage.setItem(userKey(currentUser),JSON.stringify({
+    state,customTasks,customGoals,completedArchive,treeGallery,
+    deletedGoals:[...deletedGoals],deletedStories:[...deletedStories],deletedWeekly:[...deletedWeekly],
+    pinnedItems:[...pinnedItems],taskTimeLogs,taskSessions,
+  }));
+}
+
+function loadUserData(username){
+  try{
+    const raw=localStorage.getItem(userKey(username)); if(!raw)return;
+    const d=JSON.parse(raw);
+    if(d.state)          Object.assign(state,d.state);
+    if(d.customTasks)    customTasks=d.customTasks;
+    if(d.customGoals)    customGoals=d.customGoals;
+    if(d.deletedGoals)   deletedGoals=new Set(d.deletedGoals);
+    if(d.deletedStories) deletedStories=new Set(d.deletedStories);
+    if(d.deletedWeekly)  deletedWeekly=new Set(d.deletedWeekly);
+    if(d.completedArchive) completedArchive=d.completedArchive;
+    if(d.treeGallery)    treeGallery=d.treeGallery;
+    if(d.pinnedItems)    pinnedItems=new Set(d.pinnedItems);
+    if(d.taskTimeLogs)   taskTimeLogs=d.taskTimeLogs;
+    if(d.taskSessions)   taskSessions=d.taskSessions;
+  }catch(e){console.warn(e);}
+}
+
+function openModal(prefillId){
+  document.getElementById('taskName').value='';
+  document.getElementById('customCatName').value='';
+  selectedTag='custom'; repeatMode='once';
+  document.querySelectorAll('.tag-opt').forEach(o=>o.classList.toggle('sel',o.dataset.v==='custom'));
+  document.getElementById('repeatOff').classList.add('sel');
+  document.getElementById('repeatMonth').classList.remove('sel');
+  document.getElementById('repeatWeek').classList.remove('sel');
+  document.getElementById('monthRow').style.display='block';
+  document.getElementById('customCatRow').style.display='block';
+  isUrgent=false;
+  document.getElementById('urgentOff').classList.add('sel');
+  document.getElementById('urgentOn').classList.remove('sel');
+  document.getElementById('urgentRow').style.display='block';
+  const rh=document.getElementById('repeatHint');if(rh)rh.textContent='— Once';
+  const uh=document.getElementById('urgentHint');if(uh)uh.textContent='— Normal';
+  const sel=document.getElementById('unlockAfter');
+  sel.innerHTML='<option value="">— No dependency, always visible —</option>';
+  goals.forEach(g=>{ const o=document.createElement('option');o.value=g.id;o.textContent=g.title;sel.appendChild(o); });
+  for(let i=0;i<12;i++){ const o=document.createElement('option');o.value='story_'+i;o.textContent='Turkish story '+(i+1);sel.appendChild(o); }
+  customTasks.forEach(t=>{ const o=document.createElement('option');o.value=t.id;o.textContent=t.title+(t.customCat?' ['+t.customCat+']':'');sel.appendChild(o); });
+  if(prefillId) sel.value=prefillId;
+  // Goal dropdown
+  updateGoalDropdowns();
+  if(activeGoalFilter && !prefillId){
+    const gSel=document.getElementById('taskLinkedGoal');
+    if(gSel) gSel.value=activeGoalFilter;
+  }
+  populateMonthSelect();
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('taskName').focus(),100);
+}
+
+function saveTask(){
+  const name=document.getElementById('taskName').value.trim();
+  if(!name){document.getElementById('taskName').focus();return;}
+  const customCat=(selectedTag==='custom'?document.getElementById('customCatName').value.trim():'')||'';
+  const unlockAfter=document.getElementById('unlockAfter').value||'';
+  const lgSel=document.getElementById('taskLinkedGoal');
+  const linkedGoalId=lgSel?lgSel.value:'';
+  const month=(repeatMode!=='once')?new Date().getMonth():parseInt(document.getElementById('taskMonth').value);
+  const day=pickRandomDay(month,isUrgent);
+  const id='custom_'+Date.now();
+  if(repeatMode==='once') state[id]=false;
+  customTasks.push({id,title:name,tag:selectedTag,customCat,month,weekDay:day,repeat:repeatMode,unlockAfter,urgent:isUrgent,linkedGoalId});
+  renderCustomGoals_Goals(); renderCustomGoals(); buildPlanner(); updateBloom(false); closeModal(); saveUserData();
+}
+
+function initApp(){
+  syncTreeSize();
+  blossomPositions=buildBlossomPositions();
+  buildStories(); updateStoryBar(); renderGoals(); renderCustomGoals(); buildPlanner();
+  renderCustomGoals_Goals(); updateGoalDropdowns();
+  drawTree(); updateBloom(false);
+  renderHomeChart();
+  spawnPetals(14,window.innerWidth/2,250);
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');if(btn)btn.textContent=isDark?'☀️':'🌙';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE INLINE PROGRESS CHART
+// ═══════════════════════════════════════════════════════════════════
+let homeProgressFilter='all';
+
+function renderHomeProgress(){
+  const section=document.getElementById('homeProgressSection');
+  const canvas=document.getElementById('homeProgressCanvas');
+  const filtersEl=document.getElementById('homeChartFilters');
+  const legendEl=document.getElementById('homeProgressLegend');
+  if(!section||!canvas||!filtersEl||!legendEl) return;
+
+  // Only show if there are custom goals OR system goals with progress
+  const allGoalIds=['sys_tr','sys_en','sys_dev','sys_li',...customGoals.map(g=>g.id)];
+  const active=allGoalIds.filter(id=>{
+    const d=getGoalProgress(id); return d.total>0;
+  });
+  if(!active.length){ section.style.display='none'; return; }
+  section.style.display='block';
+
+  // Build filter buttons
+  const labelMap={sys_tr:'🇹🇷 Turkish',sys_en:'🗣 English',sys_dev:'💻 Dev',sys_li:'💼 LinkedIn'};
+  let fbHTML=`<button class="home-filter-btn${homeProgressFilter==='all'?' active':''}" onclick="setHomeProgressFilter('all')">All</button>`;
+  active.forEach(id=>{
+    const d=getGoalProgress(id);
+    const label=labelMap[id]||(customGoals.find(g=>g.id===id)?customGoals.find(g=>g.id===id).icon+' '+customGoals.find(g=>g.id===id).title.slice(0,10):id);
+    fbHTML+=`<button class="home-filter-btn${homeProgressFilter===id?' active':''}" onclick="setHomeProgressFilter('${id}')">${label}</button>`;
+  });
+  filtersEl.innerHTML=fbHTML;
+
+  // Size canvas to container
+  const W=canvas.parentElement.clientWidth-32||600;
+  canvas.width=W;
+
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,W,220);
+
+  const toShow=homeProgressFilter==='all'?active:[homeProgressFilter];
+
+  if(homeProgressFilter==='all'){
+    // Compact horizontal bar chart
+    canvas.height=Math.max(100, toShow.length*40+40);
+    ctx.clearRect(0,0,W,canvas.height);
+    const maxW=W-160; const barH=18; const startX=130;
+    // faint grid lines at 25 50 75 100%
+    [25,50,75,100].forEach(pct=>{
+      const x=startX+pct/100*maxW;
+      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,canvas.height-20);
+      ctx.strokeStyle='rgba(128,128,128,.1)'; ctx.lineWidth=1; ctx.stroke();
+      ctx.fillStyle='rgba(128,128,128,.4)'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(pct+'%',x,canvas.height-6);
+    });
+    ctx.textAlign='left';
+    toShow.forEach((id,i)=>{
+      const d=getGoalProgress(id);
+      const y=14+i*40;
+      // label
+      ctx.fillStyle='var(--txt2)'; ctx.font='11px sans-serif';
+      const label=(labelMap[id]||d.label||id).replace(/^.{0,2}/,m=>m); // keep emoji
+      ctx.fillText(label.length>14?label.slice(0,13)+'…':label, 0, y+barH/2+4);
+      // track
+      ctx.beginPath(); ctx.rect(startX,y,maxW,barH);
+      ctx.fillStyle='var(--bg2)'; ctx.fill();
+      // fill
+      if(d.pct>0){
+        const fw=d.pct/100*maxW;
+        const grad=ctx.createLinearGradient(startX,0,startX+fw,0);
+        grad.addColorStop(0,d.color+'cc'); grad.addColorStop(1,d.color);
+        ctx.beginPath(); 
+        // rounded right end
+        const r=barH/2;
+        if(fw>r*2){
+          ctx.moveTo(startX,y); ctx.lineTo(startX+fw-r,y);
+          ctx.arcTo(startX+fw,y,startX+fw,y+r,r);
+          ctx.arcTo(startX+fw,y+barH,startX+fw-r,y+barH,r);
+          ctx.lineTo(startX,y+barH); ctx.closePath();
+        } else {
+          ctx.rect(startX,y,fw,barH);
+        }
+        ctx.fillStyle=grad; ctx.fill();
+      }
+      // pct text
+      ctx.fillStyle=d.color; ctx.font='bold 11px sans-serif';
+      ctx.fillText(d.pct+'%', startX+maxW+6, y+barH/2+4);
+    });
+    legendEl.innerHTML=toShow.map(id=>{ const d=getGoalProgress(id); return `<div class="chart-legend-item"><div class="chart-legend-dot" style="background:${d.color}"></div>${d.label}: ${d.done}/${d.total}</div>`; }).join('');
+  } else {
+    // Single goal: ring + task breakdown
+    canvas.height=200;
+    ctx.clearRect(0,0,W,200);
+    const d=getGoalProgress(homeProgressFilter);
+    const cx=100, cy=100, R=72;
+    // bg ring
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2);
+    ctx.strokeStyle='var(--bg2)'; ctx.lineWidth=14; ctx.stroke();
+    // filled arc
+    if(d.pct>0){
+      ctx.beginPath(); ctx.arc(cx,cy,R,-Math.PI/2,-Math.PI/2+d.pct/100*Math.PI*2);
+      ctx.strokeStyle=d.color; ctx.lineWidth=14; ctx.lineCap='round'; ctx.stroke();
+    }
+    // pct text
+    ctx.fillStyle=d.color; ctx.font='bold 28px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(d.pct+'%',cx,cy+8);
+    ctx.fillStyle='var(--txt2)'; ctx.font='11px sans-serif';
+    ctx.fillText(d.done+'/'+d.total,cx,cy+26);
+    ctx.textAlign='left';
+    // task bars on the right
+    const tasks=customTasks.filter(t=>t.linkedGoalId===homeProgressFilter);
+    const bx=210, bw=Math.max(100,W-250), bh=14, gap=28;
+    tasks.slice(0,5).forEach((t,i)=>{
+      const done=getCustomDone(t);
+      const y=20+i*gap;
+      ctx.fillStyle='var(--txt1)'; ctx.font='11px sans-serif';
+      const name=t.title.length>18?t.title.slice(0,17)+'…':t.title;
+      ctx.fillText(name,bx,y+bh/2+3);
+      ctx.beginPath(); ctx.rect(bx,y+bh,bw,4);
+      ctx.fillStyle='var(--bg2)'; ctx.fill();
+      if(done){ ctx.beginPath(); ctx.rect(bx,y+bh,bw,4); ctx.fillStyle=d.color+'88'; ctx.fill(); }
+      ctx.fillStyle=done?d.color:'var(--txt3)'; ctx.font='10px sans-serif';
+      ctx.fillText(done?'✓':'○',bx+bw+5,y+bh+7);
+    });
+    legendEl.innerHTML=`<div class="chart-legend-item"><div class="chart-legend-dot" style="background:${d.color}"></div>${d.label}: ${d.done} of ${d.total} tasks done</div>`;
+  }
+}
+
+function setHomeProgressFilter(id){
+  homeProgressFilter=id;
+  renderHomeProgress();
+}
 </script>
 </body>
 </html>
