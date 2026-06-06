@@ -331,6 +331,80 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
 }
 .clear-defaults-btn:hover{background:rgba(192,57,43,.06)}
 
+
+/* ══ STOPWATCH PAGE ════════════════════════════════════════════════════════ */
+.sw-wrap{max-width:780px;margin:0 auto;padding:2rem 2rem 4rem;min-height:100vh}
+.sw-title{font-size:22px;font-weight:500;color:var(--txt1);margin-bottom:4px}
+.sw-sub{font-size:13px;color:var(--txt2);margin-bottom:2rem}
+
+/* task selector */
+.sw-task-select{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);
+  padding:1rem 1.25rem;margin-bottom:1.5rem}
+.sw-task-label{font-size:12px;font-weight:500;color:var(--txt2);margin-bottom:6px}
+.sw-task-dropdown{width:100%;padding:8px 10px;border-radius:var(--rmd);border:.5px solid var(--brd2);
+  background:var(--bg1);color:var(--txt1);font-size:14px;outline:none}
+.sw-task-dropdown:focus{border-color:#e88fa0}
+
+/* clock face */
+.sw-clock-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:2rem}
+.sw-clock-canvas-wrap{position:relative;width:260px;height:260px;margin-bottom:1.5rem}
+.sw-clock-canvas-wrap canvas{display:block}
+.sw-time-display{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;pointer-events:none}
+.sw-time-hms{font-size:38px;font-weight:300;color:var(--txt1);letter-spacing:2px;font-variant-numeric:tabular-nums}
+.sw-time-ms{font-size:14px;color:var(--txt2);margin-top:2px;font-variant-numeric:tabular-nums}
+.sw-status{font-size:12px;color:var(--txt3);margin-top:4px;letter-spacing:.05em;text-transform:uppercase}
+
+/* controls */
+.sw-controls{display:flex;gap:12px;justify-content:center;margin-bottom:2rem}
+.sw-btn{width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;
+  font-size:20px;transition:transform .15s,box-shadow .15s;
+  display:flex;align-items:center;justify-content:center}
+.sw-btn:hover{transform:scale(1.08)}
+.sw-btn-start{background:#e88fa0;color:#fff;box-shadow:0 4px 18px rgba(232,143,160,.4)}
+.sw-btn-start:hover{box-shadow:0 6px 24px rgba(232,143,160,.55)}
+.sw-btn-pause{background:#f4b8c8;color:#993556;box-shadow:0 4px 14px rgba(244,184,200,.4)}
+.sw-btn-reset{background:var(--bg1);color:var(--txt2);border:.5px solid var(--brd2)}
+.sw-btn-log{background:var(--bg1);color:#c4547a;border:1.5px solid #e88fa0;font-size:13px;
+  width:auto;padding:0 18px;border-radius:999px;height:40px;font-weight:500;
+  margin-top:.5rem}
+.sw-btn-log:hover{background:#fde8ed}
+.sw-btn-log:disabled{opacity:.4;cursor:default}
+
+/* laps */
+.sw-laps{background:var(--bg1);border:.5px solid var(--brd1);border-radius:var(--rlg);
+  padding:.75rem 1rem;margin-bottom:2rem}
+.sw-laps-title{font-size:12px;font-weight:500;color:var(--txt2);margin-bottom:.5rem}
+.sw-lap-row{display:flex;justify-content:space-between;font-size:13px;color:var(--txt1);
+  padding:4px 0;border-bottom:.5px solid var(--brd1)}
+.sw-lap-row:last-child{border-bottom:none}
+.sw-lap-num{color:var(--txt3);font-size:11px;margin-right:8px}
+
+/* ══ CHART SECTION ON HOME ══════════════════════════════════════════════════ */
+.chart-section{margin-top:1.5rem}
+.chart-title{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--txt2);padding:0 0 6px 10px;border-left:2px solid #e88fa0;margin-bottom:.75rem}
+.chart-empty{font-size:13px;color:var(--txt3);padding:4px 0}
+.chart-bar-row{margin-bottom:.55rem}
+.chart-bar-label{font-size:12px;color:var(--txt1);margin-bottom:3px;
+  display:flex;justify-content:space-between;align-items:baseline}
+.chart-bar-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:8px}
+.chart-bar-time{font-size:11px;color:var(--txt3);white-space:nowrap}
+.chart-bar-track{background:var(--bg2);border-radius:999px;height:8px;overflow:hidden}
+.chart-bar-fill{height:100%;border-radius:999px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.chart-bar-fill.bar-0{background:linear-gradient(90deg,#f9d0dc,#e88fa0)}
+.chart-bar-fill.bar-1{background:linear-gradient(90deg,#fce4ec,#d4688a)}
+.chart-bar-fill.bar-2{background:linear-gradient(90deg,#fbcfe8,#ec4899)}
+.chart-bar-fill.bar-3{background:linear-gradient(90deg,#f9a8d4,#db2777)}
+.chart-bar-fill.bar-4{background:linear-gradient(90deg,#fde8ed,#c4547a)}
+
+/* timer btn on custom task card */
+.task-timer-btn{font-size:11px;color:#c4547a;background:transparent;border:.5px solid #e88fa0;
+  border-radius:999px;padding:2px 8px;cursor:pointer;margin-top:5px;transition:background .15s}
+.task-timer-btn:hover{background:#fde8ed}
+.task-time-badge{font-size:10px;color:#c4547a;background:#fde8ed;border-radius:999px;
+  padding:1px 7px;margin-top:4px;display:inline-block}
+
 </style>
 </head>
 <body>
@@ -362,6 +436,7 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
   <button class="nav-btn active" id="navHome" onclick="showPage('home')">Home</button>
   <button class="nav-btn" id="navCompleted" onclick="showPage('completed')">✓ Completed</button>
   <button class="nav-btn" id="navPinned" onclick="showPage('pinned')">📌 Pinned</button>
+  <button class="nav-btn" id="navStopwatch" onclick="showPage('stopwatch')">⏱ Timer</button>
   <span class="nav-user" id="navUser"></span>
   <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
   <button class="nav-logout" onclick="logout()">Sign out</button>
@@ -452,6 +527,10 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
       <div class="sec-title">LinkedIn & marketing</div><div id="sec-li"></div>
       <div class="sec-title">Custom tasks</div>
       <div id="sec-custom"><div style="font-size:13px;color:var(--txt3);padding:4px 0">No custom tasks yet.</div></div>
+      <div class="chart-section">
+        <div class="chart-title">⏱ Time logged per task</div>
+        <div id="homeTimeChart"><div class="chart-empty">No time logged yet — use the Timer page.</div></div>
+      </div>
       <div class="btn-row">
         <button class="add-btn" onclick="openModal()"><i class="ti ti-plus"></i> Add new task</button>
         <button class="copy-btn" onclick="copyProgress()"><i class="ti ti-copy"></i> Copy progress</button>
@@ -480,6 +559,46 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
   <div id="pinnedList"></div>
 </div>
 </div>
+
+<!-- ══ STOPWATCH PAGE ══ -->
+<div id="page-stopwatch" class="page page-with-nav">
+<div class="sw-wrap">
+  <div class="sw-title">⏱ Focus Timer</div>
+  <div class="sw-sub">Track how long you work on each task</div>
+
+  <div class="sw-task-select">
+    <div class="sw-task-label">Working on…</div>
+    <select class="sw-task-dropdown" id="swTaskSelect" onchange="swSelectTask()">
+      <option value="">— Pick a task —</option>
+    </select>
+  </div>
+
+  <div class="sw-clock-wrap">
+    <div class="sw-clock-canvas-wrap">
+      <canvas id="swCanvas" width="260" height="260"></canvas>
+      <div class="sw-time-display">
+        <div class="sw-time-hms" id="swHMS">00:00:00</div>
+        <div class="sw-time-ms" id="swMS">.00</div>
+        <div class="sw-status" id="swStatus">ready</div>
+      </div>
+    </div>
+    <div class="sw-controls">
+      <button class="sw-btn sw-btn-reset" id="swResetBtn" onclick="swReset()" title="Reset">↺</button>
+      <button class="sw-btn sw-btn-start" id="swStartBtn" onclick="swStartPause()" title="Start">▶</button>
+      <button class="sw-btn sw-btn-reset" id="swLapBtn" onclick="swLap()" title="Lap">⊕</button>
+    </div>
+    <button class="sw-btn sw-btn-log" id="swLogBtn" onclick="swLogSession()" disabled>Save session to task</button>
+  </div>
+
+  <div class="sw-laps" id="swLapsWrap" style="display:none">
+    <div class="sw-laps-title">Laps</div>
+    <div id="swLapsList"></div>
+  </div>
+
+  <div id="swSessionHistory"></div>
+</div>
+</div>
+
 
 <!-- modal -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
@@ -1135,8 +1254,22 @@ function syncGoalCard(goalId, gained){
   if(wv) wv.textContent=cur+' / '+max+' (from planner)';
   if(card){
     const isDone=cur>=max;
+    const wasDone=!!state[goalId];
     state[goalId]=isDone;
-    card.classList.toggle('done',isDone);
+    if(isDone && !wasDone){
+      // goal just completed — archive it and remove from home
+      const g=goals.find(x=>x.id===goalId);
+      if(g) archiveItem(goalId+'_arch',g.title,g.sec,'','goal',goalId);
+      renderGoals();
+    } else if(!isDone && wasDone){
+      // goal un-completed — restore it on home
+      completedArchive=completedArchive.filter(a=>a.id!==goalId+'_arch');
+      renderGoals();
+      renderCompletedPage();
+    } else {
+      // just update the progress bar visual on existing card
+      card.classList.toggle('done',isDone);
+    }
   }
 }
 
@@ -1291,8 +1424,15 @@ function stepW(id,d){
   state[id+'_w']=next;
   const pb=document.getElementById('wpb_'+id);if(pb)pb.style.width=Math.round(next/g.weekly.max*100)+'%';
   const wv=document.getElementById('wv_'+id);if(wv)wv.textContent=`${next} / ${g.weekly.max} ${g.weekly.label}`;
-  if(next===g.weekly.max&&!state[id]){state[id]=true;document.getElementById('card_'+id).classList.add('done');updateBloom(true);}
-  else if(next<g.weekly.max&&state[id]){state[id]=false;document.getElementById('card_'+id).classList.remove('done');updateBloom(false);}
+  if(next===g.weekly.max&&!state[id]){
+    state[id]=true;
+    archiveItem(id+'_arch',g.title,g.sec,'','goal',id);
+    renderGoals(); updateBloom(true);
+  } else if(next<g.weekly.max&&state[id]){
+    state[id]=false;
+    completedArchive=completedArchive.filter(a=>a.id!==id+'_arch');
+    renderGoals(); renderCompletedPage(); updateBloom(false);
+  }
 }
 
 // ─── STORIES ──────────────────────────────────────────────────────────────────
@@ -1344,51 +1484,39 @@ function isUnlocked(t){
 
 function renderCustomGoals(){
   const sec=document.getElementById('sec-custom');
-  // only show tasks that are not done and not pinned
-  const visible=customTasks.filter(t=>
-    !getCustomDone(t) && !pinnedItems.has('custom_'+t.id)
-  );
+  const visible=customTasks.filter(t=>!getCustomDone(t)&&!pinnedItems.has('custom_'+t.id));
   if(!customTasks.length){sec.innerHTML='<div style="font-size:13px;color:var(--txt3);padding:4px 0">No custom tasks yet.</div>';return;}
   if(!visible.length){sec.innerHTML='<div style="font-size:13px;color:var(--txt3);padding:4px 0">All custom tasks completed or pinned.</div>';return;}
   sec.innerHTML=visible.map(t=>{
-    const done=getCustomDone(t);
     const unlocked=isUnlocked(t);
-    const catLabel=getTagLabel(t.tag, t.customCat);
+    const catLabel=getTagLabel(t.tag,t.customCat);
     const catColor=t.tag==='custom'?'#6B21A8':({tr:'#993556',en:'#185FA5',dev:'#3B6D11',li:'#854F0B'}[t.tag]||'#6B21A8');
     const catBg=t.tag==='custom'?'#F0E6FF':({tr:'#fde8ed',en:'#E6F1FB',dev:'#EAF3DE',li:'#FAEEDA'}[t.tag]||'#F0E6FF');
-    const urgentBadge=t.urgent?`<span style="font-size:9px;background:#FFF0F0;color:#C0392B;padding:1px 6px;border-radius:999px;font-weight:500">🔥 urgent</span>`:'';
-    const badge=t.repeat==='week'
-      ? `<span style="font-size:9px;background:#EAF3DE;color:#3B6D11;padding:1px 6px;border-radius:999px;font-weight:500">🔄 weekly</span>`
-      : t.repeat==='month'||t.repeat===true
-      ? `<span style="font-size:9px;background:#E6F1FB;color:#185FA5;padding:1px 6px;border-radius:999px;font-weight:500">🔁 monthly</span>`
-      : `<span style="font-size:9px;color:var(--txt3)">${MONTH_NAMES[t.month]}</span>`;
-    const prereqName=t.unlockAfter?(
-      goals.find(g=>g.id===t.unlockAfter)?.title ||
-      (t.unlockAfter.startsWith('story_')?'Turkish story '+(parseInt(t.unlockAfter.replace('story_',''))+1):'') ||
-      customTasks.find(x=>x.id===t.unlockAfter)?.title || ''
-    ):'';
-    const lockBadge=!unlocked
-      ? `<span style="font-size:9px;background:#f5f5f5;color:#999;padding:1px 6px;border-radius:999px;border:.5px solid #ddd">🔒 after: ${prereqName||'task'}</span>`
-      : (prereqName?`<span style="font-size:9px;background:#f0fff4;color:#276749;padding:1px 6px;border-radius:999px">🔓 unlocked</span>`:'');
-    return `<div class="card${done?' done':''}${!unlocked?' locked-task':''}" id="card_${t.id}"
-        style="position:relative;${!unlocked?'opacity:.45;pointer-events:none;':''}transition:opacity .3s"
-        onclick="toggleCustom('${t.id}')">
+    const badge=t.repeat==='week'?`<span style="font-size:9px;background:#EAF3DE;color:#3B6D11;padding:1px 6px;border-radius:999px;font-weight:500">&#x1F504; weekly</span>`:t.repeat==='month'||t.repeat===true?`<span style="font-size:9px;background:#E6F1FB;color:#185FA5;padding:1px 6px;border-radius:999px;font-weight:500">&#x1F501; monthly</span>`:`<span style="font-size:9px;color:var(--txt3)">${MONTH_NAMES[t.month]}</span>`;
+    const urgentBadge=t.urgent?`<span style="font-size:9px;background:#FFF0F0;color:#C0392B;padding:1px 6px;border-radius:999px;font-weight:500">&#x1F525; urgent</span>`:'';
+    const prereqName=t.unlockAfter?(goals.find(g=>g.id===t.unlockAfter)?.title||(t.unlockAfter.startsWith('story_')?'Turkish story '+(parseInt(t.unlockAfter.replace('story_',''))+1):'')||customTasks.find(x=>x.id===t.unlockAfter)?.title||''):'';
+    const lockBadge=!unlocked?`<span style="font-size:9px;background:#f5f5f5;color:#999;padding:1px 6px;border-radius:999px;border:.5px solid #ddd">&#x1F512; after: ${prereqName||'task'}</span>`:(prereqName?`<span style="font-size:9px;background:#f0fff4;color:#276749;padding:1px 6px;border-radius:999px">&#x1F513; unlocked</span>`:'');
+    const secs=taskTimeLogs[t.id]||0;
+    const timeBadge=secs>0?`<span class="task-time-badge">&#x23F1; ${fmtSeconds(secs)}</span>`:'';
+    return `<div class="card${!unlocked?' locked-task':''}" id="card_${t.id}" style="position:relative;${!unlocked?'opacity:.45;pointer-events:none;':''}transition:opacity .3s" onclick="hookToggleCustom('${t.id}')">
       <div class="cb"><svg class="ck" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="cinfo">
         <div class="ctitle">${t.title}</div>
         <div class="csub" style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:3px">
           <span style="font-size:9px;background:${catBg};color:${catColor};padding:1px 6px;border-radius:999px;font-weight:500">${catLabel}</span>
-          ${badge} ${urgentBadge} · ${t.weekDay} ${lockBadge}
+          ${badge} ${urgentBadge} &middot; ${t.weekDay} ${lockBadge}
         </div>
+        ${timeBadge}
+        <button class="task-timer-btn" onclick="event.stopPropagation();openTimerForTask('${t.id}')">&#x23F1; Start timer</button>
       </div>
       <div style="position:absolute;top:6px;right:6px;display:flex;gap:4px">
-        <button onclick="event.stopPropagation();openModal('${t.id}')" title="Edit / set dependency"
-          style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">✎</button>
-        <button onclick="event.stopPropagation();deleteCustomTask('${t.id}')" title="Delete task"
-          style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:14px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">✕</button>
+        <button onclick="event.stopPropagation();togglePin('custom_'+this.dataset.tid)" data-tid="${t.id}" class="pin-btn" id="pin_custom_${t.id}" title="Pin">&#x1F4CC;</button>
+        <button onclick="event.stopPropagation();openModal('${t.id}')" title="Edit" style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:13px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">&#x270E;</button>
+        <button onclick="event.stopPropagation();deleteCustomTask('${t.id}')" title="Delete" style="background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:14px;padding:2px 4px;border-radius:4px;line-height:1;pointer-events:all">&#x2715;</button>
       </div>
     </div>`;
   }).join('');
+  syncPinButtons();
 }
 
 function deleteCustomTask(id){
@@ -1812,19 +1940,58 @@ function userKey(u){return'sakura_data_'+u}
 // ═══════════════════════════════════════════════════════════════════
 let completedArchive=[];
 
-function archiveItem(id,title,tag,customCat,source){
+function archiveItem(id,title,tag,customCat,source,originalId){
   if(completedArchive.find(x=>x.id===id))return;
-  completedArchive.unshift({id,title,tag:tag||'custom',customCat:customCat||'',source:source||'goal',
-    completedAt:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})});
+  completedArchive.unshift({
+    id, title, tag:tag||'custom', customCat:customCat||'', source:source||'goal',
+    originalId: originalId||id,   // <-- the real task id for state restoration
+    completedAt:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+  });
   saveUserData();
   if(document.getElementById('page-completed').classList.contains('active'))renderCompletedPage();
 }
 
 function unarchiveItem(id){
+  const item=completedArchive.find(x=>x.id===id);
+  if(!item){ completedArchive=completedArchive.filter(x=>x.id!==id); saveUserData(); renderCompletedPage(); return; }
+  const origId=item.originalId||id;
   completedArchive=completedArchive.filter(x=>x.id!==id);
-  saveUserData();renderCompletedPage();
+
+  // restore state based on source
+  if(item.source==='planner'){
+    state[origId]=false;
+    // also undo any goalId counter
+    const t=Object.values(weeklyTasks).flat().find(x=>x.id===origId);
+    if(t&&t.goalId) syncGoalCard(t.goalId,false);
+    buildPlanner();
+  } else if(item.source==='goal'){
+    state[origId]=false;
+    renderGoals();
+  } else if(item.source==='story'){
+    state[origId]=false;
+    buildStories(); updateStoryBar();
+  } else if(item.source==='custom'){
+    // for repeat tasks, clear the keyed state
+    const ct=customTasks.find(x=>x.id===origId);
+    if(ct){
+      const key=(ct.repeat&&ct.repeat!==false)?repeatKey(ct):origId;
+      state[key]=false;
+    } else {
+      state[origId]=false;
+    }
+    renderCustomGoals(); buildPlanner();
+  }
+
+  renderCustomGoals();
+  updateBloom(false);
+  saveUserData();
+  renderCompletedPage();
 }
 function clearAllCompleted(){completedArchive=[];saveUserData();renderCompletedPage();}
+function removeFromArchive(id){
+  completedArchive=completedArchive.filter(x=>x.id!==id);
+  saveUserData(); renderCompletedPage();
+}
 
 function renderCompletedPage(){
   const list=document.getElementById('completedList');if(!list)return;
@@ -1850,7 +2017,14 @@ function renderCompletedPage(){
         <span class="ci-tag" style="background:${bg};color:${col}">${catLabel}</span>
         <span class="c-title">${t.title}</span>
         <span class="c-date">${t.completedAt}</span>
-        <button class="c-del" onclick="unarchiveItem('${t.id}')" title="Remove">✕</button>
+        <div style="display:flex;gap:4px;flex-shrink:0">
+          <button class="c-del" onclick="unarchiveItem('${t.id}')" title="Restore to original location"
+            style="color:#276749;border-color:rgba(39,103,73,.3);display:flex;align-items:center;gap:4px">
+            ↩ Restore
+          </button>
+          <button class="c-del" onclick="removeFromArchive('${t.id}')" title="Delete permanently"
+            style="color:#c0392b;border-color:rgba(192,57,43,.3)">✕</button>
+        </div>
       </div>`;
     });
   });
@@ -1873,9 +2047,11 @@ function hookTogglePlanner(t){
   }
   setTimeout(()=>{
     if(t.goalId) syncGoalCard(t.goalId,gained);
-    if(gained) archiveItem(t.id+'_'+Date.now(),t.text,t.tag,'','planner');
-    buildPlanner();updateBloom(gained);saveUserData();
-    if(!gained) renderCompletedPage(); // refresh completed page if open
+    if(gained) archiveItem(t.id+'_'+Date.now(),t.text,t.tag,'','planner',t.id);
+    // renderGoals handles removing/restoring completed goal cards
+    renderGoals();
+    buildPlanner(); updateBloom(gained); saveUserData();
+    if(!gained) renderCompletedPage();
   },el?260:0);
 }
 
@@ -1886,7 +2062,7 @@ function hookToggleGoal(id){
   state[id]=!state[id];
   if(state[id]&&!wasDone){
     const g=goals.find(x=>x.id===id);
-    if(g) archiveItem(id+'_arch',g.title,g.sec,'','goal');
+    if(g) archiveItem(id+'_arch',g.title,g.sec,'','goal',id);
   } else if(!state[id]&&wasDone){
     // undo: remove from archive
     completedArchive=completedArchive.filter(a=>a.id!==id+'_arch');
@@ -1902,7 +2078,7 @@ function hookToggleCustom(id){
   const wasDone=!!state[key];
   state[key]=!state[key];
   if(!wasDone&&state[key]){
-    archiveItem(id+'_arch_'+Date.now(),ct.title,ct.tag,ct.customCat||'','custom');
+    archiveItem(id+'_arch_'+Date.now(),ct.title,ct.tag,ct.customCat||'','custom',id);
   } else if(wasDone&&!state[key]){
     completedArchive=completedArchive.filter(a=>!a.id.startsWith(id+'_arch'));
     renderCompletedPage();
@@ -1939,7 +2115,7 @@ function buildStories(){
       const wasDone=!!state['story_'+i];
       state['story_'+i]=!state['story_'+i];
       buildStories(); updateStoryBar(); renderCustomGoals(); updateBloom(state['story_'+i]);
-      if(!wasDone&&state['story_'+i]) archiveItem('story_'+i+'_arch_'+Date.now(),'Turkish story '+(i+1),'tr','','story');
+      if(!wasDone&&state['story_'+i]) archiveItem('story_'+i+'_arch_'+Date.now(),'Turkish story '+(i+1),'tr','','story','story_'+i);
       saveUserData();
     };
     g.appendChild(d);
@@ -2156,7 +2332,8 @@ function showPage(name){
   if(nb) nb.classList.add('active');
   if(name==='completed') renderCompletedPage();
   if(name==='pinned')    renderPinnedPage();
-  if(name==='home'){     syncTreeSize(); drawTree(); }
+  if(name==='stopwatch'){ swPopulateTaskSelect(swCurrentTaskId||''); swRenderSessionHistory(); swDrawClock(swElapsed>0?(swElapsed%60)/60:0); }
+  if(name==='home'){     syncTreeSize(); drawTree(); renderHomeChart(); }
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2195,12 +2372,10 @@ function guestLogin(){
 // ═══════════════════════════════════════════════════════════════════
 function saveUserData(){
   if(!currentUser) return;
-  localStorage.setItem(userKey(currentUser), JSON.stringify({
-    state, customTasks, completedArchive, treeGallery,
-    deletedGoals:[...deletedGoals],
-    deletedStories:[...deletedStories],
-    deletedWeekly:[...deletedWeekly],
-    pinnedItems:[...pinnedItems],
+  localStorage.setItem(userKey(currentUser),JSON.stringify({
+    state,customTasks,completedArchive,treeGallery,
+    deletedGoals:[...deletedGoals],deletedStories:[...deletedStories],deletedWeekly:[...deletedWeekly],
+    pinnedItems:[...pinnedItems],taskTimeLogs,taskSessions,
   }));
 }
 
@@ -2209,7 +2384,7 @@ function saveUserData(){
 // ═══════════════════════════════════════════════════════════════════
 function loadUserData(username){
   try{
-    const raw=localStorage.getItem(userKey(username)); if(!raw) return;
+    const raw=localStorage.getItem(userKey(username)); if(!raw)return;
     const d=JSON.parse(raw);
     if(d.state)          Object.assign(state,d.state);
     if(d.customTasks)    customTasks=d.customTasks;
@@ -2219,7 +2394,9 @@ function loadUserData(username){
     if(d.completedArchive) completedArchive=d.completedArchive;
     if(d.treeGallery)    treeGallery=d.treeGallery;
     if(d.pinnedItems)    pinnedItems=new Set(d.pinnedItems);
-  }catch(e){ console.warn('loadUserData error',e); }
+    if(d.taskTimeLogs)   taskTimeLogs=d.taskTimeLogs;
+    if(d.taskSessions)   taskSessions=d.taskSessions;
+  }catch(e){console.warn(e);}
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2261,6 +2438,3005 @@ function clearAllDefaults(){
   renderGoals(); buildStories(); updateStoryBar(); buildPlanner();
   updateBloom(false); saveUserData();
 }
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+let taskTimeLogs = {};      // { id: seconds }
+let taskSessions = [];      // [{taskId, title, seconds, date}]
+
+function fmtSeconds(s){
+  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=Math.floor(s%60);
+  if(h>0) return `${h}h ${m}m`;
+  if(m>0) return `${m}m ${sec}s`;
+  return `${sec}s`;
+}
+function fmtHMS(s){
+  const h=String(Math.floor(s/3600)).padStart(2,'0');
+  const m=String(Math.floor((s%3600)/60)).padStart(2,'0');
+  const sc=String(Math.floor(s%60)).padStart(2,'0');
+  return `${h}:${m}:${sc}`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+let swRunning=false, swStart=0, swElapsed=0, swRaf=null;
+let swCurrentTaskId='', swCurrentTaskTitle='';
+let swLaps=[], swLapStart=0;
+
+const swCanvas=()=>document.getElementById('swCanvas');
+const swCtx=()=>{ const cv=swCanvas(); return cv?cv.getContext('2d'):null; };
+
+function swDrawClock(fraction){
+  const cv=swCanvas(); if(!cv)return;
+  const ctx=swCtx(); if(!ctx)return;
+  const W=260, R=W/2, r=R-14;
+  ctx.clearRect(0,0,W,W);
+
+  // background ring
+  ctx.beginPath(); ctx.arc(R,R,r,0,Math.PI*2);
+  ctx.strokeStyle='var(--bg2)'; ctx.lineWidth=10; ctx.stroke();
+
+  // progress arc — sakura pink
+  if(fraction>0){
+    const start=-Math.PI/2;
+    const end=start+fraction*Math.PI*2;
+    ctx.beginPath(); ctx.arc(R,R,r,start,end);
+    const grad=ctx.createLinearGradient(0,0,W,W);
+    grad.addColorStop(0,'#fce4ec'); grad.addColorStop(1,'#e88fa0');
+    ctx.strokeStyle=grad; ctx.lineWidth=10; ctx.lineCap='round'; ctx.stroke();
+  }
+
+  // decorative petals around the ring (5 small)
+  for(let p=0;p<5;p++){
+    const a=(p/5)*Math.PI*2 - Math.PI/2;
+    const px=R+Math.cos(a)*r, py=R+Math.sin(a)*r;
+    ctx.save(); ctx.translate(px,py); ctx.rotate(a);
+    ctx.beginPath(); ctx.ellipse(0,0,4,2.5,0,0,Math.PI*2);
+    ctx.fillStyle=swRunning?'#e88fa0':'#f4b8c8'; ctx.globalAlpha=.7; ctx.fill();
+    ctx.restore();
+  }
+
+  // tick on current position
+  const tickA=-Math.PI/2+fraction*Math.PI*2;
+  const tx=R+Math.cos(tickA)*r, ty=R+Math.sin(tickA)*r;
+  ctx.beginPath(); ctx.arc(tx,ty,6,0,Math.PI*2);
+  ctx.fillStyle='#e88fa0'; ctx.globalAlpha=1; ctx.fill();
+  ctx.beginPath(); ctx.arc(tx,ty,3.5,0,Math.PI*2);
+  ctx.fillStyle='#fff'; ctx.fill();
+}
+
+function swUpdate(){
+  const now=performance.now();
+  swElapsed=(now-swStart)/1000;
+  const fraction=(swElapsed%60)/60;
+  swDrawClock(fraction);
+  document.getElementById('swHMS').textContent=fmtHMS(swElapsed);
+  document.getElementById('swMS').textContent='.'+String(Math.floor((swElapsed%1)*100)).padStart(2,'0');
+  if(swRunning) swRaf=requestAnimationFrame(swUpdate);
+}
+
+function swStartPause(){
+  if(!swRunning){
+    swRunning=true;
+    swStart=performance.now()-swElapsed*1000;
+    if(swLaps.length===0) swLapStart=swStart;
+    swRaf=requestAnimationFrame(swUpdate);
+    document.getElementById('swStartBtn').textContent='⏸';
+    document.getElementById('swStartBtn').className='sw-btn sw-btn-pause';
+    document.getElementById('swStatus').textContent='running';
+    document.getElementById('swLogBtn').disabled=false;
+  } else {
+    swRunning=false;
+    cancelAnimationFrame(swRaf);
+    document.getElementById('swStartBtn').textContent='▶';
+    document.getElementById('swStartBtn').className='sw-btn sw-btn-start';
+    document.getElementById('swStatus').textContent='paused';
+  }
+}
+
+function swReset(){
+  swRunning=false; cancelAnimationFrame(swRaf);
+  swElapsed=0; swLaps=[]; swLapStart=0;
+  swDrawClock(0);
+  document.getElementById('swHMS').textContent='00:00:00';
+  document.getElementById('swMS').textContent='.00';
+  document.getElementById('swStatus').textContent='ready';
+  document.getElementById('swStartBtn').textContent='▶';
+  document.getElementById('swStartBtn').className='sw-btn sw-btn-start';
+  document.getElementById('swLogBtn').disabled=true;
+  swRenderLaps();
+}
+
+function swLap(){
+  if(!swRunning&&swElapsed===0) return;
+  const now=performance.now();
+  const lapTime=swRunning?(now-swLapStart)/1000:(swElapsed-(swLaps.reduce((a,l)=>a+l.t,0)));
+  swLaps.push({n:swLaps.length+1, t:lapTime});
+  swLapStart=now;
+  swRenderLaps();
+}
+
+function swRenderLaps(){
+  const wrap=document.getElementById('swLapsWrap');
+  const list=document.getElementById('swLapsList');
+  if(!swLaps.length){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  list.innerHTML=[...swLaps].reverse().map(l=>
+    `<div class="sw-lap-row"><span><span class="sw-lap-num">Lap ${l.n}</span>${fmtHMS(l.t)}</span><span style="color:var(--txt3);font-size:11px">${fmtSeconds(l.t)}</span></div>`
+  ).join('');
+}
+
+function swLogSession(){
+  if(swElapsed<1) return;
+  const id=swCurrentTaskId, title=swCurrentTaskTitle||'Unnamed task';
+  if(!id){ alert('Please select a task first.'); return; }
+  const secs=Math.floor(swElapsed);
+  taskTimeLogs[id]=(taskTimeLogs[id]||0)+secs;
+  taskSessions.unshift({
+    taskId:id, title,
+    seconds:secs,
+    date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+  });
+  saveUserData();
+  swReset();
+  swRenderSessionHistory();
+  renderHomeChart();
+  // small confirmation
+  const btn=document.getElementById('swLogBtn');
+  btn.textContent='✓ Saved!'; btn.disabled=true;
+  setTimeout(()=>{ btn.textContent='Save session to task'; btn.disabled=false; },1800);
+}
+
+function swSelectTask(){
+  const sel=document.getElementById('swTaskSelect');
+  swCurrentTaskId=sel.value;
+  const opt=sel.options[sel.selectedIndex];
+  swCurrentTaskTitle=opt?opt.textContent:'';
+}
+
+function swPopulateTaskSelect(prefillId){
+  const sel=document.getElementById('swTaskSelect'); if(!sel)return;
+  sel.innerHTML='<option value="">— Pick a task —</option>';
+  // goals
+  goals.filter(g=>!deletedGoals.has(g.id)).forEach(g=>{
+    const o=document.createElement('option');o.value='goal_'+g.id;o.textContent=g.title;sel.appendChild(o);
+  });
+  // custom tasks
+  customTasks.forEach(t=>{
+    const o=document.createElement('option');o.value=t.id;o.textContent=t.title+(t.customCat?' ['+t.customCat+']':'');sel.appendChild(o);
+  });
+  if(prefillId){ sel.value=prefillId; swCurrentTaskId=prefillId;
+    const opt=sel.options[sel.selectedIndex]; swCurrentTaskTitle=opt?opt.textContent:''; }
+}
+
+function swRenderSessionHistory(){
+  const wrap=document.getElementById('swSessionHistory'); if(!wrap)return;
+  if(!taskSessions.length){ wrap.innerHTML=''; return; }
+  // group by date
+  const byDate={};
+  taskSessions.forEach(s=>{ (byDate[s.date]=byDate[s.date]||[]).push(s); });
+  let html='<div class="sw-laps-title" style="margin-bottom:.5rem;font-size:12px;font-weight:500;color:var(--txt2)">Recent sessions</div>';
+  Object.entries(byDate).slice(0,5).forEach(([date,sessions])=>{
+    html+=`<div style="font-size:11px;color:var(--txt3);margin:.5rem 0 .25rem">${date}</div>`;
+    sessions.forEach(s=>{
+      html+=`<div style="font-size:13px;color:var(--txt1);padding:4px 0;border-bottom:.5px solid var(--brd1);display:flex;justify-content:space-between">
+        <span>${s.title}</span><span style="color:var(--txt2)">${fmtSeconds(s.seconds)}</span></div>`;
+    });
+  });
+  wrap.innerHTML=html;
+}
+
+// open stopwatch pre-set to a task
+function openTimerForTask(taskId){
+  showPage('stopwatch');
+  setTimeout(()=>{ swPopulateTaskSelect(taskId); },100);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+function renderHomeChart(){
+  const wrap=document.getElementById('homeTimeChart'); if(!wrap)return;
+  const entries=Object.entries(taskTimeLogs).filter(([,s])=>s>0);
+  if(!entries.length){
+    wrap.innerHTML='<div class="chart-empty">No time logged yet — use the ⏱ Timer page.</div>';
+    return;
+  }
+  // sort by most time
+  entries.sort((a,b)=>b[1]-a[1]);
+  const max=entries[0][1];
+  let html='';
+  entries.forEach(([id,secs],i)=>{
+    // resolve name
+    let name=id;
+    if(id.startsWith('goal_')){
+      const g=goals.find(x=>x.id===id.replace('goal_',''));
+      if(g) name=g.title;
+    } else {
+      const ct=customTasks.find(x=>x.id===id);
+      if(ct) name=ct.title+(ct.customCat?' · '+ct.customCat:'');
+    }
+    const pct=Math.round(secs/max*100);
+    const cls='bar-'+(i%5);
+    html+=`<div class="chart-bar-row">
+      <div class="chart-bar-label">
+        <span class="chart-bar-name">${name}</span>
+        <span class="chart-bar-time">${fmtSeconds(secs)}</span>
+      </div>
+      <div class="chart-bar-track">
+        <div class="chart-bar-fill ${cls}" style="width:${pct}%"></div>
+      </div>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ─── SHAKE TREE ───────────────────────────────────────────────────────────────
+document.getElementById('treeZone').addEventListener('click',e=>{
+  if(e.target===treeCv||e.target===document.getElementById('treeZone')){
+    const r=treeCv.getBoundingClientRect();
+    spawnPetals(28,r.left+r.width/2,r.top+r.height*.38);
+    playTreeShakeSound();
+    treeCv.style.transform='translateX(-4px)';
+    setTimeout(()=>{treeCv.style.transform='translateX(4px)';setTimeout(()=>treeCv.style.transform='',80);},80);
+  }
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+
+// ─── COPY PROGRESS ───────────────────────────────────────────────────────────
+
+
+
+
+// ─── SOUND ENGINE ─────────────────────────────────────────────────────────────
+
+
+// Long dreamy reverb tail
+
+
+// Silky sine with 2 gentle harmonics — bright but soft
+
+
+// Soft low-passed noise breath
+
+
+// ✦ CHECK SOUND — crystalline koto pluck: two notes a fifth apart, tiny echo
+// ☁️ CLOUD TOUCH SOUND — soft airy puff, like pressing a fluffy cloud
+
+
+
+
+// 🌸 BLOOM SOUND — sakura bell: rising pentatonic cascade + choir exhale
+
+
+// 🎋 TREE SHAKE — wind + distant chimes + leaf rustle
+
+
+// ─── WEEKLY GALLERY ───────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+// ─── DARK MODE TOGGLE ────────────────────────────────────────────────────────
+(function(){
+  // Respect saved preference, fallback to system
+  const saved=localStorage.getItem('sakura-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(saved===null&&sysDark)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+
+// sync button icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  // Sync dark mode icon
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+
+  // Auto-restore saved session
+  const savedUser=localStorage.getItem('sakura_session');
+  if(savedUser && getUsers()[savedUser]){
+    // Restore without fade (already on the right device)
+    currentUser=savedUser;
+    localStorage.setItem('sakura_session', savedUser);
+    document.getElementById('navUser').textContent='👤 '+savedUser;
+    document.getElementById('topnav').style.display='flex';
+    loadUserData(savedUser);
+    initApp();
+    showPage('home');
+    checkWeekRollover();
+  }
+});
+
+// ─── INIT deferred to loginUser/guestLogin ───────────────────────────────────
+
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH & PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// loadUserData merged below
+// saveUserData merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETED ARCHIVE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+// ── Intercept completions to auto-archive ─────────────────────────────────────
+
+
+
+
+
+
+// Override global functions with hooks
+togglePlannerTask=hookTogglePlanner;
+toggleGoalCard=hookToggleGoal;
+toggleCustom=hookToggleCustom;
+
+// Story interception handled in buildStories override below
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+// showPage merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH FLOW
+// ═══════════════════════════════════════════════════════════════════
+
+
+// loginUser merged below
+// guestLogin merged below
+// logout merged below
+
+
+// ─── login page floating petals ───────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('loginPetalCv');if(!cv)return;
+  const lc=cv.getContext('2d');let lp=[];
+  function resL(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  resL();window.addEventListener('resize',resL);
+  function spawnL(){for(let i=0;i<3;i++)lp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*4,vx:(Math.random()-.5)*.8,vy:.5+Math.random()*1.2,alpha:.85,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.08,w:Math.random()*Math.PI*2,ws:.02+Math.random()*.03,col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec'][Math.floor(Math.random()*4)]});}
+  function loopL(){lc.clearRect(0,0,cv.width,cv.height);lp=lp.filter(p=>p.alpha>.02&&p.y<cv.height+20);lp.forEach(p=>{p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.5;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.997;lc.save();lc.globalAlpha=p.alpha;lc.translate(p.x,p.y);lc.rotate(p.rot);lc.beginPath();lc.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);lc.fillStyle=p.col;lc.fill();lc.restore();});requestAnimationFrame(loopL);}
+  setInterval(spawnL,400);loopL();
+})();
+
+// enter key on login
+document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
+document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
+// ═══════════════════════════════════════════════════════════════════
+// PINNED TASKS
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WELCOME BANNER (new user clear defaults)
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY CARRY-OVER
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage to support pinned
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+const _renderCustomGoalsOrig=renderCustomGoals;
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage — init stopwatch when navigating to it
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ─── SHAKE TREE ───────────────────────────────────────────────────────────────
+document.getElementById('treeZone').addEventListener('click',e=>{
+  if(e.target===treeCv||e.target===document.getElementById('treeZone')){
+    const r=treeCv.getBoundingClientRect();
+    spawnPetals(28,r.left+r.width/2,r.top+r.height*.38);
+    playTreeShakeSound();
+    treeCv.style.transform='translateX(-4px)';
+    setTimeout(()=>{treeCv.style.transform='translateX(4px)';setTimeout(()=>treeCv.style.transform='',80);},80);
+  }
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+
+// ─── COPY PROGRESS ───────────────────────────────────────────────────────────
+
+
+
+
+// ─── SOUND ENGINE ─────────────────────────────────────────────────────────────
+
+
+// Long dreamy reverb tail
+
+
+// Silky sine with 2 gentle harmonics — bright but soft
+
+
+// Soft low-passed noise breath
+
+
+// ✦ CHECK SOUND — crystalline koto pluck: two notes a fifth apart, tiny echo
+// ☁️ CLOUD TOUCH SOUND — soft airy puff, like pressing a fluffy cloud
+
+
+
+
+// 🌸 BLOOM SOUND — sakura bell: rising pentatonic cascade + choir exhale
+
+
+// 🎋 TREE SHAKE — wind + distant chimes + leaf rustle
+
+
+// ─── WEEKLY GALLERY ───────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+// ─── DARK MODE TOGGLE ────────────────────────────────────────────────────────
+(function(){
+  // Respect saved preference, fallback to system
+  const saved=localStorage.getItem('sakura-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(saved===null&&sysDark)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+
+// sync button icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  // Sync dark mode icon
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+
+  // Auto-restore saved session
+  const savedUser=localStorage.getItem('sakura_session');
+  if(savedUser && getUsers()[savedUser]){
+    // Restore without fade (already on the right device)
+    currentUser=savedUser;
+    localStorage.setItem('sakura_session', savedUser);
+    document.getElementById('navUser').textContent='👤 '+savedUser;
+    document.getElementById('topnav').style.display='flex';
+    loadUserData(savedUser);
+    initApp();
+    showPage('home');
+    checkWeekRollover();
+  }
+});
+
+// ─── INIT deferred to loginUser/guestLogin ───────────────────────────────────
+
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH & PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// loadUserData merged below
+// saveUserData merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETED ARCHIVE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+// ── Intercept completions to auto-archive ─────────────────────────────────────
+
+
+
+
+
+
+// Override global functions with hooks
+togglePlannerTask=hookTogglePlanner;
+toggleGoalCard=hookToggleGoal;
+toggleCustom=hookToggleCustom;
+
+// Story interception handled in buildStories override below
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+// showPage merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH FLOW
+// ═══════════════════════════════════════════════════════════════════
+
+
+// loginUser merged below
+// guestLogin merged below
+// logout merged below
+
+
+// ─── login page floating petals ───────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('loginPetalCv');if(!cv)return;
+  const lc=cv.getContext('2d');let lp=[];
+  function resL(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  resL();window.addEventListener('resize',resL);
+  function spawnL(){for(let i=0;i<3;i++)lp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*4,vx:(Math.random()-.5)*.8,vy:.5+Math.random()*1.2,alpha:.85,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.08,w:Math.random()*Math.PI*2,ws:.02+Math.random()*.03,col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec'][Math.floor(Math.random()*4)]});}
+  function loopL(){lc.clearRect(0,0,cv.width,cv.height);lp=lp.filter(p=>p.alpha>.02&&p.y<cv.height+20);lp.forEach(p=>{p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.5;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.997;lc.save();lc.globalAlpha=p.alpha;lc.translate(p.x,p.y);lc.rotate(p.rot);lc.beginPath();lc.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);lc.fillStyle=p.col;lc.fill();lc.restore();});requestAnimationFrame(loopL);}
+  setInterval(spawnL,400);loopL();
+})();
+
+// enter key on login
+document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
+document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
+// ═══════════════════════════════════════════════════════════════════
+// PINNED TASKS
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WELCOME BANNER (new user clear defaults)
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY CARRY-OVER
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage to support pinned
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage — init stopwatch when navigating to it
+// ═══════════════════════════════════════════════════════════════════
+const _showPageSW=showPage;
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData + loadUserData for time logs
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ─── SHAKE TREE ───────────────────────────────────────────────────────────────
+document.getElementById('treeZone').addEventListener('click',e=>{
+  if(e.target===treeCv||e.target===document.getElementById('treeZone')){
+    const r=treeCv.getBoundingClientRect();
+    spawnPetals(28,r.left+r.width/2,r.top+r.height*.38);
+    playTreeShakeSound();
+    treeCv.style.transform='translateX(-4px)';
+    setTimeout(()=>{treeCv.style.transform='translateX(4px)';setTimeout(()=>treeCv.style.transform='',80);},80);
+  }
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+
+// ─── COPY PROGRESS ───────────────────────────────────────────────────────────
+
+
+
+
+// ─── SOUND ENGINE ─────────────────────────────────────────────────────────────
+
+
+// Long dreamy reverb tail
+
+
+// Silky sine with 2 gentle harmonics — bright but soft
+
+
+// Soft low-passed noise breath
+
+
+// ✦ CHECK SOUND — crystalline koto pluck: two notes a fifth apart, tiny echo
+// ☁️ CLOUD TOUCH SOUND — soft airy puff, like pressing a fluffy cloud
+
+
+
+
+// 🌸 BLOOM SOUND — sakura bell: rising pentatonic cascade + choir exhale
+
+
+// 🎋 TREE SHAKE — wind + distant chimes + leaf rustle
+
+
+// ─── WEEKLY GALLERY ───────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+// ─── DARK MODE TOGGLE ────────────────────────────────────────────────────────
+(function(){
+  // Respect saved preference, fallback to system
+  const saved=localStorage.getItem('sakura-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(saved===null&&sysDark)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+
+// sync button icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  // Sync dark mode icon
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+
+  // Auto-restore saved session
+  const savedUser=localStorage.getItem('sakura_session');
+  if(savedUser && getUsers()[savedUser]){
+    // Restore without fade (already on the right device)
+    currentUser=savedUser;
+    localStorage.setItem('sakura_session', savedUser);
+    document.getElementById('navUser').textContent='👤 '+savedUser;
+    document.getElementById('topnav').style.display='flex';
+    loadUserData(savedUser);
+    initApp();
+    showPage('home');
+    checkWeekRollover();
+  }
+});
+
+// ─── INIT deferred to loginUser/guestLogin ───────────────────────────────────
+
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH & PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// loadUserData merged below
+// saveUserData merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETED ARCHIVE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+// ── Intercept completions to auto-archive ─────────────────────────────────────
+
+
+
+
+
+
+// Override global functions with hooks
+togglePlannerTask=hookTogglePlanner;
+toggleGoalCard=hookToggleGoal;
+toggleCustom=hookToggleCustom;
+
+// Story interception handled in buildStories override below
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+// showPage merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH FLOW
+// ═══════════════════════════════════════════════════════════════════
+
+
+// loginUser merged below
+// guestLogin merged below
+// logout merged below
+
+
+// ─── login page floating petals ───────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('loginPetalCv');if(!cv)return;
+  const lc=cv.getContext('2d');let lp=[];
+  function resL(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  resL();window.addEventListener('resize',resL);
+  function spawnL(){for(let i=0;i<3;i++)lp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*4,vx:(Math.random()-.5)*.8,vy:.5+Math.random()*1.2,alpha:.85,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.08,w:Math.random()*Math.PI*2,ws:.02+Math.random()*.03,col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec'][Math.floor(Math.random()*4)]});}
+  function loopL(){lc.clearRect(0,0,cv.width,cv.height);lp=lp.filter(p=>p.alpha>.02&&p.y<cv.height+20);lp.forEach(p=>{p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.5;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.997;lc.save();lc.globalAlpha=p.alpha;lc.translate(p.x,p.y);lc.rotate(p.rot);lc.beginPath();lc.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);lc.fillStyle=p.col;lc.fill();lc.restore();});requestAnimationFrame(loopL);}
+  setInterval(spawnL,400);loopL();
+})();
+
+// enter key on login
+document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
+document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
+// ═══════════════════════════════════════════════════════════════════
+// PINNED TASKS
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WELCOME BANNER (new user clear defaults)
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY CARRY-OVER
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage to support pinned
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage — init stopwatch when navigating to it
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ─── SHAKE TREE ───────────────────────────────────────────────────────────────
+document.getElementById('treeZone').addEventListener('click',e=>{
+  if(e.target===treeCv||e.target===document.getElementById('treeZone')){
+    const r=treeCv.getBoundingClientRect();
+    spawnPetals(28,r.left+r.width/2,r.top+r.height*.38);
+    playTreeShakeSound();
+    treeCv.style.transform='translateX(-4px)';
+    setTimeout(()=>{treeCv.style.transform='translateX(4px)';setTimeout(()=>treeCv.style.transform='',80);},80);
+  }
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+
+// ─── COPY PROGRESS ───────────────────────────────────────────────────────────
+
+
+
+
+// ─── SOUND ENGINE ─────────────────────────────────────────────────────────────
+
+
+// Long dreamy reverb tail
+
+
+// Silky sine with 2 gentle harmonics — bright but soft
+
+
+// Soft low-passed noise breath
+
+
+// ✦ CHECK SOUND — crystalline koto pluck: two notes a fifth apart, tiny echo
+// ☁️ CLOUD TOUCH SOUND — soft airy puff, like pressing a fluffy cloud
+
+
+
+
+// 🌸 BLOOM SOUND — sakura bell: rising pentatonic cascade + choir exhale
+
+
+// 🎋 TREE SHAKE — wind + distant chimes + leaf rustle
+
+
+// ─── WEEKLY GALLERY ───────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+// ─── DARK MODE TOGGLE ────────────────────────────────────────────────────────
+(function(){
+  // Respect saved preference, fallback to system
+  const saved=localStorage.getItem('sakura-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(saved===null&&sysDark)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+
+// sync button icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  // Sync dark mode icon
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+
+  // Auto-restore saved session
+  const savedUser=localStorage.getItem('sakura_session');
+  if(savedUser && getUsers()[savedUser]){
+    // Restore without fade (already on the right device)
+    currentUser=savedUser;
+    localStorage.setItem('sakura_session', savedUser);
+    document.getElementById('navUser').textContent='👤 '+savedUser;
+    document.getElementById('topnav').style.display='flex';
+    loadUserData(savedUser);
+    initApp();
+    showPage('home');
+    checkWeekRollover();
+  }
+});
+
+// ─── INIT deferred to loginUser/guestLogin ───────────────────────────────────
+
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH & PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// loadUserData merged below
+// saveUserData merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETED ARCHIVE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+// ── Intercept completions to auto-archive ─────────────────────────────────────
+
+
+
+
+
+
+// Override global functions with hooks
+togglePlannerTask=hookTogglePlanner;
+toggleGoalCard=hookToggleGoal;
+toggleCustom=hookToggleCustom;
+
+// Story interception handled in buildStories override below
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+// showPage merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH FLOW
+// ═══════════════════════════════════════════════════════════════════
+
+
+// loginUser merged below
+// guestLogin merged below
+// logout merged below
+
+
+// ─── login page floating petals ───────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('loginPetalCv');if(!cv)return;
+  const lc=cv.getContext('2d');let lp=[];
+  function resL(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  resL();window.addEventListener('resize',resL);
+  function spawnL(){for(let i=0;i<3;i++)lp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*4,vx:(Math.random()-.5)*.8,vy:.5+Math.random()*1.2,alpha:.85,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.08,w:Math.random()*Math.PI*2,ws:.02+Math.random()*.03,col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec'][Math.floor(Math.random()*4)]});}
+  function loopL(){lc.clearRect(0,0,cv.width,cv.height);lp=lp.filter(p=>p.alpha>.02&&p.y<cv.height+20);lp.forEach(p=>{p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.5;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.997;lc.save();lc.globalAlpha=p.alpha;lc.translate(p.x,p.y);lc.rotate(p.rot);lc.beginPath();lc.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);lc.fillStyle=p.col;lc.fill();lc.restore();});requestAnimationFrame(loopL);}
+  setInterval(spawnL,400);loopL();
+})();
+
+// enter key on login
+document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
+document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
+// ═══════════════════════════════════════════════════════════════════
+// PINNED TASKS
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WELCOME BANNER (new user clear defaults)
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY CARRY-OVER
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage to support pinned
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage — init stopwatch when navigating to it
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData + loadUserData for time logs
+// ═══════════════════════════════════════════════════════════════════
+const _saveUD_sw=saveUserData;
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ─── SHAKE TREE ───────────────────────────────────────────────────────────────
+document.getElementById('treeZone').addEventListener('click',e=>{
+  if(e.target===treeCv||e.target===document.getElementById('treeZone')){
+    const r=treeCv.getBoundingClientRect();
+    spawnPetals(28,r.left+r.width/2,r.top+r.height*.38);
+    playTreeShakeSound();
+    treeCv.style.transform='translateX(-4px)';
+    setTimeout(()=>{treeCv.style.transform='translateX(4px)';setTimeout(()=>treeCv.style.transform='',80);},80);
+  }
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+
+// ─── COPY PROGRESS ───────────────────────────────────────────────────────────
+
+
+
+
+// ─── SOUND ENGINE ─────────────────────────────────────────────────────────────
+
+
+// Long dreamy reverb tail
+
+
+// Silky sine with 2 gentle harmonics — bright but soft
+
+
+// Soft low-passed noise breath
+
+
+// ✦ CHECK SOUND — crystalline koto pluck: two notes a fifth apart, tiny echo
+// ☁️ CLOUD TOUCH SOUND — soft airy puff, like pressing a fluffy cloud
+
+
+
+
+// 🌸 BLOOM SOUND — sakura bell: rising pentatonic cascade + choir exhale
+
+
+// 🎋 TREE SHAKE — wind + distant chimes + leaf rustle
+
+
+// ─── WEEKLY GALLERY ───────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+// ─── DARK MODE TOGGLE ────────────────────────────────────────────────────────
+(function(){
+  // Respect saved preference, fallback to system
+  const saved=localStorage.getItem('sakura-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(saved===null&&sysDark)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+
+// sync button icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  // Sync dark mode icon
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+
+  // Auto-restore saved session
+  const savedUser=localStorage.getItem('sakura_session');
+  if(savedUser && getUsers()[savedUser]){
+    // Restore without fade (already on the right device)
+    currentUser=savedUser;
+    localStorage.setItem('sakura_session', savedUser);
+    document.getElementById('navUser').textContent='👤 '+savedUser;
+    document.getElementById('topnav').style.display='flex';
+    loadUserData(savedUser);
+    initApp();
+    showPage('home');
+    checkWeekRollover();
+  }
+});
+
+// ─── INIT deferred to loginUser/guestLogin ───────────────────────────────────
+
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH & PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// loadUserData merged below
+// saveUserData merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETED ARCHIVE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+// ── Intercept completions to auto-archive ─────────────────────────────────────
+
+
+
+
+
+
+// Override global functions with hooks
+togglePlannerTask=hookTogglePlanner;
+toggleGoalCard=hookToggleGoal;
+toggleCustom=hookToggleCustom;
+
+// Story interception handled in buildStories override below
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+// showPage merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH FLOW
+// ═══════════════════════════════════════════════════════════════════
+
+
+// loginUser merged below
+// guestLogin merged below
+// logout merged below
+
+
+// ─── login page floating petals ───────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('loginPetalCv');if(!cv)return;
+  const lc=cv.getContext('2d');let lp=[];
+  function resL(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  resL();window.addEventListener('resize',resL);
+  function spawnL(){for(let i=0;i<3;i++)lp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*4,vx:(Math.random()-.5)*.8,vy:.5+Math.random()*1.2,alpha:.85,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.08,w:Math.random()*Math.PI*2,ws:.02+Math.random()*.03,col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec'][Math.floor(Math.random()*4)]});}
+  function loopL(){lc.clearRect(0,0,cv.width,cv.height);lp=lp.filter(p=>p.alpha>.02&&p.y<cv.height+20);lp.forEach(p=>{p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.5;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.997;lc.save();lc.globalAlpha=p.alpha;lc.translate(p.x,p.y);lc.rotate(p.rot);lc.beginPath();lc.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);lc.fillStyle=p.col;lc.fill();lc.restore();});requestAnimationFrame(loopL);}
+  setInterval(spawnL,400);loopL();
+})();
+
+// enter key on login
+document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
+document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
+// ═══════════════════════════════════════════════════════════════════
+// PINNED TASKS
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WELCOME BANNER (new user clear defaults)
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY CARRY-OVER
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage to support pinned
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage — init stopwatch when navigating to it
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ─── SHAKE TREE ───────────────────────────────────────────────────────────────
+document.getElementById('treeZone').addEventListener('click',e=>{
+  if(e.target===treeCv||e.target===document.getElementById('treeZone')){
+    const r=treeCv.getBoundingClientRect();
+    spawnPetals(28,r.left+r.width/2,r.top+r.height*.38);
+    playTreeShakeSound();
+    treeCv.style.transform='translateX(-4px)';
+    setTimeout(()=>{treeCv.style.transform='translateX(4px)';setTimeout(()=>treeCv.style.transform='',80);},80);
+  }
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+
+// ─── COPY PROGRESS ───────────────────────────────────────────────────────────
+
+
+
+
+// ─── SOUND ENGINE ─────────────────────────────────────────────────────────────
+
+
+// Long dreamy reverb tail
+
+
+// Silky sine with 2 gentle harmonics — bright but soft
+
+
+// Soft low-passed noise breath
+
+
+// ✦ CHECK SOUND — crystalline koto pluck: two notes a fifth apart, tiny echo
+// ☁️ CLOUD TOUCH SOUND — soft airy puff, like pressing a fluffy cloud
+
+
+
+
+// 🌸 BLOOM SOUND — sakura bell: rising pentatonic cascade + choir exhale
+
+
+// 🎋 TREE SHAKE — wind + distant chimes + leaf rustle
+
+
+// ─── WEEKLY GALLERY ───────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+// ─── DARK MODE TOGGLE ────────────────────────────────────────────────────────
+(function(){
+  // Respect saved preference, fallback to system
+  const saved=localStorage.getItem('sakura-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(saved===null&&sysDark)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+
+// sync button icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  // Sync dark mode icon
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+
+  // Auto-restore saved session
+  const savedUser=localStorage.getItem('sakura_session');
+  if(savedUser && getUsers()[savedUser]){
+    // Restore without fade (already on the right device)
+    currentUser=savedUser;
+    localStorage.setItem('sakura_session', savedUser);
+    document.getElementById('navUser').textContent='👤 '+savedUser;
+    document.getElementById('topnav').style.display='flex';
+    loadUserData(savedUser);
+    initApp();
+    showPage('home');
+    checkWeekRollover();
+  }
+});
+
+// ─── INIT deferred to loginUser/guestLogin ───────────────────────────────────
+
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH & PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// loadUserData merged below
+// saveUserData merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETED ARCHIVE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+// ── Intercept completions to auto-archive ─────────────────────────────────────
+
+
+
+
+
+
+// Override global functions with hooks
+togglePlannerTask=hookTogglePlanner;
+toggleGoalCard=hookToggleGoal;
+toggleCustom=hookToggleCustom;
+
+// Story interception handled in buildStories override below
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+// showPage merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH FLOW
+// ═══════════════════════════════════════════════════════════════════
+
+
+// loginUser merged below
+// guestLogin merged below
+// logout merged below
+
+
+// ─── login page floating petals ───────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('loginPetalCv');if(!cv)return;
+  const lc=cv.getContext('2d');let lp=[];
+  function resL(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  resL();window.addEventListener('resize',resL);
+  function spawnL(){for(let i=0;i<3;i++)lp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*4,vx:(Math.random()-.5)*.8,vy:.5+Math.random()*1.2,alpha:.85,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.08,w:Math.random()*Math.PI*2,ws:.02+Math.random()*.03,col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec'][Math.floor(Math.random()*4)]});}
+  function loopL(){lc.clearRect(0,0,cv.width,cv.height);lp=lp.filter(p=>p.alpha>.02&&p.y<cv.height+20);lp.forEach(p=>{p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.5;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.997;lc.save();lc.globalAlpha=p.alpha;lc.translate(p.x,p.y);lc.rotate(p.rot);lc.beginPath();lc.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);lc.fillStyle=p.col;lc.fill();lc.restore();});requestAnimationFrame(loopL);}
+  setInterval(spawnL,400);loopL();
+})();
+
+// enter key on login
+document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
+document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
+// ═══════════════════════════════════════════════════════════════════
+// PINNED TASKS
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WELCOME BANNER (new user clear defaults)
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY CARRY-OVER
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage to support pinned
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage — init stopwatch when navigating to it
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData + loadUserData for time logs
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ─── SHAKE TREE ───────────────────────────────────────────────────────────────
+document.getElementById('treeZone').addEventListener('click',e=>{
+  if(e.target===treeCv||e.target===document.getElementById('treeZone')){
+    const r=treeCv.getBoundingClientRect();
+    spawnPetals(28,r.left+r.width/2,r.top+r.height*.38);
+    playTreeShakeSound();
+    treeCv.style.transform='translateX(-4px)';
+    setTimeout(()=>{treeCv.style.transform='translateX(4px)';setTimeout(()=>treeCv.style.transform='',80);},80);
+  }
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+
+// ─── COPY PROGRESS ───────────────────────────────────────────────────────────
+
+
+
+
+// ─── SOUND ENGINE ─────────────────────────────────────────────────────────────
+
+
+// Long dreamy reverb tail
+
+
+// Silky sine with 2 gentle harmonics — bright but soft
+
+
+// Soft low-passed noise breath
+
+
+// ✦ CHECK SOUND — crystalline koto pluck: two notes a fifth apart, tiny echo
+// ☁️ CLOUD TOUCH SOUND — soft airy puff, like pressing a fluffy cloud
+
+
+
+
+// 🌸 BLOOM SOUND — sakura bell: rising pentatonic cascade + choir exhale
+
+
+// 🎋 TREE SHAKE — wind + distant chimes + leaf rustle
+
+
+// ─── WEEKLY GALLERY ───────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+// ─── DARK MODE TOGGLE ────────────────────────────────────────────────────────
+(function(){
+  // Respect saved preference, fallback to system
+  const saved=localStorage.getItem('sakura-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(saved===null&&sysDark)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+
+// sync button icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  // Sync dark mode icon
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+
+  // Auto-restore saved session
+  const savedUser=localStorage.getItem('sakura_session');
+  if(savedUser && getUsers()[savedUser]){
+    // Restore without fade (already on the right device)
+    currentUser=savedUser;
+    localStorage.setItem('sakura_session', savedUser);
+    document.getElementById('navUser').textContent='👤 '+savedUser;
+    document.getElementById('topnav').style.display='flex';
+    loadUserData(savedUser);
+    initApp();
+    showPage('home');
+    checkWeekRollover();
+  }
+});
+
+// ─── INIT deferred to loginUser/guestLogin ───────────────────────────────────
+
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH & PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// loadUserData merged below
+// saveUserData merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETED ARCHIVE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+// ── Intercept completions to auto-archive ─────────────────────────────────────
+
+
+
+
+
+
+// Override global functions with hooks
+togglePlannerTask=hookTogglePlanner;
+toggleGoalCard=hookToggleGoal;
+toggleCustom=hookToggleCustom;
+
+// Story interception handled in buildStories override below
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+// showPage merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH FLOW
+// ═══════════════════════════════════════════════════════════════════
+
+
+// loginUser merged below
+// guestLogin merged below
+// logout merged below
+
+
+// ─── login page floating petals ───────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('loginPetalCv');if(!cv)return;
+  const lc=cv.getContext('2d');let lp=[];
+  function resL(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  resL();window.addEventListener('resize',resL);
+  function spawnL(){for(let i=0;i<3;i++)lp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*4,vx:(Math.random()-.5)*.8,vy:.5+Math.random()*1.2,alpha:.85,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.08,w:Math.random()*Math.PI*2,ws:.02+Math.random()*.03,col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec'][Math.floor(Math.random()*4)]});}
+  function loopL(){lc.clearRect(0,0,cv.width,cv.height);lp=lp.filter(p=>p.alpha>.02&&p.y<cv.height+20);lp.forEach(p=>{p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.5;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.997;lc.save();lc.globalAlpha=p.alpha;lc.translate(p.x,p.y);lc.rotate(p.rot);lc.beginPath();lc.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);lc.fillStyle=p.col;lc.fill();lc.restore();});requestAnimationFrame(loopL);}
+  setInterval(spawnL,400);loopL();
+})();
+
+// enter key on login
+document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
+document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
+// ═══════════════════════════════════════════════════════════════════
+// PINNED TASKS
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WELCOME BANNER (new user clear defaults)
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY CARRY-OVER
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage to support pinned
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage — init stopwatch when navigating to it
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ─── SHAKE TREE ───────────────────────────────────────────────────────────────
+document.getElementById('treeZone').addEventListener('click',e=>{
+  if(e.target===treeCv||e.target===document.getElementById('treeZone')){
+    const r=treeCv.getBoundingClientRect();
+    spawnPetals(28,r.left+r.width/2,r.top+r.height*.38);
+    playTreeShakeSound();
+    treeCv.style.transform='translateX(-4px)';
+    setTimeout(()=>{treeCv.style.transform='translateX(4px)';setTimeout(()=>treeCv.style.transform='',80);},80);
+  }
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+document.getElementById('taskName').addEventListener('keydown',e=>{if(e.key==='Enter')saveTask();});
+
+// ─── COPY PROGRESS ───────────────────────────────────────────────────────────
+
+
+
+
+// ─── SOUND ENGINE ─────────────────────────────────────────────────────────────
+
+
+// Long dreamy reverb tail
+
+
+// Silky sine with 2 gentle harmonics — bright but soft
+
+
+// Soft low-passed noise breath
+
+
+// ✦ CHECK SOUND — crystalline koto pluck: two notes a fifth apart, tiny echo
+// ☁️ CLOUD TOUCH SOUND — soft airy puff, like pressing a fluffy cloud
+
+
+
+
+// 🌸 BLOOM SOUND — sakura bell: rising pentatonic cascade + choir exhale
+
+
+// 🎋 TREE SHAKE — wind + distant chimes + leaf rustle
+
+
+// ─── WEEKLY GALLERY ───────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+// ─── DARK MODE TOGGLE ────────────────────────────────────────────────────────
+(function(){
+  // Respect saved preference, fallback to system
+  const saved=localStorage.getItem('sakura-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(saved===null&&sysDark)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+
+// sync button icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  // Sync dark mode icon
+  const isDark=document.documentElement.classList.contains('dark');
+  const btn=document.getElementById('darkToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+
+  // Auto-restore saved session
+  const savedUser=localStorage.getItem('sakura_session');
+  if(savedUser && getUsers()[savedUser]){
+    // Restore without fade (already on the right device)
+    currentUser=savedUser;
+    localStorage.setItem('sakura_session', savedUser);
+    document.getElementById('navUser').textContent='👤 '+savedUser;
+    document.getElementById('topnav').style.display='flex';
+    loadUserData(savedUser);
+    initApp();
+    showPage('home');
+    checkWeekRollover();
+  }
+});
+
+// ─── INIT deferred to loginUser/guestLogin ───────────────────────────────────
+
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH & PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// loadUserData merged below
+// saveUserData merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPLETED ARCHIVE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+// ── Intercept completions to auto-archive ─────────────────────────────────────
+
+
+
+
+
+
+// Override global functions with hooks
+togglePlannerTask=hookTogglePlanner;
+toggleGoalCard=hookToggleGoal;
+toggleCustom=hookToggleCustom;
+
+// Story interception handled in buildStories override below
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ═══════════════════════════════════════════════════════════════════
+// showPage merged below
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH FLOW
+// ═══════════════════════════════════════════════════════════════════
+
+
+// loginUser merged below
+// guestLogin merged below
+// logout merged below
+
+
+// ─── login page floating petals ───────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('loginPetalCv');if(!cv)return;
+  const lc=cv.getContext('2d');let lp=[];
+  function resL(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  resL();window.addEventListener('resize',resL);
+  function spawnL(){for(let i=0;i<3;i++)lp.push({x:Math.random()*cv.width,y:-10,r:3+Math.random()*4,vx:(Math.random()-.5)*.8,vy:.5+Math.random()*1.2,alpha:.85,rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.08,w:Math.random()*Math.PI*2,ws:.02+Math.random()*.03,col:['#f9d0dc','#f4b8c8','#e88fa0','#fce4ec'][Math.floor(Math.random()*4)]});}
+  function loopL(){lc.clearRect(0,0,cv.width,cv.height);lp=lp.filter(p=>p.alpha>.02&&p.y<cv.height+20);lp.forEach(p=>{p.w+=p.ws;p.x+=p.vx+Math.sin(p.w)*.5;p.y+=p.vy;p.rot+=p.vr;p.alpha*=.997;lc.save();lc.globalAlpha=p.alpha;lc.translate(p.x,p.y);lc.rotate(p.rot);lc.beginPath();lc.ellipse(0,0,p.r,p.r*.5,0,0,Math.PI*2);lc.fillStyle=p.col;lc.fill();lc.restore();});requestAnimationFrame(loopL);}
+  setInterval(spawnL,400);loopL();
+})();
+
+// enter key on login
+document.getElementById('authUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPass').focus();});
+document.getElementById('authPass').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
+
+// ═══════════════════════════════════════════════════════════════════
+// PINNED TASKS
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WELCOME BANNER (new user clear defaults)
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY CARRY-OVER
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage to support pinned
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loginUser & guestLogin for smooth fade + week check
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData to include pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH loadUserData to restore pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH logout to reset pinnedItems
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ── Clear all default goals, stories, weekly tasks ───────────────────────────
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// TASK TIME LOGS  { taskId -> totalSeconds }
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// STOPWATCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// open stopwatch pre-set to a task
+
+
+// ═══════════════════════════════════════════════════════════════════
+// HOME PAGE CHART
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH renderCustomGoals — add timer button + time badge
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH showPage — init stopwatch when navigating to it
+// ═══════════════════════════════════════════════════════════════════
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PATCH saveUserData + loadUserData for time logs
+// ═══════════════════════════════════════════════════════════════════
+
+const _loadUD_sw=loadUserData;
 
 
 </script>
