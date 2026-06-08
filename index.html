@@ -475,6 +475,40 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
   background:transparent;font-size:12px;color:var(--txt2);cursor:pointer;transition:all .15s}
 .ct-preset:hover,.ct-preset.active{background:#fde8ed;color:#c4547a;border-color:#e88fa0;font-weight:500}
 
+
+/* ── Motivation popup ── */
+.motivation-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:400;align-items:center;justify-content:center}
+.motivation-overlay.open{display:flex}
+.motivation-box{
+  background:var(--bg1);border-radius:20px;width:min(440px,92vw);
+  box-shadow:0 24px 80px rgba(0,0,0,.2);overflow:hidden;
+  animation:motPop .35s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes motPop{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.motivation-photo{width:100%;height:180px;object-fit:cover;display:block}
+.motivation-photo-placeholder{width:100%;height:100px;background:linear-gradient(135deg,#fde8ed,#fce7f3);display:flex;align-items:center;justify-content:center;font-size:48px}
+.motivation-body{padding:1.5rem}
+.motivation-goal-name{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);margin-bottom:.4rem}
+.motivation-why-label{font-size:12px;color:var(--txt2);margin-bottom:.4rem}
+.motivation-why-text{font-size:16px;color:var(--txt1);font-style:italic;line-height:1.55;margin-bottom:1.25rem;padding:.75rem;background:var(--bg2);border-radius:10px;border-left:3px solid #e88fa0}
+.motivation-pin-btn{width:100%;padding:10px;border-radius:10px;border:none;background:#e88fa0;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:background .18s}
+.motivation-pin-btn:hover{background:#d4728a}
+.motivation-skip{display:block;text-align:center;font-size:12px;color:var(--txt3);margin-top:.6rem;cursor:pointer;text-decoration:underline}
+
+/* ── Goal modal wider ── */
+.goal-modal-box{width:min(500px,92vw) !important}
+.goal-why-area{width:100%;padding:9px 12px;border-radius:10px;border:.5px solid var(--brd2);background:var(--bg1);color:var(--txt1);font-size:14px;outline:none;resize:vertical;min-height:80px;font-family:inherit;line-height:1.5;transition:border-color .15s}
+.goal-why-area:focus{border-color:#e88fa0}
+
+/* goal tile photo bg */
+.goal-tile-photo{position:absolute;inset:0;object-fit:cover;opacity:.18;border-radius:var(--rlg);pointer-events:none;width:100%;height:100%}
+html.dark .goal-tile-photo{opacity:.12}
+
+/* photo upload */
+.photo-upload-label{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#c4547a;border:.5px solid #e88fa0;border-radius:999px;padding:5px 12px;cursor:pointer;transition:background .15s;margin-top:.25rem}
+.photo-upload-label:hover{background:#fde8ed}
+.photo-preview{width:100%;height:100px;object-fit:cover;border-radius:8px;margin-top:.5rem;display:none}
+
 </style>
 </head>
 <body>
@@ -753,13 +787,27 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
       <label class="form-label">Goal name</label>
       <input type="text" id="goalName" placeholder="e.g. Become fluent in Turkish">
     </div>
-    <div class="form-row">
-      <label class="form-label">Icon (emoji)</label>
-      <input type="text" id="goalIcon" placeholder="🎯" style="max-width:80px">
+    <div style="display:flex;gap:10px">
+      <div class="form-row" style="flex:1">
+        <label class="form-label">Icon (emoji)</label>
+        <input type="text" id="goalIcon" placeholder="🎯" style="max-width:80px">
+      </div>
     </div>
     <div class="form-row">
       <label class="form-label">Description <span style="font-size:10px;color:var(--txt3)">(optional)</span></label>
       <input type="text" id="goalDesc" placeholder="Short description">
+    </div>
+    <div class="form-row">
+      <label class="form-label">✨ Why do you want to achieve this goal? <span style="font-size:10px;color:#c4547a">*</span></label>
+      <textarea class="goal-why-area" id="goalWhy" placeholder="Write your deeper reason — it will inspire you every time you pin a task to this goal..."></textarea>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Inspiration photo <span style="font-size:10px;color:var(--txt3)">(optional)</span></label>
+      <label class="photo-upload-label" for="goalPhotoInput">
+        <i class="ti ti-photo" aria-hidden="true"></i> Upload photo
+      </label>
+      <input type="file" id="goalPhotoInput" accept="image/*" style="display:none" onchange="goalPhotoPreview(this)">
+      <img id="goalPhotoPreviewImg" class="photo-preview" alt="inspiration">
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeGoalModal()">Cancel</button>
@@ -784,6 +832,19 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
 </div>
 </div>
 
+<!-- ══ MOTIVATION POPUP ══ -->
+<div class="motivation-overlay" id="motivationOverlay" onclick="if(event.target===this)closeMotiPopup()">
+  <div class="motivation-box">
+    <div id="motPhotoWrap"></div>
+    <div class="motivation-body">
+      <div class="motivation-goal-name" id="motGoalName"></div>
+      <div class="motivation-why-label">✨ Remember why you started:</div>
+      <div class="motivation-why-text" id="motWhyText"></div>
+      <button class="motivation-pin-btn" id="motPinBtn">📌 Yes, pin this task</button>
+      <span class="motivation-skip" onclick="closeMotiPopup()">Skip for now</span>
+    </div>
+  </div>
+</div>
 <!-- modal -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
@@ -831,19 +892,7 @@ html.dark .welcome-banner{background:linear-gradient(135deg,#3a1528,#2d1020);bor
       </div>
     </div>
     <div class="form-row" id="urgentRow">
-      <label class="form-label">Priority <span id="urgentHint" style="font-size:11px;color:var(--txt3);margin-left:4px">— Normal</span></label>
-      <div style="display:flex;gap:8px">
-        <div class="tag-opt sel" id="urgentOff" onclick="selectUrgent(false)" style="flex:1;text-align:center">Normal</div>
-        <div class="tag-opt" id="urgentOn" onclick="selectUrgent(true)" style="flex:1;text-align:center">🔥 Urgent — first 2 weeks</div>
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" onclick="saveTask()">Add task</button>
-    </div>
-  </div>
-</div>
-
+      <label class="form-label">Priority <span
 <script>
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -5517,16 +5566,7 @@ const GOAL_COLORS=['#e88fa0', '#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#fb92
 function getGoalColor(idx){ return GOAL_COLORS[idx%GOAL_COLORS.length]; }
 
 // ── CRUD ──────────────────────────────────────────────────────────
-function openGoalModal(){ document.getElementById('goalName').value=''; document.getElementById('goalIcon').value=''; document.getElementById('goalDesc').value=''; document.getElementById('goalModalOverlay').classList.add('open'); setTimeout(()=>document.getElementById('goalName').focus(),100); }
 function closeGoalModal(){ document.getElementById('goalModalOverlay').classList.remove('open'); }
-function saveGoal(){
-  const title=document.getElementById('goalName').value.trim(); if(!title) return;
-  const icon=document.getElementById('goalIcon').value.trim()||'🎯';
-  const desc=document.getElementById('goalDesc').value.trim();
-  const id='cg_'+Date.now();
-  customGoals.push({id,title,icon,desc,color:getGoalColor(customGoals.length)});
-  closeGoalModal(); renderCustomGoals_Goals(); renderCustomGoals(); updateGoalDropdowns(); saveUserData();
-}
 function deleteCustomGoal(id){
   if(!confirm('Delete this goal? Tasks linked to it will remain but unlinked.')) return;
   customGoals=customGoals.filter(g=>g.id!==id);
@@ -5535,28 +5575,6 @@ function deleteCustomGoal(id){
 }
 
 // ── Render goals grid on home ─────────────────────────────────────
-function renderCustomGoals_Goals(){
-  const grid=document.getElementById('customGoalsGrid'); if(!grid) return;
-  let html='';
-  customGoals.forEach((g,i)=>{
-    const linked=customTasks.filter(t=>t.linkedGoalId===g.id);
-    const done=linked.filter(t=>getCustomDone(t)).length;
-    const total=linked.length;
-    const pct=total?Math.round(done/total*100):0;
-    const clr=g.color||getGoalColor(i);
-    html+=`<div class="goal-tile${pct===100?' gt-done':''}" onclick="filterTasksByGoal('${g.id}')">
-      <button class="gt-del" onclick="event.stopPropagation();deleteCustomGoal('${g.id}')" title="Delete goal">✕</button>
-      <div class="goal-tile-icon">${g.icon}</div>
-      <div class="goal-tile-name">${g.title}</div>
-      <div class="goal-tile-meta">${total?done+'/'+total+' tasks':'No tasks yet'}</div>
-      <div class="goal-tile-bar"><div class="goal-tile-fill" style="width:${pct}%;background:${clr}"></div></div>
-      <div class="goal-tile-pct">${pct}%</div>
-    </div>`;
-  });
-  html+=`<div class="add-goal-tile" onclick="openGoalModal()"><span style="font-size:24px">+</span><span>Add goal</span></div>`;
-  grid.innerHTML=html;
-  setTimeout(renderHomeProgress,50);
-}
 
 // Filter tasks shown in sec-custom by goal
 let activeGoalFilter='';
@@ -6172,6 +6190,182 @@ function setHomeProgressFilter(id){
   homeProgressFilter=id;
   renderHomeProgress();
 }
-</script>
+
+
+
+// ═══════════════════════════════════════════════════════════════════
+// GOAL WHY + PHOTO
+// ═══════════════════════════════════════════════════════════════════
+
+// Preview photo in goal modal
+function goalPhotoPreview(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=document.getElementById('goalPhotoPreviewImg');
+    img.src=e.target.result; img.style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+// Patch openGoalModal to reset new fields
+function openGoalModal(editId){
+  document.getElementById('goalName').value='';
+  document.getElementById('goalIcon').value='';
+  document.getElementById('goalDesc').value='';
+  document.getElementById('goalWhy').value='';
+  document.getElementById('goalPhotoInput').value='';
+  const prev=document.getElementById('goalPhotoPreviewImg');
+  prev.src=''; prev.style.display='none';
+  document.getElementById('goalModalOverlay').classList.add('open');
+  // pre-fill if editing
+  if(editId){
+    const g=customGoals.find(x=>x.id===editId); if(!g) return;
+    document.getElementById('goalName').value=g.title;
+    document.getElementById('goalIcon').value=g.icon||'';
+    document.getElementById('goalDesc').value=g.desc||'';
+    document.getElementById('goalWhy').value=g.why||'';
+    if(g.photo){ prev.src=g.photo; prev.style.display='block'; }
+    document.querySelector('.goal-modal-box .btn-save').dataset.editId=editId;
+  } else {
+    delete document.querySelector('.goal-modal-box .btn-save').dataset.editId;
+  }
+  setTimeout(()=>document.getElementById('goalName').focus(),100);
+}
+
+// Patch saveGoal to capture why + photo
+function saveGoal(){
+  const title=document.getElementById('goalName').value.trim(); if(!title) return;
+  const icon=document.getElementById('goalIcon').value.trim()||'🎯';
+  const desc=document.getElementById('goalDesc').value.trim();
+  const why=document.getElementById('goalWhy').value.trim();
+  const prevImg=document.getElementById('goalPhotoPreviewImg');
+  const photo=prevImg.src&&prevImg.style.display!=='none'?prevImg.src:'';
+  const editId=document.querySelector('.goal-modal-box .btn-save').dataset.editId;
+  if(editId){
+    const g=customGoals.find(x=>x.id===editId);
+    if(g){Object.assign(g,{title,icon,desc,why,photo:photo||g.photo});}
+  } else {
+    const id='cg_'+Date.now();
+    customGoals.push({id,title,icon,desc,why,photo,color:getGoalColor(customGoals.length)});
+  }
+  closeGoalModal();
+  renderCustomGoals_Goals(); renderCustomGoals(); updateGoalDropdowns(); saveUserData();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// MOTIVATION POPUP
+// ═══════════════════════════════════════════════════════════════════
+let _pendingPinKey='';
+
+// Show a why-popup before pinning if the task is linked to a goal with a why
+function maybePinWithMotivation(key){
+  // determine the goal linked to this task/item
+  let goal=null;
+  if(key.startsWith('custom_')){
+    const tid=key.replace('custom_','');
+    const ct=customTasks.find(t=>t.id===tid);
+    if(ct&&ct.linkedGoalId) goal=customGoals.find(g=>g.id===ct.linkedGoalId);
+  } else if(key.startsWith('goal_')){
+    const gid=key.replace('goal_','');
+    goal=customGoals.find(g=>g.id===gid);
+  }
+  // only show popup when pinning (not unpinning) and goal has a why
+  const willPin=!pinnedItems.has(key);
+  if(willPin && goal && goal.why){
+    _pendingPinKey=key;
+    showMotiPopup(goal);
+  } else {
+    // just toggle directly
+    togglePin(key);
+  }
+}
+
+function showMotiPopup(goal){
+  // photo
+  const photoWrap=document.getElementById('motPhotoWrap');
+  if(goal.photo){
+    photoWrap.innerHTML=`<img src="${goal.photo}" class="motivation-photo" alt="inspiration">`;
+  } else {
+    photoWrap.innerHTML=`<div class="motivation-photo-placeholder">${goal.icon||'🎯'}</div>`;
+  }
+  document.getElementById('motGoalName').textContent=goal.icon+' '+goal.title;
+  document.getElementById('motWhyText').textContent='"'+goal.why+'"';
+  document.getElementById('motPinBtn').onclick=confirmPin;
+  document.getElementById('motivationOverlay').classList.add('open');
+}
+
+function confirmPin(){
+  document.getElementById('motivationOverlay').classList.remove('open');
+  if(_pendingPinKey) togglePin(_pendingPinKey);
+  _pendingPinKey='';
+}
+function closeMotiPopup(){
+  document.getElementById('motivationOverlay').classList.remove('open');
+  _pendingPinKey='';
+}
+
+// ── Patch every pin button to go through maybePinWithMotivation ──────────────
+// Override calls in renderCustomGoals + renderGoals by patching togglePin globally
+// We do this by overriding the onclick handlers via event delegation on the page
+// Actually simpler: replace togglePin calls in render functions with maybePinWithMotivation
+// The pin buttons use: onclick="togglePin('custom_'+this.dataset.tid)"
+// We'll replace that pattern in the rendered HTML via a DOM listener
+
+// Intercept all .pin-btn clicks on the home page
+document.addEventListener('click', e=>{
+  const btn=e.target.closest('.pin-btn');
+  if(!btn) return;
+  // only intercept if the btn triggers togglePin
+  const onclickAttr=btn.getAttribute('onclick')||'';
+  if(!onclickAttr.includes('togglePin')) return;
+  // extract the key from the onclick string
+  const match=onclickAttr.match(/togglePin\(['"]([^'"]+)['"]\)/);
+  if(!match) return;
+  // also handle: togglePin('custom_'+this.dataset.tid)
+  let key=match[1];
+  if(key==='custom_'&&btn.dataset.tid) key='custom_'+btn.dataset.tid;
+  e.stopImmediatePropagation();
+  e.preventDefault();
+  maybePinWithMotivation(key);
+},{capture:true});
+
+// ── Patch goal tiles to show edit option on click + goal photo as bg ──────────
+function renderCustomGoals_Goals(){
+  const grid=document.getElementById('customGoalsGrid'); if(!grid) return;
+  let html='';
+  customGoals.forEach((g,i)=>{
+    const linked=customTasks.filter(t=>t.linkedGoalId===g.id);
+    const done=linked.filter(t=>getCustomDone(t)).length;
+    const total=linked.length;
+    const pct=total?Math.round(done/total*100):0;
+    const clr=g.color||getGoalColor(i);
+    const photoBg=g.photo?`<img src="${g.photo}" class="goal-tile-photo" alt="">`:'';
+    html+=`<div class="goal-tile${pct===100?' gt-done':''}" onclick="filterTasksByGoal('${g.id}')">
+      ${photoBg}
+      <button class="gt-del" onclick="event.stopPropagation();deleteCustomGoal('${g.id}')" title="Delete">✕</button>
+      <button style="position:absolute;top:6px;right:30px;background:transparent;border:none;cursor:pointer;color:var(--txt3);font-size:12px;padding:2px 4px;border-radius:4px;opacity:0;transition:opacity .15s" class="gt-edit" onclick="event.stopPropagation();openGoalModal('${g.id}')" title="Edit">✎</button>
+      <div class="goal-tile-icon">${g.icon||'🎯'}</div>
+      <div class="goal-tile-name">${g.title}</div>
+      <div class="goal-tile-meta">${total?done+'/'+total+' tasks':'No tasks yet'}${g.why?'<span style="margin-left:6px;font-size:9px;color:#e88fa0">✨ why set</span>':''}</div>
+      <div class="goal-tile-bar"><div class="goal-tile-fill" style="width:${pct}%;background:${clr}"></div></div>
+      <div class="goal-tile-pct">${pct}%</div>
+    </div>`;
+  });
+  html+=`<div class="add-goal-tile" onclick="openGoalModal()"><span style="font-size:24px">+</span><span>Add goal</span></div>`;
+  grid.innerHTML=html;
+  /// show edit btn on hover via CSS trick
+  grid.querySelectorAll('.goal-tile').forEach(t=>{
+    t.addEventListener('mouseenter',()=>{ const e=t.querySelector('.gt-edit'); if(e) e.style.opacity='0.7'; });
+    t.addEventListener('mouseleave',()=>{ const e=t.querySelector('.gt-edit'); if(e) e.style.opacity='0'; });
+  });
+  setTimeout(renderHomeProgress,50);
+}
+
+// ── Enter key in goal why textarea ────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  const gw=document.getElementById('goalWhy');
+  if(gw) gw.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.ctrlKey) saveGoal(); });
+});</script>
 </body>
 </html>
